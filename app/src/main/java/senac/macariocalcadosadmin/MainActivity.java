@@ -1,11 +1,11 @@
 package senac.macariocalcadosadmin;
 
-import androidx.appcompat.app.AppCompatActivity;
+        import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
-import android.widget.RelativeLayout;
+        import android.os.Bundle;
+        import android.os.Handler;
+        import android.view.View;
+        import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity {
 
