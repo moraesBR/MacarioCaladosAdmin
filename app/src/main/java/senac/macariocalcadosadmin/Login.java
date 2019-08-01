@@ -1,0 +1,105 @@
+package senac.macariocalcadosadmin;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+import senac.macariocalcadosadmin.firebase.Conexao;
+
+public class Login extends AppCompatActivity {
+
+    private EditText etLogin, etPassword;
+    private Button btnLogin, btnForgetPassword;
+    protected static FirebaseAuth auth;
+    private RelativeLayout rellay1;
+    private Handler handler;
+    private Runnable runnable;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        auth = Conexao.getFirebaseAuth();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        bindView();
+        splashscreen();
+        eventClick();
+    }
+
+    private void bindView(){
+        etLogin           = findViewById(R.id.et_login);
+        etPassword        = findViewById(R.id.et_password);
+        btnLogin          = findViewById(R.id.btn_login);
+        btnForgetPassword = findViewById(R.id.btn_forgotpassword);
+        rellay1 = findViewById(R.id.rellay1);
+    }
+
+    private void splashscreen(){
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                rellay1.setVisibility(View.VISIBLE);
+            }
+        };
+        handler.postDelayed(runnable, 2000);
+    }
+
+    private void eventClick(){
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String login    = etLogin.getText().toString().trim();
+                String password = etPassword.getText().toString().trim();
+                login(login,password);
+            }
+        });
+
+        btnForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent resetPassword = new Intent(Login.this,ResetSenha.class);
+                startActivity(resetPassword);
+            }
+        });
+    }
+
+    private void login(String login, String password){
+        auth.signInWithEmailAndPassword(login,password)
+                .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Intent mainActivity = new Intent(Login.this,MainActivity.class);
+                            startActivity(mainActivity);
+                        }
+                        else{
+                            alert(R.string.login_erro);
+                        }
+                    }
+                });
+    }
+
+    private void alert(int msg){
+        Toast.makeText(Login.this,msg,Toast.LENGTH_SHORT).show();
+    }
+
+}
+

@@ -1,30 +1,36 @@
 package senac.macariocalcadosadmin;
 
-        import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
-        import android.os.Bundle;
-        import android.os.Handler;
-        import android.view.View;
-        import android.widget.RelativeLayout;
+import android.os.Bundle;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import senac.macariocalcadosadmin.firebase.Conexao;
 
 public class MainActivity extends AppCompatActivity {
 
-    RelativeLayout rellay1;
-    Handler handler = new Handler();
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            rellay1.setVisibility(View.VISIBLE);
-        }
-    };
+    private FirebaseAuth auth;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
-        rellay1 = findViewById(R.id.rellay1);
-
-        handler.postDelayed(runnable, 2000);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        auth = Conexao.getFirebaseAuth();
+        user = Conexao.getFirebaseUser();
+        if (user == null) {
+            finish();
+        } else {
+            Toast.makeText(MainActivity.this, user.getEmail() + "\n" + user.getUid(), Toast.LENGTH_LONG).show();
+        }
+        finish();
     }
 }
