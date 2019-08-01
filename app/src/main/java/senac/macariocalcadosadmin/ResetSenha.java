@@ -54,7 +54,12 @@ public class ResetSenha extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String email = etEmail.getText().toString().trim();
-                resetPassword(email);
+                if(!email.isEmpty()) {
+                    resetPassword(email);
+                }
+                else{
+                    etEmail.setError(getResources().getString(R.string.login_email_vazio));
+                }
             }
         });
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -71,11 +76,11 @@ public class ResetSenha extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            alert(R.string.reset_sucesso);
+                            alert(R.string.login_reset_sucesso);
                             finish();
                         }
                         else{
-                            alert(R.string.reset_erro);
+                            alert(R.string.login_reset_erro);
                         }
                     }
                 });

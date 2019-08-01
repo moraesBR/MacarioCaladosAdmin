@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -23,6 +25,8 @@ public class Login extends AppCompatActivity {
 
     private EditText etLogin, etPassword;
     private Button btnLogin, btnForgetPassword;
+    private TextInputLayout tilPassword;
+    private TextInputLayout tilLogin;
     protected static FirebaseAuth auth;
     private RelativeLayout rellay1;
     private Handler handler;
@@ -48,6 +52,8 @@ public class Login extends AppCompatActivity {
         etPassword        = findViewById(R.id.et_password);
         btnLogin          = findViewById(R.id.btn_login);
         btnForgetPassword = findViewById(R.id.btn_forgotpassword);
+        tilPassword       = findViewById(R.id.til_password);
+        tilLogin          = findViewById(R.id.til_login);
         rellay1 = findViewById(R.id.rellay1);
     }
 
@@ -68,7 +74,32 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 String login    = etLogin.getText().toString().trim();
                 String password = etPassword.getText().toString().trim();
-                login(login,password);
+                if(!login.isEmpty() && !password.isEmpty()) {
+                    login(login, password);
+                }
+                else{
+                    if(login.isEmpty()) {
+                        etLogin.setError("Digite seu email");
+                        /*tilLogin.setError("Digite seu email");
+                        tilLogin.setErrorTextColor(
+                                ColorStateList.valueOf(
+                                        getResources().getColor(R.color.colorError)
+                                )
+                        );
+                        */
+                    }
+                    if(password.isEmpty()) {
+                        etPassword.setError("Digite sua senha");
+                        /*tilPassword.setError("Digite seu email");
+                        tilPassword.setErrorTextColor(
+                                ColorStateList.valueOf(
+                                        getResources().getColor(R.color.colorError)
+                                )
+                        );
+                        */
+
+                    }
+                }
             }
         });
 

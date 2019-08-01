@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">Macario Calçados Admin</string>
-    <string name="login_erro">Email or Password is wrong!</string>
-    <string name="reset_sucesso">Email enviado</string>
-    <string name="reset_erro">Email não encontrado!</string>
+    <string name="login_erro">Email ou Senha errado!</string>
+    <string name="login_reset_sucesso">Email enviado</string>
+    <string name="login_reset_erro">Email não encontrado!</string>
+    <string name="login_titulo">Login</string>
+    <string name="login_usuario">Email</string>
+    <string name="login_acessar">Acessar</string>
+    <string name="login_esqueci_senha">Primeiro acesso ou esqueci a senha?</string>
+    <string name="login_senha">Senha</string>
+    <string name="login_nova_senha">Nova Senha</string>
+    <string name="login_enviar_email">Enviar</string>
+    <string name="login_email_vazio">Entre com seu email</string>
 </resources>

@@ -4,65 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_centerInParent="true"
     android:animateLayoutChanges="true"
     android:background="@drawable/grad_bg"
+    android:gravity="center_vertical"
     tools:context=".MainActivity">
 
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_macario"
+        tools:ignore="contentDescription" />
+
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:id="@+id/rellay1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_below="@+id/iv_logo"
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/iv_logo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/ic_macario" />
-
-        <RelativeLayout
-
-            android:id="@+id/rellay1"
+        <TextView
+            android:id="@+id/tv_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_logo"
-            android:layout_marginTop="10dp">
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/login_titulo"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/tv_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif-medium"
-                android:text="Login"
-                android:textColor="@color/white"
-                android:textSize="30sp" />
+        <LinearLayout
+            android:id="@+id/linlay1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_login"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/linlay1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_login"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:labelFor="@id/tv_login"
+                    android:text="@string/login_usuario"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/tv_texto_tamanho" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Username"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
+                    app:errorTextAppearance="@drawable/et_bg"
+                    >
 
                     <EditText
                         android:id="@+id/et_login"
@@ -71,77 +79,82 @@
                         android:layout_marginTop="5dp"
                         android:background="@drawable/et_bg"
                         android:fontFamily="sans-serif-light"
+                        android:inputType="textEmailAddress"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:textColor="@color/white"
-                        android:textSize="15dp" />
+                        android:textSize="@dimen/et_text_size" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Password"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:passwordToggleEnabled="true">
-
-                        <EditText
-                            android:id="@+id/et_password"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/et_bg"
-                            android:fontFamily="sans-serif-light"
-                            android:inputType="textPassword"
-                            android:paddingLeft="15dp"
-                            android:paddingRight="15dp"
-                            android:textColor="@color/white"
-                            android:textSize="15dp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_below="@+id/linlay1"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/btn_bg"
-                android:fontFamily="sans-serif-medium"
-                android:paddingLeft="70dp"
-                android:paddingRight="70dp"
-                android:text="Login"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/btn_forgotpassword"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/btn_login"
-                android:layout_centerHorizontal="true"
-                android:background="@color/transparent"
-                android:fontFamily="sans-serif-light"
-                android:text="Forgot password?"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
-        </RelativeLayout>
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:labelFor="@+id/et_password"
+                    android:text="@string/login_senha"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:passwordToggleEnabled="true">
+
+                    <EditText
+                        android:id="@+id/et_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/et_bg"
+                        android:fontFamily="sans-serif-light"
+                        android:inputType="textPassword"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/tv_texto_tamanho" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@+id/linlay1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/btn_bg"
+            android:fontFamily="sans-serif-medium"
+            android:paddingLeft="70dp"
+            android:paddingRight="70dp"
+            android:text="@string/login_acessar"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btn_forgotpassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_login"
+            android:layout_centerHorizontal="true"
+            android:background="@color/transparent"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/login_esqueci_senha"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
     </RelativeLayout>
+
 
 </RelativeLayout>
