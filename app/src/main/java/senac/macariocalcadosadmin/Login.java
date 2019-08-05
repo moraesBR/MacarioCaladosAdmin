@@ -164,12 +164,13 @@ public class Login extends AppCompatActivity {
     /*
      *   Métodos:
      *       alert(): Apresenta uma String de alerta na tela.
+     *       cleanFields(): limpa os campos editáveis existentes na tela.
      */
-
 
     private void alert(int msg){
         Toast.makeText(Login.this,msg,Toast.LENGTH_SHORT).show();
     }
+
     private void cleanFields(){
         etPassword.setText("");
         etLogin.setText("");
