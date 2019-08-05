@@ -13,8 +13,8 @@
 
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
-            android:text="@string/login_titulo"
+            android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="30sp" />
 
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:labelFor="@+id/et_password"
-                    android:text="@string/login_senha"
+                    android:text="@string/senha"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
@@ -151,7 +151,7 @@
             android:layout_centerHorizontal="true"
             android:background="@color/transparent"
             android:fontFamily="sans-serif-light"
-            android:text="@string/login_esqueci_senha"
+            android:text="@string/senha_esqueci"
             android:textAllCaps="false"
             android:textColor="@color/white" />
     </RelativeLayout>

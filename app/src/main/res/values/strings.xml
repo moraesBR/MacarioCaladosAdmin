@@ -1,14 +1,25 @@
 <resources>
     <string name="app_name">Macario Calçados Admin</string>
-    <string name="login_erro">Email ou Senha errado!</string>
-    <string name="login_reset_sucesso">Email enviado</string>
-    <string name="login_reset_erro">Email não encontrado!</string>
-    <string name="login_titulo">Login</string>
+    <string name="login">Login</string>
     <string name="login_usuario">Email</string>
     <string name="login_acessar">Acessar</string>
-    <string name="login_esqueci_senha">Primeiro acesso ou esqueci a senha?</string>
-    <string name="login_senha">Senha</string>
-    <string name="login_nova_senha">Nova Senha</string>
-    <string name="login_enviar_email">Enviar</string>
-    <string name="login_email_vazio">Entre com seu email</string>
+    <string name="login_erro">Email ou Senha errado!</string>
+    <string name="senha">Senha</string>
+    <string name="senha_nova">Nova Senha</string>
+    <string name="senha_esqueci">Primeiro acesso ou esqueci a senha?</string>
+    <string name="email">Email</string>
+    <string name="email_enviar">Enviar</string>
+    <string name="email_alerta">Entre com seu email</string>
+    <string name="email_sucesso">Email enviado</string>
+    <string name="email_erro">Email não encontrado!</string>
+
+    <string name="menu_configuracoes">Configurações</string>
+    <string name="menu_casual"></string>
+    <string name="menu_esportivo"></string>
+    <string name="menu_social"></string>
+    <string name="menu_masculino"></string>
+    <string name="menu_feminino"></string>
+    <string name="menu_adulto"></string>
+    <string name="menu_infantil"></string>
+
 </resources>

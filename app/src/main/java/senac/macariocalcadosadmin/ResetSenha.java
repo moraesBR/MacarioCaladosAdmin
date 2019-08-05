@@ -58,7 +58,7 @@ public class ResetSenha extends AppCompatActivity {
                     resetPassword(email);
                 }
                 else{
-                    etEmail.setError(getResources().getString(R.string.login_email_vazio));
+                    etEmail.setError(getResources().getString(R.string.email_alerta));
                 }
             }
         });
@@ -70,17 +70,26 @@ public class ResetSenha extends AppCompatActivity {
         });
     }
 
+    /*
+        resetPassword(): tenta-se enviar um email de reconfiguração de senha para o endereço contido
+        no objeto String, passado como parâmetro do método sendPasswordResetEmail(). Aguarda-se a
+        resposta, que será obtida pelo método addOnCompleteListener, sendo que este a obtém via
+        Listener OnCompleteListener e o contexto de pacote (ResetSenha.this). Este Listener contém a
+        resposta esperada no objeto Task<AuthResult>. Neste caso, se obteve-se sucesso no envio do
+        email (task.isSuccessful()), então emite-se um alerta positivo; caso contrário, emite-se um
+        alerta negativo.
+    */
     private void resetPassword(String email) {
         auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(ResetSenha.this, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            alert(R.string.login_reset_sucesso);
+                            alert(R.string.email_sucesso);
                             finish();
                         }
                         else{
-                            alert(R.string.login_reset_erro);
+                            alert(R.string.email_erro);
                         }
                     }
                 });

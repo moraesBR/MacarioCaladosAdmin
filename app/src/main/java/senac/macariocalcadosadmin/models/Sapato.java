@@ -92,16 +92,19 @@ public class Sapato {
     }
 
     public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public void setPromocao(boolean promocao) {
-        this.promocao = promocao;
+        try{
+            if(quantidade < 0) throw new IllegalArgumentException();
+            this.quantidade = quantidade;
+        }
+        catch (IllegalArgumentException ex){
+            this.quantidade = 0;
+        }
     }
 
     public boolean setValor(double valor) {
         try{
             if (valor < 0.0) throw new IllegalArgumentException();
+            this.promocao = valor < this.valor? true: false;
             this.valor = valor;
             return true;
         }
