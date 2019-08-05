@@ -1,8 +1,12 @@
 package senac.macariocalcadosadmin;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,10 +19,14 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseUser user;
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bindView();
+        setView();
     }
 
     @Override
@@ -26,11 +34,37 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         auth = Conexao.getFirebaseAuth();
         user = Conexao.getFirebaseUser();
-        if (user == null) {
-            finish();
-        } else {
-            Toast.makeText(MainActivity.this, user.getEmail() + "\n" + user.getUid(), Toast.LENGTH_LONG).show();
+    }
+
+    private void bindView(){
+        toolbar = findViewById(R.id.toolbar_main);
+    }
+
+    private void setView(){
+        setSupportActionBar(toolbar);
+        toolbar.inflateMenu(R.menu.menu_toolbar_main);
+        getSupportActionBar().setTitle("");
+        //getSupportActionBar().setIcon(R.drawable.ic_macario_logo);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_sair:
+                logout(); break;
         }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        Conexao.logOut();
         finish();
     }
 }
