@@ -160,7 +160,7 @@ public class Login extends AppCompatActivity {
                 });
     }
 
-/* ---------------------------------- Métodos de auxiliares ------------------------------------- */
+/* ---------------------------------- Métodos auxiliares ------------------------------------- */
     /*
      *   Métodos:
      *       alert(): Apresenta uma String de alerta na tela.
