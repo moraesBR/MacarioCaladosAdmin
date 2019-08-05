@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/material_navdrawer_height"
+    android:padding="@dimen/material_navdrawer_padding"
+    android:gravity="bottom"
+    android:background="@drawable/nav_background"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="@dimen/material_itens_margintop"
+        android:src="@drawable/ic_macario_logo"/>
+    <TextView
+        android:id="@+id/nav_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Albert Richard"
+        android:textColor="@android:color/black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginTop="@dimen/material_itens_margintop"/>
+    <TextView
+        android:id="@+id/nav_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/material_itens_margintop"
+        android:textColor="@android:color/black"
+        android:text="albert.richard@gmail.com"/>
+</LinearLayout>

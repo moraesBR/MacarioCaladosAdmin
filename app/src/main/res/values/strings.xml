@@ -14,12 +14,15 @@
     <string name="email_erro">Email não encontrado!</string>
 
     <string name="menu_configuracoes">Configurações</string>
-    <string name="menu_casual"></string>
-    <string name="menu_esportivo"></string>
-    <string name="menu_social"></string>
-    <string name="menu_masculino"></string>
-    <string name="menu_feminino"></string>
-    <string name="menu_adulto"></string>
-    <string name="menu_infantil"></string>
+    <string name="menu_casual">Casual</string>
+    <string name="menu_esportivo">Esportivo</string>
+    <string name="menu_social">Social</string>
+    <string name="menu_masculino">Masculino</string>
+    <string name="menu_feminino">Feminino</string>
+    <string name="menu_adulto">Adulto</string>
+    <string name="menu_infantil">Infantil</string>
+
+    <string name="open_drawer">Abrir</string>
+    <string name="close_drawer">Fechar</string>
 
 </resources>

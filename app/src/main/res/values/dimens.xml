@@ -2,4 +2,7 @@
 <resources>
     <dimen name="et_text_size">15sp</dimen>
     <dimen name="tv_texto_tamanho">15sp</dimen>
+    <dimen name="material_navdrawer_height">160dp</dimen>
+    <dimen name="material_navdrawer_padding">16dp</dimen>
+    <dimen name="material_itens_margintop">8dp</dimen>
 </resources>

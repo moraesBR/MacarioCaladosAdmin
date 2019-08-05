@@ -1,55 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--item
-        android:title="Tipo"
-        android:id="@+id/submenu_tipo">
-        <group
-            android:checkableBehavior="single">
-            <item
-                android:id="@+id/menu_casual"
-                android:title="@string/menu_casual"
-                android:icon=""/>
-            <item
-                android:id="@+id/menu_esportivo"
-                android:title="@string/menu_esportivo"
-                android:icon=""/>
-            <item
-                android:id="@+id/menu_social"
-                android:title="@string/menu_social"
-                android:icon=""/>
-        </group>
+    <item
+        android:id="@+id/submenu_tipo"
+        android:title="Tipo">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_casual"
+                    android:title="@string/menu_casual" />
+                <item
+                    android:id="@+id/menu_esportivo"
+                    android:title="@string/menu_esportivo" />
+                <item
+                    android:id="@+id/menu_social"
+                    android:title="@string/menu_social" />
+            </group>
+        </menu>
     </item>
 
     <item
-        android:title="Gênero"
-        android:id="@+id/submenu_genero">
-        <group
-            android:checkableBehavior="single">
-            <item
-                android:id="@+id/menu_masculino"
-                android:title="@string/menu_masculino"
-                android:icon=""/>
-            <item
-                android:id="@+id/menu_feminino"
-                android:title="@string/menu_feminino"
-                android:icon=""/>
-        </group>
+        android:id="@+id/submenu_genero"
+        android:title="Gênero">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_masculino"
+                    android:title="@string/menu_masculino" />
+                <item
+                    android:id="@+id/menu_feminino"
+                    android:title="@string/menu_feminino" />
+            </group>
+        </menu>
     </item>
 
     <item
-        android:title="Idade"
-        android:id="@+id/submenu_idade">
-        <group
-            android:checkableBehavior="single">
-            <item
-                android:id="@+id/menu_adulto"
-                android:title="@string/submenu_adulto"
-                android:icon=""/>
-            <item
-                android:id="@+id/menu_infantil"
-                android:title="@string/menu_infantil"
-                android:icon=""/>
-        </group>
-    </item-->
+        android:id="@+id/submenu_idade"
+        android:title="Idade">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_adulto"
+                    android:title="@string/menu_adulto" />
+                <item
+                    android:id="@+id/menu_infantil"
+                    android:title="@string/menu_infantil" />
+            </group>
+        </menu>
+    </item>
 </menu>
