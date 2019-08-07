@@ -13,4 +13,8 @@
     <color name="gradSEnd">#78909c</color>
 
     <color name="ic_macario_background">#959193</color>
+
+    <color name="colorItemSelected">@android:color/white</color>
+    <color name="colorItemUnselected">@android:color/darker_gray</color>
+
 </resources>

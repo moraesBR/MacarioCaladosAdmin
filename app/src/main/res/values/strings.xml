@@ -21,6 +21,9 @@
     <string name="menu_feminino">Feminino</string>
     <string name="menu_adulto">Adulto</string>
     <string name="menu_infantil">Infantil</string>
+    <string name="menu_visualizar">Visualizar</string>
+    <string name="menu_buscar">Buscar</string>
+    <string name="menu_inserir">Inserir</string>
 
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Fechar</string>
