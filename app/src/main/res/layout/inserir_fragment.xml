@@ -17,14 +17,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-
             >
 
-            <FrameLayout
-                android:id="@+id/frame_fragment_visualizador"
+            <include layout="@layout/visualizador_imagem"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:id="@+id/frame_fragment_visualizador"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -287,6 +286,7 @@
                     />
 
                 <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_tipo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -299,7 +299,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <!--LinearLayout
                 android:id="@+id/linlay_numeros_sapato"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -333,7 +333,7 @@
 
                 </androidx.recyclerview.widget.RecyclerView>
 
-            </LinearLayout>
+            </LinearLayout-->
 
         </RelativeLayout>
 
