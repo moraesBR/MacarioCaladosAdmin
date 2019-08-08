@@ -1,6 +1,7 @@
 package senac.macariocalcadosadmin.fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import senac.macariocalcadosadmin.R;
@@ -42,7 +44,7 @@ public class InserirFragment extends Fragment {
         View view = inflater.inflate(R.layout.inserir_fragment,container,false);
 
         bindView(view);
-        setView();
+        setView(savedInstanceState);
 
         return view;
     }
@@ -51,12 +53,19 @@ public class InserirFragment extends Fragment {
         frameLayout = view.findViewById(R.id.frame_fragment_visualizador);
     }
 
-    public void setView(){
-        visualizadorImagemFragment = new VisualizadorImagemFragment();
-        transaction = getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.frame_fragment_visualizador,visualizadorImagemFragment).commit();
+    public void setView(Bundle savedInstanceState){
+        if(visualizadorImagemFragment == null) {
+            visualizadorImagemFragment = new VisualizadorImagemFragment();
+            transaction = getChildFragmentManager().beginTransaction();
+            transaction.add(R.id.frame_fragment_visualizador, visualizadorImagemFragment).
+                    addToBackStack(FRAGMENT_VISUALIZADOR_IMAGEM).commit();
+        }
+        else{
+            transaction.replace(R.id.frame_fragment_visualizador,visualizadorImagemFragment)
+                    .addToBackStack(FRAGMENT_VISUALIZADOR_IMAGEM)
+                    .commit();
+        }
     }
 
-
-
+    private final String FRAGMENT_VISUALIZADOR_IMAGEM = "visualizadorImagemFragment";
 }
