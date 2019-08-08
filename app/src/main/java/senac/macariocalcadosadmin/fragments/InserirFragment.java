@@ -63,7 +63,7 @@ public class InserirFragment extends Fragment {
     private TextView tvSelecionadaFoto;
     private ImageView ivPrincipalFoto;
 
-    private
+    
 
     /* ------------------------- Identificadores -------------------------- */
     /* Solicitação de inicialização de atividade */
