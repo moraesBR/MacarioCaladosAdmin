@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Macario Calçados Admin</string>
+    <string name="app_name">Macário Calçados Admin</string>
     <string name="login">Login</string>
     <string name="login_usuario">Email</string>
     <string name="login_acessar">Acessar</string>

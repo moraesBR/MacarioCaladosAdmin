@@ -1,15 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/grad_bg">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/menu_inserir"
-        android:textSize="30dp"
-        style="@style/TextAppearance.MaterialComponents.Body1"
-        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/visualizador_rellay1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/layout_bg"
+            android:backgroundTint="@color/colorPrimaryDark">
+
+            <ImageView
+                android:id="@+id/visualizador_iv_photo"
+                android:layout_width="360dp"
+                android:layout_height="180dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@color/transparent"
+                android:visibility="gone"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:id="@+id/visualizador_linlay1"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_below="@+id/visualizador_iv_photo"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/visualizador_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:isScrollContainer="true" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rellay2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/visualizador_linlay1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_img_selec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:gravity="center_vertical"
+                    android:labelFor="@+id/et_reset_senha"
+                    android:text="Selecionar Imagens"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/tv_texto_tamanho" />
+
+                <ImageButton
+                    android:id="@+id/btn_new_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/layout_bg"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/ic_nova_foto" />
+
+                <ImageButton
+                    android:id="@+id/btn_add_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@+id/btn_new_photo"
+                    android:background="@drawable/layout_bg"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/ic_adciona_foto" />
+
+                <ImageButton
+                    android:id="@+id/btn_delete_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@+id/btn_add_photo"
+                    android:background="@drawable/layout_bg"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/ic_remove_foto"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

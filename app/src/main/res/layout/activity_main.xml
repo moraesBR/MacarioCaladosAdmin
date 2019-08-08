@@ -11,17 +11,27 @@
     tools:context=".MainActivity"
     tools:openDrawer="start">
 
-    <include
-        layout="@layout/toolbar_main"/>
+    <!--include layout="@layout/toolbar_main"
+        android:id="@+id/toolbar"/-->
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_fragments"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bn_menu"
-        android:layout_alignParentTop="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+        android:layout_below="@id/toolbar_main"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bn_menu"
