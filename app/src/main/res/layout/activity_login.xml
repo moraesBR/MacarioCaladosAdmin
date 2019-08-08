@@ -36,7 +36,7 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
             android:text="@string/login"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimaryText"
             android:textSize="30sp" />
 
         <LinearLayout
@@ -62,7 +62,7 @@
                     android:labelFor="@id/tv_login"
                     android:text="@string/login_usuario"
                     android:textAllCaps="true"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/tv_texto_tamanho" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -82,7 +82,7 @@
                         android:inputType="textEmailAddress"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorPrimaryText"
                         android:textSize="@dimen/et_text_size" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -102,7 +102,7 @@
                     android:labelFor="@+id/et_password"
                     android:text="@string/senha"
                     android:textAllCaps="true"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorPrimaryText"
                     android:textSize="15sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -121,7 +121,7 @@
                         android:inputType="textPassword"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorPrimaryText"
                         android:textSize="@dimen/tv_texto_tamanho" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -141,7 +141,7 @@
             android:paddingRight="70dp"
             android:text="@string/login_acessar"
             android:textAllCaps="false"
-            android:textColor="@color/white" />
+            android:textColor="@color/colorPrimaryText" />
 
         <Button
             android:id="@+id/btn_forgotpassword"
@@ -153,7 +153,7 @@
             android:fontFamily="sans-serif-light"
             android:text="@string/senha_esqueci"
             android:textAllCaps="false"
-            android:textColor="@color/white" />
+            android:textColor="@color/colorPrimaryText" />
     </RelativeLayout>
 
 

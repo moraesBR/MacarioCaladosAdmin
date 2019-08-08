@@ -1,18 +1,21 @@
 package senac.macariocalcadosadmin.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.List;
 
-public class Sapato {
+public class Sapato implements Parcelable {
     private String codigo;
     private String nome;
+    private String modelo;
     private Genero genero;
     private Idade idade;
     private Tipo tipo;
     private Tamanho tamanho;
     private double valor;
-    private List<String> urlImagem;
+    private List<Foto> fotos;
     private int quantidade;
     private boolean promocao;
 
@@ -59,6 +62,10 @@ public class Sapato {
         return nome;
     }
 
+    public String getModelo() {
+        return modelo;
+    }
+
     public Genero getGenero() {
         return genero;
     }
@@ -79,12 +86,16 @@ public class Sapato {
         return valor;
     }
 
-    public List<String> getUrlImagem() {
-        return urlImagem;
+    public List<Foto> getFotos() {
+        return fotos;
     }
 
     public int getQuantidade() {
         return quantidade;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
     }
 
     public boolean isPromocao() {
@@ -114,8 +125,57 @@ public class Sapato {
         }
     }
 
-    public void setUrlImagem(List<String> urlImagem) {
-        this.urlImagem = urlImagem;
+    public void setFotos(List<Foto> fotos) {
+        this.fotos = fotos;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.codigo);
+        dest.writeString(this.nome);
+        dest.writeInt(this.genero == null ? -1 : this.genero.ordinal());
+        dest.writeInt(this.idade == null ? -1 : this.idade.ordinal());
+        dest.writeInt(this.tipo == null ? -1 : this.tipo.ordinal());
+        dest.writeInt(this.tamanho == null ? -1 : this.tamanho.ordinal());
+        dest.writeDouble(this.valor);
+        dest.writeTypedList(this.fotos);
+        dest.writeInt(this.quantidade);
+        dest.writeByte(this.promocao ? (byte) 1 : (byte) 0);
+    }
+
+    protected Sapato(Parcel in) {
+        this.codigo = in.readString();
+        this.nome = in.readString();
+        int tmpGenero = in.readInt();
+        this.genero = tmpGenero == -1 ? null : Genero.values()[tmpGenero];
+        int tmpIdade = in.readInt();
+        this.idade = tmpIdade == -1 ? null : Idade.values()[tmpIdade];
+        int tmpTipo = in.readInt();
+        this.tipo = tmpTipo == -1 ? null : Tipo.values()[tmpTipo];
+        int tmpTamanho = in.readInt();
+        this.tamanho = tmpTamanho == -1 ? null : Tamanho.values()[tmpTamanho];
+        this.valor = in.readDouble();
+        this.fotos = in.createTypedArrayList(Foto.CREATOR);
+        this.quantidade = in.readInt();
+        this.promocao = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<Sapato> CREATOR = new Parcelable.Creator<Sapato>() {
+        @Override
+        public Sapato createFromParcel(Parcel source) {
+            return new Sapato(source);
+        }
+
+        @Override
+        public Sapato[] newArray(int size) {
+            return new Sapato[size];
+        }
+    };
 }
 

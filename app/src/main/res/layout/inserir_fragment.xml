@@ -1,115 +1,342 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/grad_bg">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        >
 
         <RelativeLayout
-            android:id="@+id/visualizador_rellay1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/layout_bg"
-            android:backgroundTint="@color/colorPrimaryDark">
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
 
-            <ImageView
-                android:id="@+id/visualizador_iv_photo"
-                android:layout_width="360dp"
-                android:layout_height="180dp"
+            >
+
+            <FrameLayout
+                android:id="@+id/frame_fragment_visualizador"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:background="@color/transparent"
-                android:visibility="gone"
-                tools:ignore="ContentDescription" />
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_nome_sapato"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_below="@+id/frame_fragment_visualizador"
+                android:layout_margin="10dp"
+                app:hintTextColor="@color/colorPrimaryText"
+                android:background="@drawable/layout_bg"
+                android:textColorHint="@color/colorPrimaryText"
+                app:hintTextAppearance="@style/TextAppearance.MaterialComponents.Body1"
+
+                >
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_nome_sapato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nome"
+                    android:padding="10dp"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/et_text_size"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:background="@android:color/transparent"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_modelo_sapato"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_below="@+id/til_nome_sapato"
+                android:layout_margin="10dp"
+                android:background="@drawable/layout_bg"
+
+                android:textColorHint="@color/colorPrimaryText"
+                app:hintTextAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:hintTextColor="@color/colorPrimaryText"
+                >
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_modelo_sapato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:hint="Modelo"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/et_text_size"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:background="@android:color/transparent"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <LinearLayout
-                android:id="@+id/visualizador_linlay1"
+                android:id="@+id/linlay_valor_qtd"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_below="@+id/visualizador_iv_photo"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:visibility="gone">
+                android:weightSum="2"
+                android:layout_below="@+id/til_modelo_sapato"
+                android:orientation="horizontal"
+                >
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/visualizador_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:isScrollContainer="true" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_quantidade_sapato"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/layout_bg"
+                    android:textColorHint="@color/colorPrimaryText"
+                    app:hintTextAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    app:hintTextColor="@color/colorPrimaryText"
+                    >
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_quantidade_sapato"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint="Quantidade"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="@dimen/et_text_size"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        android:background="@android:color/transparent"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_valor_sapato"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/layout_bg"
+                    android:textColorHint="@color/colorPrimaryText"
+                    app:hintTextAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    app:hintTextColor="@color/colorPrimaryText"
+                    >
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_valor_sapato"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint="Valor"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="@dimen/et_text_size"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        android:background="@android:color/transparent"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/rellay2"
+            <LinearLayout
+                android:id="@+id/linlay_radiogroup_genero"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/visualizador_linlay1"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:padding="10dp">
+                android:layout_height="match_parent"
+                android:layout_below="@id/linlay_valor_qtd"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/layout_bg"
+                >
 
                 <TextView
-                    android:id="@+id/tv_img_selec"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:gravity="center_vertical"
-                    android:labelFor="@+id/et_reset_senha"
-                    android:text="Selecionar Imagens"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/tv_texto_tamanho" />
-
-                <ImageButton
-                    android:id="@+id/btn_new_photo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/layout_bg"
-                    android:backgroundTint="@color/transparent"
-                    android:src="@drawable/ic_nova_foto" />
-
-                <ImageButton
-                    android:id="@+id/btn_add_photo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:text="@string/genero"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/tv_texto_tamanho"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@+id/btn_new_photo"
-                    android:background="@drawable/layout_bg"
-                    android:backgroundTint="@color/transparent"
-                    android:src="@drawable/ic_adciona_foto" />
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:background="@android:color/transparent"
+                    />
 
-                <ImageButton
-                    android:id="@+id/btn_delete_photo"
-                    android:layout_width="wrap_content"
+                <RadioGroup
+                    android:id="@+id/rg_genero"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@+id/btn_add_photo"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/layout_bg"
-                    android:backgroundTint="@color/transparent"
-                    android:src="@drawable/ic_remove_foto"
-                    android:visibility="gone" />
+                    android:orientation="horizontal"
+                    android:weightSum="2"
 
-            </RelativeLayout>
+                    >
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rb_feminino"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/menu_feminino"
+                        android:textColor="@color/colorPrimaryText"
+                        />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rb_masculino"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/menu_masculino"
+                        android:textColor="@color/colorPrimaryText"
+                        />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linlay_radiogroup_idade"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/linlay_radiogroup_genero"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/layout_bg"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/idade"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/tv_texto_tamanho"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:background="@android:color/transparent"
+                    />
+
+                <RadioGroup
+                    android:id="@+id/rg_idade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/layout_bg"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+
+                    >
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rb_infantil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/menu_infantil"
+                        android:textColor="@color/colorPrimaryText"
+                        />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rb_adulto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/menu_adulto"
+                        android:textColor="@color/colorPrimaryText"
+                        />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linlay_sp_tipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linlay_radiogroup_idade"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/layout_bg"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tipo"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/tv_texto_tamanho"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:background="@android:color/transparent"
+                    />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:entries="@array/sp_tipo"
+                    android:spinnerMode="dialog"
+                    style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
+                    >
+
+                </androidx.appcompat.widget.AppCompatSpinner>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linlay_numeros_sapato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linlay_sp_tipo"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/layout_bg"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tamanhos"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/tv_texto_tamanho"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:background="@android:color/transparent"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_numeros_sapato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:isScrollContainer="true"
+                    android:background="@drawable/layout_bg"
+                    >
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
 
         </RelativeLayout>
+
     </ScrollView>
 
 </RelativeLayout>

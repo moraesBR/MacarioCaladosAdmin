@@ -45,7 +45,7 @@
                 android:layout_centerHorizontal="true"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/senha_nova"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimaryText"
                 android:textSize="30sp" />
 
             <LinearLayout
@@ -64,7 +64,7 @@
                         android:fontFamily="sans-serif-light"
                         android:text="@string/login_usuario"
                         android:textAllCaps="true"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorPrimaryText"
                         android:textSize="@dimen/tv_texto_tamanho"
                         android:labelFor="@+id/et_reset_senha"/>
 
@@ -83,7 +83,7 @@
                             android:paddingLeft="15dp"
                             android:paddingRight="15dp"
                             android:background="@drawable/et_bg"
-                            android:textColor="@color/white"
+                            android:textColor="@color/colorPrimaryText"
                             android:textSize="@dimen/et_text_size"
                             android:fontFamily="sans-serif-light"
                             android:inputType="textEmailAddress"/>
@@ -105,7 +105,7 @@
                 android:background="@drawable/btn_bg"
                 android:text="@string/email_enviar"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimaryText"
                 android:fontFamily="sans-serif-medium"/>
 
         </RelativeLayout>
