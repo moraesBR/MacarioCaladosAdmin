@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/menu_visualizar" android:title="@string/menu_visualizar" android:icon="@drawable/ic_visualizar"/>
-    <item android:id="@+id/menu_buscar" android:title="@string/menu_buscar" android:icon="@drawable/ic_buscar"/>
-    <item android:id="@+id/menu_inserir" android:title="@string/menu_inserir" android:icon="@drawable/ic_inserir"/>
+    <item
+        android:id="@+id/menu_visualizar"
+        android:title="@string/menu_visualizar"
+        android:icon="@drawable/ic_visualizar"/>
+
+    <item
+        android:id="@+id/menu_buscar"
+        android:title="@string/menu_buscar"
+        android:icon="@drawable/ic_buscar"/>
+
+    <item
+        android:id="@+id/menu_inserir"
+        android:title="@string/menu_inserir"
+        android:icon="@drawable/ic_inserir"/>
 
 </menu>

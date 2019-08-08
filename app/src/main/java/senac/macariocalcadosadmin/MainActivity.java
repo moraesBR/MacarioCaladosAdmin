@@ -1,11 +1,9 @@
 package senac.macariocalcadosadmin;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,15 +14,24 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import senac.macariocalcadosadmin.adapters.ViewPagerAdapter;
 import senac.macariocalcadosadmin.firebase.Conexao;
+import senac.macariocalcadosadmin.fragments.BuscarFragment;
+import senac.macariocalcadosadmin.fragments.InserirFragment;
+import senac.macariocalcadosadmin.fragments.VisualizarFragment;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
 
     private FirebaseAuth auth;
     private FirebaseUser user;
 
     private Toolbar toolbar;
     private BottomNavigationView bottomNavigationView;
+    private VisualizarFragment visualizarFragment;
+    private BuscarFragment buscarFragment;
+    private InserirFragment inserirFragment;
+    private ViewPager viewPager;
+    private MenuItem prevMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +50,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private void bindView() {
         toolbar = findViewById(R.id.toolbar_main);
-        bottomNavigationView = findViewById(R.id.bottomNav);
+        bottomNavigationView = findViewById(R.id.bn_menu);
+        viewPager = findViewById(R.id.vp_fragments);
     }
 
     private void setView() {
@@ -51,46 +59,49 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         toolbar.inflateMenu(R.menu.menu_toolbar_main);
         getSupportActionBar().setTitle("");
         bottomNavigationView.setOnNavigationItemSelectedListener(MainActivity.this);
+        viewPager.addOnPageChangeListener(MainActivity.this);
+        setViewPager(viewPager);
     }
 
+    private void setViewPager(ViewPager viewPager){
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        visualizarFragment = new VisualizarFragment();
+        buscarFragment = new BuscarFragment();
+        inserirFragment = new InserirFragment();
+        adapter.addFragment(visualizarFragment);
+        adapter.addFragment(buscarFragment);
+        adapter.addFragment(inserirFragment);
+        viewPager.setAdapter(adapter);
+    }
+
+    /*
+     *  Métodos associados ao toolbar:
+     *      onCreateOptionsMenu(Menu)
+     *      onOptionsItemSelected(MenuItem)
+     */
+
+    /*
+     *  onCreateOptionsMenu(Menu): Inicializa o conteúdo das opções padrões do menu da atividade,
+     *      isto é, o conteúdo de menu xml a um objeto tipo Menu.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar_main, menu);
         return true;
     }
 
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()){
-            case R.id.menu_visualizar:{
-                Toast.makeText(MainActivity.this,
-                        getResources().getText(R.string.menu_visualizar),
-                        Toast.LENGTH_SHORT)
-                        .show();
-                break;
-            }
-            case R.id.menu_buscar:{
-                Toast.makeText(MainActivity.this,
-                        getResources().getText(R.string.menu_buscar),
-                        Toast.LENGTH_SHORT)
-                        .show();
-                break;
-            }
-            case R.id.menu_inserir:{
-                Toast.makeText(MainActivity.this,
-                        getResources().getText(R.string.menu_inserir),
-                        Toast.LENGTH_SHORT)
-                        .show();
-                break;
-            }
-        }
-        return true;
-    }
 
+    /*
+     *  onOptionsItemSelected(MenuItem): Controla o comportamento das opções disponíveis no menu do
+     *      toolbar quando acionadas.
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_sair:
                 logout();
+                break;
+            case R.id.menu_configuracoes:
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -99,5 +110,68 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private void logout() {
         Conexao.logOut();
         finish();
+    }
+
+    /*
+     *  Métodos associados ao Bottom Navigation:
+     *      onNavigationItemSelected(MenuItem)
+     */
+
+    /*
+     *  onNavigationItemSelected(MenuItem): Controla o comportamento das opções disponíveis no menu
+     *      do bottom navigation quando acionadas.
+     */
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.menu_visualizar:{
+                viewPager.setCurrentItem(0);
+                break;
+            }
+            case R.id.menu_buscar:{
+                viewPager.setCurrentItem(1);
+                break;
+            }
+            case R.id.menu_inserir:{
+                viewPager.setCurrentItem(2);
+                break;
+            }
+        }
+        return false;
+    }
+
+    /*
+     *  onPageScrolled(int,float,int): Esse método será invocado quando a página atual for rolada,
+     *      como parte de uma rolagem suave iniciada programaticamente ou de uma rolagem de toque
+     *      iniciada pelo usuário.
+     */
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    /*
+     *  onPageSelected(int): Este método será invocado quando uma nova página for selecionada. A
+     *      animação não está necessariamente completa.
+     */
+    @Override
+    public void onPageSelected(int position) {
+        if (prevMenuItem != null) {
+            prevMenuItem.setChecked(false);
+        }
+        else
+        {
+            bottomNavigationView.getMenu().getItem(0).setChecked(false);
+        }
+        bottomNavigationView.getMenu().getItem(position).setChecked(true);
+        prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+    }
+
+    /*
+     *  onPageScrollStateChanged(int): Interface de retorno de chamada para responder ao estado de
+     *      mudança da página selecionada.
+     */
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }
