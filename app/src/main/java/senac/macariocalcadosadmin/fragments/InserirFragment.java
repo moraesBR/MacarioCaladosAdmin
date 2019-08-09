@@ -3,6 +3,7 @@ package senac.macariocalcadosadmin.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +32,7 @@ import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.adapters.SelecaoFotoAdapter;
 import senac.macariocalcadosadmin.models.Sapato;
 import senac.macariocalcadosadmin.models.SelecaoFoto;
+import senac.macariocalcadosadmin.models.Foto;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -45,6 +48,7 @@ public class InserirFragment extends Fragment {
     private SelecaoFoto principalFoto;
     private List<SelecaoFoto> listaFoto;
     private Sapato sapato;
+    private List<Sapato> listaSapatos;
     /*private SelecaoFotoListener selecaoFotoListener;*/
 
     /* RecyclerView, LayoutManager e Adapter */
@@ -94,13 +98,8 @@ public class InserirFragment extends Fragment {
     public InserirFragment() {
     }
 
-    /*public interface SelecaoFotoListener{
-        void onInputFotoImagemSent(List<SelecaoFoto> listaFoto);
-    }*/
-
-    public void atualizaSelecaoFoto(List<SelecaoFoto> listaFoto){
-        this.listaFoto = listaFoto;
-        this.fotoAdapter.notifyDataSetChanged();
+    public void atualizaListaSapato(List<Sapato> lista){
+        listaSapatos = lista;
     }
 
     /* ---------------------------------- Ciclo de Vida do App -------------------------------------- */
@@ -117,7 +116,7 @@ public class InserirFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.inserir_fragment,container,false);
-        /*selecaoFotoListener.onInputFotoImagemSent(listaFoto);*/
+
         dataBindView(view);
         setAdapter(view, savedInstanceState);
         clickable();
@@ -154,6 +153,7 @@ public class InserirFragment extends Fragment {
      */
 
     private void dataBindView(View view){
+        /* Data binding do visualizador_fragment.xml */
         ivPrincipalFoto = view.findViewById(R.id.visualizador_iv_photo);
         rvFoto = view.findViewById(R.id.visualizador_recycler);
         btnNovaFoto = view.findViewById(R.id.btn_new_photo);
@@ -162,6 +162,7 @@ public class InserirFragment extends Fragment {
         linlay1        = view.findViewById(R.id.visualizador_linlay1);
         tvSelecionadaFoto = view.findViewById(R.id.tv_img_selec);
 
+        /* Data binding do formulário em inserir_fragment.xml */
         etNomeSapato = view.findViewById(R.id.et_nome_sapato);
         etModeloSapato = view.findViewById(R.id.et_modelo_sapato);
         etValorSapato = view.findViewById(R.id.et_valor_sapato);
@@ -172,6 +173,8 @@ public class InserirFragment extends Fragment {
         rbAdulto = view.findViewById(R.id.rb_adulto);
         spTipo = view.findViewById(R.id.spinner_tipo);
         btnAdicionarSapato = view.findViewById(R.id.btn_adcionar_sapato);
+
+        limparFormulario();
     }
 
 
@@ -357,43 +360,100 @@ public class InserirFragment extends Fragment {
             }
         });
 
-
+        /* Adiciona um sapato ao arraylist de sapatos e "reseta" a tela de cadastro de sapato */
         btnAdicionarSapato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String nome   = etNomeSapato.getText().toString().trim();
-                String modelo = etModeloSapato.getText().toString().trim();
-                double valor  = Double.parseDouble(etValorSapato.getText().toString());
-                int    qtd    =  Integer.parseInt(etQtdSapato.getText().toString());
+                String nome, tipo, modelo, genero, idade;
+                double valor;
+                int qtd;
 
-                if(rbFeminino.isChecked()){
-                    String genero = rbFeminino.getText().toString().trim().toUpperCase();
-                }
-                else{
-                    String genero = rbMasculino.getText().toString().trim().toUpperCase();
-                }
+                nome   = etNomeSapato.getText().toString().trim();
+                if(nome.isEmpty()) etNomeSapato.setError("Insira o nome");
 
-                if(rbAdulto.isChecked()){
-                    String idade = rbAdulto.getText().toString().trim().toUpperCase();
-                }
-                else{
-                    String idade = rbInfantil.getText().toString().trim().toUpperCase();
+                modelo = etModeloSapato.getText().toString().trim();
+                if(modelo.isEmpty()) etModeloSapato.setError("Insira o modelo");
+
+                try {
+                    valor = Double.parseDouble(etValorSapato.getText().toString());
+                }catch (NumberFormatException ex){
+                    valor = -1.0;
+                    etValorSapato.setError("Insira o preço");
                 }
 
-                /*
-                spTipo
-                */
+                try {
+                    qtd = Integer.parseInt(etQtdSapato.getText().toString());
+                }
+                catch (Exception ex){
+                    qtd = -1;
+                    etQtdSapato.setError("Insira a quantidade");
+                }
+
+                genero = rbFeminino.isChecked()?
+                        rbFeminino.getText().toString().trim().toUpperCase():
+                        rbMasculino.getText().toString().trim().toUpperCase();
+
+                idade = rbAdulto.isChecked()?
+                        rbAdulto.getText().toString().trim().toUpperCase():
+                        rbInfantil.getText().toString().trim().toUpperCase();
+
+                tipo = spTipo.getSelectedItem().toString().trim().toUpperCase();
+
+                try{
+                    if(valor < 0 && qtd < 0)
+                        throw new Exception();
+                    /* Insere um novo sapato ao arraylist */
+                    sapato = new Sapato(nome,tipo,modelo,genero,idade);
+                    sapato.setQuantidade(qtd);
+                    sapato.setValor(valor);
+                    sapato.setFotos(new ArrayList<Foto>(listaFoto));
+                    listaSapatos.add(sapato);
+
+                    /*
+                     *  Reiniciar o visualizado de fotos: zera a o contador de fotos marcadas para
+                     *  exclusão; cria um novo arraylist de fotos para o visualizador; atrela este
+                     *  arraylist ao adaptador de fotos; reinicia o visualizador
+                     */
+                    qtdFoto = 0;
+                    listaFoto = new ArrayList<>();
+                    fotoAdapter.setFotos(listaFoto);
+                    setPhotosView();
+
+                    /* reconfigura o formulário às opções padrões */
+                    limparFormulario();
+
+                    Toast.makeText(getContext(),"Sapato Inserido!",Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception ex){
+                    Toast.makeText(getContext(),"Atenção no cadastro!",Toast.LENGTH_SHORT)
+                            .show();
+                }
             }
         });
     }
 
-
     /* ---------------------------------- Métodos auxiliares ---------------------------------------- */
     /*
      *  Métodos
+     *      limparFormulario(): Ajusta o formulário às opções padrões
      *      openFileChooser(): Busca uma imagem através de uma activity padrão
      *      onActivityResult():  Recebe e trata o resultado obtido pelo método openFileChooser.
      */
+
+    /*
+     *  limparFormulario(): Ajusta o formulário às opções padrões
+     */
+    private void limparFormulario(){
+        etNomeSapato.setText("");
+        etModeloSapato.setText("");
+        etValorSapato.setText("");
+        etQtdSapato.setText("");
+        rbFeminino.setChecked(false);
+        rbInfantil.setChecked(false);
+        rbMasculino.setChecked(true);
+        rbAdulto.setChecked(true);
+        spTipo.setSelection(0);
+    }
 
     /* ----------------- Gerar resultados a partir de uma activity ----------------- */
     /*

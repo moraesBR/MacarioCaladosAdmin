@@ -16,7 +16,6 @@ import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.models.Sapato;
 
 public class VisualizarFragment extends Fragment {
-    private List<Sapato> listaSapatos = new ArrayList<>();
     public VisualizarFragment() {
     }
 

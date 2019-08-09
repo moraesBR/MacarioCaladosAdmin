@@ -19,39 +19,64 @@ public class Sapato implements Parcelable {
     private int quantidade;
     private boolean promocao;
 
-    public Sapato(String nome, String tipo, String genero, String idade, String tamanho) {
-        try{
-            if (nome.isEmpty())
+    public Sapato(String nome, String tipo, String modelo, String genero, String idade, String tamanho) {
+            if (nome.isEmpty() || modelo.isEmpty())
                 throw new IllegalArgumentException();
 
             this.genero = Genero.valueOf(genero);
+
+            this.modelo = modelo;
 
             this.tipo = Tipo.valueOf(tipo);
 
             this.idade = Idade.valueOf(idade);
 
-            if(genero.equals(Genero.FEMININO)){
+            if (this.genero.equals(Genero.FEMININO)) {
                 this.tamanho = Tamanho.valueOf(TamFeminino.valueOf(tamanho).toString());
             }
-            if(genero.equals(Genero.MASCULINO)){
+            if (this.genero.equals(Genero.MASCULINO)) {
                 this.tamanho = Tamanho.valueOf(TamMasculino.valueOf(tamanho).toString());
             }
 
             this.nome = nome;
 
             this.codigo = MD5.md5(this.nome
-                            +this.tipo.toString()
-                            +this.genero.toString()
-                            +this.idade.toString()
-                            +this.tamanho.toString());
+                    + this.tipo.toString()
+                    + this.modelo.toString()
+                    + this.genero.toString()
+                    + this.idade.toString()
+                    + this.tamanho.toString());
 
             this.valor = 0.0;
             this.quantidade = 0;
             this.promocao = false;
-        }
-        catch (IllegalArgumentException ex){
-            Log.e("SAPATO",ex.toString());
-        }
+    }
+
+    public Sapato(String nome, String tipo, String modelo, String genero, String idade) {
+
+        if (nome.isEmpty() || modelo.isEmpty())
+            throw new IllegalArgumentException("erro");
+
+        this.genero = Genero.valueOf(genero);
+
+        this.modelo = modelo;
+
+        this.tipo = Tipo.valueOf(tipo);
+
+        this.idade = Idade.valueOf(idade);
+
+        this.nome = nome;
+
+        this.codigo = MD5.md5(this.nome
+                + this.tipo.toString()
+                + this.modelo
+                + this.genero.toString()
+                + this.idade.toString());
+
+        this.valor = 0.0;
+        this.quantidade = 0;
+        this.promocao = false;
+
     }
 
     public String getCodigo() {
@@ -103,23 +128,21 @@ public class Sapato implements Parcelable {
     }
 
     public void setQuantidade(int quantidade) {
-        try{
-            if(quantidade < 0) throw new IllegalArgumentException();
+        try {
+            if (quantidade < 0) throw new IllegalArgumentException();
             this.quantidade = quantidade;
-        }
-        catch (IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             this.quantidade = 0;
         }
     }
 
     public boolean setValor(double valor) {
-        try{
+        try {
             if (valor < 0.0) throw new IllegalArgumentException();
-            this.promocao = valor < this.valor? true: false;
+            this.promocao = valor < this.valor ? true : false;
             this.valor = valor;
             return true;
-        }
-        catch (IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             this.valor = 0.0;
             return false;
         }

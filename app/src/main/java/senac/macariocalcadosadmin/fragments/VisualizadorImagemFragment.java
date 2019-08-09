@@ -27,7 +27,9 @@ import senac.macariocalcadosadmin.adapters.SelecaoFotoAdapter;
 import senac.macariocalcadosadmin.models.SelecaoFoto;
 
 import static android.app.Activity.RESULT_OK;
-
+/*
+ * --------------------- NÃO USADO ---------------------
+ */
 public class VisualizadorImagemFragment extends Fragment {
     /* ------------------------- Variáveis -------------------------- */
     /* Contador de fotos para deletar do RecyclerView */

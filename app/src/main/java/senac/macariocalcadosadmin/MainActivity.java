@@ -14,11 +14,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import senac.macariocalcadosadmin.adapters.ViewPagerAdapter;
 import senac.macariocalcadosadmin.firebase.Conexao;
 import senac.macariocalcadosadmin.fragments.BuscarFragment;
 import senac.macariocalcadosadmin.fragments.InserirFragment;
 import senac.macariocalcadosadmin.fragments.VisualizarFragment;
+import senac.macariocalcadosadmin.models.Sapato;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
 
@@ -32,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private InserirFragment inserirFragment;
     private ViewPager viewPager;
     private MenuItem prevMenuItem;
+
+    private static  List<Sapato> listaSapatos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             }
             case R.id.menu_inserir:{
+                inserirFragment.atualizaListaSapato(listaSapatos);
                 viewPager.setCurrentItem(2);
                 break;
             }

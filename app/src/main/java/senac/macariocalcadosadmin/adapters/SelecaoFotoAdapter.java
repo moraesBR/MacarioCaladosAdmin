@@ -29,6 +29,10 @@ public class SelecaoFotoAdapter extends RecyclerView.Adapter<SelecaoFotoAdapter.
         this.context = context;
     }
 
+    public void setFotos(List<SelecaoFoto> fotos){
+        this.fotos = fotos;
+    }
+
     public void setSelecionarItem(View.OnClickListener selectItem) {
         this.selecionadoItem = selectItem;
     }
