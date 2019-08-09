@@ -335,6 +335,24 @@
 
             </LinearLayout-->
 
+            <Button
+                android:id="@+id/btn_adcionar_sapato"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginStart="80dp"
+                android:layout_below="@id/linlay_sp_tipo"
+                android:text="Adicionar"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/tv_texto_tamanho"
+                style="@style/TextAppearance.MaterialComponents.Button"
+                android:textAllCaps="true"
+                android:background="@drawable/btn_bg"
+                android:backgroundTint="@color/colorPrimaryDark"
+                />
+
         </RelativeLayout>
 
     </ScrollView>

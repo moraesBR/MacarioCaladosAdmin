@@ -9,9 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import senac.macariocalcadosadmin.R;
+import senac.macariocalcadosadmin.models.Sapato;
 
 public class VisualizarFragment extends Fragment {
+    private List<Sapato> listaSapatos = new ArrayList<>();
     public VisualizarFragment() {
     }
 

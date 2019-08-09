@@ -3,20 +3,21 @@ package senac.macariocalcadosadmin.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,7 @@ import java.util.List;
 
 import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.adapters.SelecaoFotoAdapter;
+import senac.macariocalcadosadmin.models.Sapato;
 import senac.macariocalcadosadmin.models.SelecaoFoto;
 
 import static android.app.Activity.RESULT_OK;
@@ -42,6 +44,7 @@ public class InserirFragment extends Fragment {
     /* Models */
     private SelecaoFoto principalFoto;
     private List<SelecaoFoto> listaFoto;
+    private Sapato sapato;
     /*private SelecaoFotoListener selecaoFotoListener;*/
 
     /* RecyclerView, LayoutManager e Adapter */
@@ -63,7 +66,17 @@ public class InserirFragment extends Fragment {
     private TextView tvSelecionadaFoto;
     private ImageView ivPrincipalFoto;
 
-    
+    /*  */
+    private AppCompatEditText etNomeSapato;
+    private AppCompatEditText etModeloSapato;
+    private AppCompatEditText etValorSapato;
+    private AppCompatEditText etQtdSapato;
+    private RadioButton rbFeminino;
+    private RadioButton rbMasculino;
+    private RadioButton rbInfantil;
+    private RadioButton rbAdulto;
+    private AppCompatSpinner spTipo;
+    private Button btnAdicionarSapato;
 
     /* ------------------------- Identificadores -------------------------- */
     /* Solicitação de inicialização de atividade */
@@ -148,6 +161,17 @@ public class InserirFragment extends Fragment {
         btnApagueFoto = view.findViewById(R.id.btn_delete_photo);
         linlay1        = view.findViewById(R.id.visualizador_linlay1);
         tvSelecionadaFoto = view.findViewById(R.id.tv_img_selec);
+
+        etNomeSapato = view.findViewById(R.id.et_nome_sapato);
+        etModeloSapato = view.findViewById(R.id.et_modelo_sapato);
+        etValorSapato = view.findViewById(R.id.et_valor_sapato);
+        etQtdSapato = view.findViewById(R.id.et_quantidade_sapato);
+        rbFeminino = view.findViewById(R.id.rb_feminino);
+        rbMasculino = view.findViewById(R.id.rb_masculino);
+        rbInfantil = view.findViewById(R.id.rb_infantil);
+        rbAdulto = view.findViewById(R.id.rb_adulto);
+        spTipo = view.findViewById(R.id.spinner_tipo);
+        btnAdicionarSapato = view.findViewById(R.id.btn_adcionar_sapato);
     }
 
 
@@ -330,6 +354,35 @@ public class InserirFragment extends Fragment {
                     /* Determina se será apresentado os layouts de foto e RecycleView */
                     setPhotosView();
                 }
+            }
+        });
+
+
+        btnAdicionarSapato.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String nome   = etNomeSapato.getText().toString().trim();
+                String modelo = etModeloSapato.getText().toString().trim();
+                double valor  = Double.parseDouble(etValorSapato.getText().toString());
+                int    qtd    =  Integer.parseInt(etQtdSapato.getText().toString());
+
+                if(rbFeminino.isChecked()){
+                    String genero = rbFeminino.getText().toString().trim().toUpperCase();
+                }
+                else{
+                    String genero = rbMasculino.getText().toString().trim().toUpperCase();
+                }
+
+                if(rbAdulto.isChecked()){
+                    String idade = rbAdulto.getText().toString().trim().toUpperCase();
+                }
+                else{
+                    String idade = rbInfantil.getText().toString().trim().toUpperCase();
+                }
+
+                /*
+                spTipo
+                */
             }
         });
     }
