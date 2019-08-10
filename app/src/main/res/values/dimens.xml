@@ -9,4 +9,5 @@
     <dimen name="largura_card">200dp</dimen>
     <dimen name="altura_card">250dp</dimen>
     <dimen name="altura_img_card">140dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

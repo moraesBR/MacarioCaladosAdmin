@@ -39,4 +39,6 @@
         <item>@string/menu_social</item>
     </string-array>
 
+    <string name="title_activity_editar_sapato">Editar Sapato</string>
+
 </resources>

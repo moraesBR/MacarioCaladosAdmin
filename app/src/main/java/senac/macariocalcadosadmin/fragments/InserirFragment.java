@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -43,8 +44,6 @@ public class InserirFragment extends Fragment {
     /* ------------------------- Variáveis -------------------------- */
     /* Contador de fotos para deletar do RecyclerView */
     public int qtdFoto;
-    /* Armazena a configuração prévia do layout do RecycleView */
-    private Parcelable salvoRecyclerLayout;
 
     /* Models */
     private SelecaoFoto principalFoto;
@@ -264,14 +263,7 @@ public class InserirFragment extends Fragment {
                  * Se a quantidade de fotos no contador for maior que 0, então apresente-o;
                  * Senão, esconda-o*/
                 setPhotosView();
-                if(qtdFoto > 0){
-                    btnApagueFoto.setVisibility(View.VISIBLE);
-                    return true;
-                }
-                else {
-                    btnApagueFoto.setVisibility(View.GONE);
-                    return false;
-                }
+                return qtdFoto > 0;
             }
         };
         fotoAdapter.setMarcarItem(marcarFoto);
@@ -436,6 +428,12 @@ public class InserirFragment extends Fragment {
         etModeloSapato.setText("");
         etValorSapato.setText("");
         etQtdSapato.setText("");
+
+        etNomeSapato.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        etModeloSapato.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        etValorSapato.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        etQtdSapato.onEditorAction(EditorInfo.IME_ACTION_DONE);
+
         rbFeminino.setChecked(false);
         rbInfantil.setChecked(false);
         rbMasculino.setChecked(true);

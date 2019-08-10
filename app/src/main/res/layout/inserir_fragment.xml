@@ -35,6 +35,8 @@
                 app:hintTextColor="@color/colorPrimaryText"
                 android:background="@drawable/layout_bg"
                 android:textColorHint="@color/colorPrimaryText"
+                app:counterMaxLength="20"
+                app:counterEnabled="true"
                 app:hintTextAppearance="@style/TextAppearance.MaterialComponents.Body1"
 
                 >
@@ -61,7 +63,8 @@
                 android:layout_below="@+id/til_nome_sapato"
                 android:layout_margin="10dp"
                 android:background="@drawable/layout_bg"
-
+                app:counterMaxLength="20"
+                app:counterEnabled="true"
                 android:textColorHint="@color/colorPrimaryText"
                 app:hintTextAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:hintTextColor="@color/colorPrimaryText"

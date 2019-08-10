@@ -42,7 +42,7 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
     @NonNull
     @Override
     public SelacaoSapatoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.sapato_item,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.sapato_item, parent, false);
         SelacaoSapatoViewHolder holder = new SelacaoSapatoViewHolder(view);
         return holder;
     }
@@ -50,19 +50,23 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
     @Override
     public void onBindViewHolder(@NonNull SelacaoSapatoViewHolder holder, int position) {
         SelecaoSapato sapato = selecaoSapatoList.get(position);
-        if(sapato.isSelecionado())
+        if (sapato.isSelecionado())
             holder.card.setBackground(context.getDrawable(R.drawable.cardbg_red));
-        else if(selecaoSapatoList.get(position).isPromocao())
+        else if (selecaoSapatoList.get(position).isPromocao())
             holder.card.setBackground(context.getDrawable(R.drawable.cardbg_gold));
         else
             holder.card.setBackground(context.getDrawable(R.drawable.cardbg_silver));
 
-        Picasso.get().load(sapato.getFotos().get(0).getUrl())
-                .into(holder.foto);
+        if (sapato.getFotos() == null || sapato.getFotos().isEmpty())
+            Picasso.get().load(R.drawable.sem_imagem)
+                    .into(holder.foto);
+        else
+            Picasso.get().load(sapato.getFotos().get(0).getUrl())
+                    .into(holder.foto);
 
         holder.nome.setText(sapato.getNome());
         holder.modelo.setText(sapato.getModelo());
-        holder.valor.setText("R$ " + String.format("%.2f",sapato.getValor()));
+        holder.valor.setText("R$ " + String.format("%.2f", sapato.getValor()));
     }
 
     @Override
@@ -70,18 +74,19 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
         return selecaoSapatoList.size();
     }
 
-    public class SelacaoSapatoViewHolder extends RecyclerView.ViewHolder{
+    public class SelacaoSapatoViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout card;
         private ImageView foto;
         private TextView nome, modelo, valor;
 
         public SelacaoSapatoViewHolder(@NonNull View itemView) {
             super(itemView);
-            card   = itemView.findViewById(R.id.card_sapato);
-            foto   = itemView.findViewById(R.id.iv_sapato);
-            nome   = itemView.findViewById(R.id.tv_nome);
+            card = itemView.findViewById(R.id.card_sapato);
+            foto = itemView.findViewById(R.id.iv_sapato);
+            nome = itemView.findViewById(R.id.tv_nome);
             modelo = itemView.findViewById(R.id.tv_modelo);
-            valor  = itemView.findViewById(R.id.tv_preco);
+            valor = itemView.findViewById(R.id.tv_preco);
+            itemView.setTag(this);
             itemView.setOnLongClickListener(marcarSapato);
             itemView.setOnClickListener(verSapato);
         }
