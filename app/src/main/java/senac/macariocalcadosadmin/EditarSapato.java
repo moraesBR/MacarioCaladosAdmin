@@ -10,10 +10,14 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 
+import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
+
 public class EditarSapato extends AppCompatActivity {
 
     private Toolbar toolbar;
     private FloatingActionButton fab;
+    private final String POSICAO_ARRAY = "posição sapato arraylist";
+    private int posicao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,13 @@ public class EditarSapato extends AppCompatActivity {
         setView();
         setListener();
 
+    }
+
+    private void extraData(){
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            posicao = bundle.getInt(POSICAO_ARRAY);
+        }
     }
 
     private void dataBinding(){
