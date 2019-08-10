@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import senac.macariocalcadosadmin.fragments.BuscarFragment;
 import senac.macariocalcadosadmin.fragments.InserirFragment;
 import senac.macariocalcadosadmin.fragments.VisualizarFragment;
 import senac.macariocalcadosadmin.models.Sapato;
+import senac.macariocalcadosadmin.models.SelecaoSapato;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
 
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private ViewPager viewPager;
     private MenuItem prevMenuItem;
 
-    private static  List<Sapato> listaSapatos = new ArrayList<>();
+    public static  List<SelecaoSapato> listaSapatos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onStart();
         auth = Conexao.getFirebaseAuth();
         user = Conexao.getFirebaseUser();
+    }
+
+    private final String LIST_SHOES_STATE = "lista de sapatos";
+
+    public void onSaveInstanceState(@NonNull Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(LIST_SHOES_STATE,
+                (ArrayList<? extends Parcelable>) listaSapatos);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState != null){
+            listaSapatos = savedInstanceState.getParcelableArrayList(LIST_SHOES_STATE);
+        }
     }
 
     private void bindView() {
@@ -138,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             }
             case R.id.menu_inserir:{
-                inserirFragment.atualizaListaSapato(listaSapatos);
+                //inserirFragment.atualizaListaSapato(listaSapatos);
                 viewPager.setCurrentItem(2);
                 break;
             }

@@ -7,6 +7,8 @@
     <color name="colorError">#FF0000</color>
     <color name="colorPrimaryText">#ffffff</color>
 
+    <!-- Cores para o plano de fundo do app -->
+    <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="gradStart">#757575</color>
@@ -16,5 +18,13 @@
 
     <color name="colorItemSelected">@android:color/white</color>
     <color name="colorItemUnselected">@android:color/darker_gray</color>
+
+    <!-- Cores para o fundo do card de sapato -->
+    <color name="gold1">#FFD700</color>
+    <color name="gold2">#DAA520</color>
+    <color name="red1">#E53935</color>
+    <color name="red2">#Ab000D</color>
+    <color name="silver1">#FAFAFA</color>
+    <color name="silver2">#ECEFF1</color>
 
 </resources>

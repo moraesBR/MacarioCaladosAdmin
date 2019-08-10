@@ -189,16 +189,5 @@ public class Sapato implements Parcelable {
         this.promocao = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<Sapato> CREATOR = new Parcelable.Creator<Sapato>() {
-        @Override
-        public Sapato createFromParcel(Parcel source) {
-            return new Sapato(source);
-        }
-
-        @Override
-        public Sapato[] newArray(int size) {
-            return new Sapato[size];
-        }
-    };
 }
 

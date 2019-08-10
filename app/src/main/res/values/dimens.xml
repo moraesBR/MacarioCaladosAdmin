@@ -5,4 +5,8 @@
     <dimen name="material_navdrawer_height">160dp</dimen>
     <dimen name="material_navdrawer_padding">16dp</dimen>
     <dimen name="material_itens_margintop">8dp</dimen>
+    <dimen name="cornersradius_card">5dp</dimen>
+    <dimen name="largura_card">200dp</dimen>
+    <dimen name="altura_card">250dp</dimen>
+    <dimen name="altura_img_card">140dp</dimen>
 </resources>

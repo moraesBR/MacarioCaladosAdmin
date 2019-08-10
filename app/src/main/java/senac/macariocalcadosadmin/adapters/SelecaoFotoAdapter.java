@@ -1,6 +1,7 @@
 package senac.macariocalcadosadmin.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,8 +55,20 @@ public class SelecaoFotoAdapter extends RecyclerView.Adapter<SelecaoFotoAdapter.
         if(fotos.get(position).isSelecionada())
             holder.image.setBackgroundResource(R.color.colorError);
         else
-            holder.image.setBackgroundResource(R.color.transparent);
-        Picasso.get().load(fotos.get(position).getUrl()).resize(80,80).into(holder.image);
+            holder.image.setBackgroundResource(R.color.black);
+
+        int ivAltura = holder.image.getHeight();
+        int ivLargura = holder.image.getWidth();
+
+        String output = ivAltura + " " +  ivLargura + "\n" +
+                holder.image.getMeasuredHeight() + " " + holder.image.getMeasuredWidth() + "\n" +
+                holder.image.getMaxHeight() + " " + holder.image.getMaxWidth();
+
+
+        Picasso.get().load(fotos.get(position).getUrl())
+                .resize(80,80)
+                .into(holder.image);
+
     }
 
     @Override

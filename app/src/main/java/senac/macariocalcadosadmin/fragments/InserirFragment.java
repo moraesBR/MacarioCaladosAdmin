@@ -33,8 +33,10 @@ import senac.macariocalcadosadmin.adapters.SelecaoFotoAdapter;
 import senac.macariocalcadosadmin.models.Sapato;
 import senac.macariocalcadosadmin.models.SelecaoFoto;
 import senac.macariocalcadosadmin.models.Foto;
+import senac.macariocalcadosadmin.models.SelecaoSapato;
 
 import static android.app.Activity.RESULT_OK;
+import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
 
 public class InserirFragment extends Fragment {
 
@@ -46,10 +48,7 @@ public class InserirFragment extends Fragment {
 
     /* Models */
     private SelecaoFoto principalFoto;
-    private List<SelecaoFoto> listaFoto;
-    private Sapato sapato;
-    private List<Sapato> listaSapatos;
-    /*private SelecaoFotoListener selecaoFotoListener;*/
+    private List<SelecaoFoto> listaFoto = new ArrayList<>();
 
     /* RecyclerView, LayoutManager e Adapter */
     private SelecaoFotoAdapter fotoAdapter;
@@ -89,17 +88,11 @@ public class InserirFragment extends Fragment {
     private static final String LIST_STATE = "list_state";
     /* Referência à foto principal do layout */
     private static final String MAIN_PHOTO = "main_photo";
-    /* Referência à configuração de layout do RecyclerView */
-    private static final String BUNDLE_RECYCLER_LAYOUT = "recycler_layout";
     /* Referência à quantidade de fotos marcadas para exclusão */
     private static final String NUMBER_PHOTOS = "number photos";
 
 
     public InserirFragment() {
-    }
-
-    public void atualizaListaSapato(List<Sapato> lista){
-        listaSapatos = lista;
     }
 
     /* ---------------------------------- Ciclo de Vida do App -------------------------------------- */
@@ -112,6 +105,7 @@ public class InserirFragment extends Fragment {
      *          layout do RecyclerView.
      */
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -120,7 +114,6 @@ public class InserirFragment extends Fragment {
         dataBindView(view);
         setAdapter(view, savedInstanceState);
         clickable();
-
         return view;
     }
 
@@ -130,7 +123,6 @@ public class InserirFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(LIST_STATE, (ArrayList<? extends Parcelable>) listaFoto);
         outState.putParcelable(MAIN_PHOTO, principalFoto);
-        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, rvFoto.getLayoutManager().onSaveInstanceState());
         outState.putInt(NUMBER_PHOTOS,qtdFoto);
     }
 
@@ -140,7 +132,6 @@ public class InserirFragment extends Fragment {
         if (inState != null) {
             listaFoto = inState.getParcelableArrayList(LIST_STATE);
             principalFoto = inState.getParcelable(MAIN_PHOTO);
-            salvoRecyclerLayout = inState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
             qtdFoto = inState.getInt(NUMBER_PHOTOS);
         }
     }
@@ -190,15 +181,12 @@ public class InserirFragment extends Fragment {
         }
 
         fotoAdapter = new SelecaoFotoAdapter(listaFoto, view.getContext());
+
         lmPhotos = new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         rvFoto.setLayoutManager(lmPhotos);
         rvFoto.setHasFixedSize(true);
         rvFoto.setAdapter(fotoAdapter);
-
-        if (salvoRecyclerLayout != null){
-            rvFoto.getLayoutManager().onRestoreInstanceState(salvoRecyclerLayout);
-        }
 
         setPhotosView();
     }
@@ -226,10 +214,12 @@ public class InserirFragment extends Fragment {
             ivPrincipalFoto.setVisibility(View.VISIBLE);
             linlay1.setVisibility(View.VISIBLE);
             tvSelecionadaFoto.setVisibility(View.GONE);
+
             if (listaFoto.size() == 1)
                 principalFoto = listaFoto.get(0);
+
+            ivPrincipalFoto.setBackgroundResource(R.color.black);
             Picasso.get().load(principalFoto.getUrl())
-                    .resize(360, 200)
                     .into(ivPrincipalFoto);
         }
         if(qtdFoto > 0){
@@ -300,10 +290,8 @@ public class InserirFragment extends Fragment {
                 /* Atualiza a foto principal */
                 principalFoto = listaFoto.get(position);
 
-                /* Apresenta a foto no layout main */
-                Picasso.get().load(principalFoto.getUrl())
-                        .resize(360,200)
-                        .into(ivPrincipalFoto);
+                /* Reinicia o layout */
+                setPhotosView();
             }
         };
         fotoAdapter.setSelecionarItem(selecionarFoto);
@@ -403,7 +391,7 @@ public class InserirFragment extends Fragment {
                     if(valor < 0 && qtd < 0)
                         throw new Exception();
                     /* Insere um novo sapato ao arraylist */
-                    sapato = new Sapato(nome,tipo,modelo,genero,idade);
+                    SelecaoSapato sapato = new SelecaoSapato(nome,tipo,modelo,genero,idade);
                     sapato.setQuantidade(qtd);
                     sapato.setValor(valor);
                     sapato.setFotos(new ArrayList<Foto>(listaFoto));
