@@ -71,6 +71,8 @@ public class Database {
             if(!uploads.isEmpty()){
                 for(final Upload upload : uploads){
                     name = System.currentTimeMillis() + "." + getFileExtension(upload.getUrl());
+                    /*final Foto foto = new Foto();
+                    foto.setNome(name);*/
                     final StorageReference fRef = sRef.child(name);
                     uploadTask = fRef.putFile(upload.getUrl())
                             .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -84,10 +86,12 @@ public class Database {
                                                         .child(sapato.getCodigo())
                                                         .push()
                                                         .getKey();
+                                                //if(foto.getNome().equals(name)) {
 
-                                                dRef.child("fotos").child(sapato.getCodigo())
-                                                        .child(uploadId)
-                                                        .setValue(new Foto(name,uri.toString()));
+                                                    dRef.child("fotos").child(sapato.getCodigo())
+                                                            .child(uploadId)
+                                                            .setValue(new Foto(fRef.getName(),uri.toString()));
+                                                //}
                                             }
                                         });
                                     }
@@ -95,11 +99,21 @@ public class Database {
                             });
                 }
             }
-            String uploadId = dRef.push().getKey();
-            dRef.child(uploadId).setValue(sapato);
+            sapato.setKey(dRef.push().getKey());
+            dRef.child(sapato.getKey()).setValue(sapato);
             Toast.makeText(context, "Sapato Inserido!", Toast
                     .LENGTH_SHORT).show();
         }
+    }
+
+    public void delete(final Sapato sapato, final SelecaoSapatoAdapter adapter){
+        for(Foto f : sapato.getFotos() ){
+            StorageReference imageRef = sRef.child(f.getNome());
+            imageRef.delete();
+        }
+        dRef.child("fotos").child(sapato.getCodigo()).removeValue();
+        dRef.child(sapato.getKey()).removeValue();
+        adapter.notifyDataSetChanged();
     }
 
     public void read(final SelecaoSapatoAdapter sapatoAdapter, final List<SelecaoSapato> sapatos, final ProgressBar progressBar){
@@ -114,8 +128,6 @@ public class Database {
 
                     if(sapato != null && sapato.getCodigo() != null && !sapato.getCodigo().isEmpty()){
                         sapatos.add(new SelecaoSapato(sapato));
-                        Log.e("SAPATO",sapato.getCodigo());
-
                         dRef.child("fotos").child(sapato.getCodigo()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -141,7 +153,5 @@ public class Database {
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
-
-
     }
 }

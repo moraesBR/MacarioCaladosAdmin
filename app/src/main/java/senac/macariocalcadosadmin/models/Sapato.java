@@ -17,6 +17,7 @@ public class Sapato implements Parcelable {
     private List<Foto> fotos;
     private int quantidade;
     private boolean promocao;
+    private String key;
 
     public Sapato() {
     }
@@ -67,6 +68,10 @@ public class Sapato implements Parcelable {
                 + this.idade.toString());
     }
 
+    public String getKey() {
+        return key;
+    }
+
     public String getCodigo() {
         return codigo;
     }
@@ -107,6 +112,10 @@ public class Sapato implements Parcelable {
         return quantidade;
     }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
@@ -144,7 +153,6 @@ public class Sapato implements Parcelable {
         this.fotos.add(foto);
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -152,6 +160,7 @@ public class Sapato implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.codigo);
         dest.writeString(this.nome);
         dest.writeString(this.modelo);
         dest.writeInt(this.genero == null ? -1 : this.genero.ordinal());
@@ -162,9 +171,11 @@ public class Sapato implements Parcelable {
         dest.writeTypedList(this.fotos);
         dest.writeInt(this.quantidade);
         dest.writeByte(this.promocao ? (byte) 1 : (byte) 0);
+        dest.writeString(this.key);
     }
 
     protected Sapato(Parcel in) {
+        this.codigo = in.readString();
         this.nome = in.readString();
         this.modelo = in.readString();
         int tmpGenero = in.readInt();
@@ -179,6 +190,7 @@ public class Sapato implements Parcelable {
         this.fotos = in.createTypedArrayList(Foto.CREATOR);
         this.quantidade = in.readInt();
         this.promocao = in.readByte() != 0;
+        this.key = in.readString();
     }
 
     public static final Creator<Sapato> CREATOR = new Creator<Sapato>() {

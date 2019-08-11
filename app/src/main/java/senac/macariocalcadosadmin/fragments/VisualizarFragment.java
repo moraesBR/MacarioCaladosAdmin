@@ -21,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import senac.macariocalcadosadmin.EditarSapato;
 import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.adapters.SelecaoSapatoAdapter;
+import senac.macariocalcadosadmin.models.Sapato;
 
 import static senac.macariocalcadosadmin.MainActivity.database;
 import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
@@ -133,8 +134,10 @@ public class VisualizarFragment extends Fragment {
                                 /* Apaga as fotos se houver pelo menos uma foto selecionada */
                                 if (qtdFoto > 0) {
                                     for (int i = 0; i < listaSapatos.size(); i++)
-                                        if (listaSapatos.get(i).isSelecionado())
+                                        if (listaSapatos.get(i).isSelecionado()) {
+                                            database.delete(listaSapatos.get(i).getSapato(),sapatoAdapter);
                                             listaSapatos.remove(i--);
+                                        }
                                 }
 
                                 qtdFoto = 0;
