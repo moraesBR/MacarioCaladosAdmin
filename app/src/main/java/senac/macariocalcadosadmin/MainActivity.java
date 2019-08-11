@@ -20,6 +20,7 @@ import java.util.List;
 
 import senac.macariocalcadosadmin.adapters.ViewPagerAdapter;
 import senac.macariocalcadosadmin.firebase.Conexao;
+import senac.macariocalcadosadmin.firebase.Database;
 import senac.macariocalcadosadmin.fragments.BuscarFragment;
 import senac.macariocalcadosadmin.fragments.InserirFragment;
 import senac.macariocalcadosadmin.fragments.VisualizarFragment;
@@ -41,10 +42,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     public static  List<SelecaoSapato> listaSapatos = new ArrayList<>();
 
+    public static Database database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        database = new Database(this, "sapatos");
+
         bindView();
         setView();
     }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ import senac.macariocalcadosadmin.EditarSapato;
 import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.adapters.SelecaoSapatoAdapter;
 
+import static senac.macariocalcadosadmin.MainActivity.database;
 import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
 
 public class VisualizarFragment extends Fragment {
@@ -31,6 +33,7 @@ public class VisualizarFragment extends Fragment {
     private RecyclerView rvSapatos;
     private RecyclerView.LayoutManager lmSapatos;
     private FloatingActionButton apagarSapato;
+    private ProgressBar progressBar;
 
     /* Clicks Listener */
     private View.OnLongClickListener marcarCard;
@@ -55,7 +58,9 @@ public class VisualizarFragment extends Fragment {
     private void dataBinding(View view) {
         rvSapatos = view.findViewById(R.id.rv_sapatos);
         apagarSapato = view.findViewById(R.id.fab_apaga_sapato);
+        progressBar = view.findViewById(R.id.progressbar);
     }
+
 
     private void setAdapters(View view, Bundle savedInstanceState) {
         sapatoAdapter = new SelecaoSapatoAdapter(listaSapatos, view.getContext());
@@ -63,6 +68,8 @@ public class VisualizarFragment extends Fragment {
         rvSapatos.setLayoutManager(lmSapatos);
         rvSapatos.setHasFixedSize(true);
         rvSapatos.setAdapter(sapatoAdapter);
+
+        database.read(sapatoAdapter,listaSapatos,progressBar);
     }
 
     private void setListener() {
@@ -154,4 +161,5 @@ public class VisualizarFragment extends Fragment {
         else
             apagarSapato.setVisibility(View.GONE);
     }
+
 }

@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import senac.macariocalcadosadmin.R;
-import senac.macariocalcadosadmin.adapters.SelecaoFotoAdapter;
-import senac.macariocalcadosadmin.models.SelecaoFoto;
+import senac.macariocalcadosadmin.adapters.SelecaoUploadAdapter;
+import senac.macariocalcadosadmin.models.SelecaoUpload;
 
 import static android.app.Activity.RESULT_OK;
 /*
@@ -38,12 +38,12 @@ public class VisualizadorImagemFragment extends Fragment {
     private Parcelable salvoRecyclerLayout;
 
     /* Models */
-    private SelecaoFoto principalFoto;
-    private List<SelecaoFoto> listaFoto;
+    private SelecaoUpload principalFoto;
+    private List<SelecaoUpload> listaFoto;
     /*private SelecaoFotoListener selecaoFotoListener;*/
 
     /* RecyclerView, LayoutManager e Adapter */
-    private SelecaoFotoAdapter fotoAdapter;
+    private SelecaoUploadAdapter fotoAdapter;
     private RecyclerView rvFoto;
     private RecyclerView.LayoutManager lmPhotos;
 
@@ -78,10 +78,10 @@ public class VisualizadorImagemFragment extends Fragment {
     }
 
     /*public interface SelecaoFotoListener{
-        void onInputFotoImagemSent(List<SelecaoFoto> listaFoto);
+        void onInputFotoImagemSent(List<SelecaoUpload> listaFoto);
     }*/
 
-    public void atualizaSelecaoFoto(List<SelecaoFoto> listaFoto){
+    public void atualizaSelecaoFoto(List<SelecaoUpload> listaFoto){
         this.listaFoto = listaFoto;
         this.fotoAdapter.notifyDataSetChanged();
     }
@@ -158,7 +158,7 @@ public class VisualizadorImagemFragment extends Fragment {
             qtdFoto = 0;
         }
 
-        fotoAdapter = new SelecaoFotoAdapter(listaFoto, view.getContext());
+        fotoAdapter = new SelecaoUploadAdapter(listaFoto, view.getContext());
         lmPhotos = new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         rvFoto.setLayoutManager(lmPhotos);
@@ -367,7 +367,7 @@ public class VisualizadorImagemFragment extends Fragment {
          */
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null){
-            SelecaoFoto photo = new SelecaoFoto(data.getData());
+            SelecaoUpload photo = new SelecaoUpload(data.getData());
             listaFoto.add(photo);
             fotoAdapter.notifyDataSetChanged();
 

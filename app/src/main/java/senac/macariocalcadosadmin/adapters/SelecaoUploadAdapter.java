@@ -1,7 +1,6 @@
 package senac.macariocalcadosadmin.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,22 +14,22 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import senac.macariocalcadosadmin.R;
-import senac.macariocalcadosadmin.models.SelecaoFoto;
+import senac.macariocalcadosadmin.models.SelecaoUpload;
 
 
-public class SelecaoFotoAdapter extends RecyclerView.Adapter<SelecaoFotoAdapter.SelecaoFotoViewHolder> {
+public class SelecaoUploadAdapter extends RecyclerView.Adapter<SelecaoUploadAdapter.SelecaoFotoViewHolder> {
 
-    private List<SelecaoFoto> fotos;
+    private List<SelecaoUpload> fotos;
     private Context context;
     private View.OnClickListener selecionadoItem;
     private View.OnLongClickListener marcadoItem;
 
-    public SelecaoFotoAdapter(List<SelecaoFoto> photos, Context context) {
+    public SelecaoUploadAdapter(List<SelecaoUpload> photos, Context context) {
         this.fotos = photos;
         this.context = context;
     }
 
-    public void setFotos(List<SelecaoFoto> fotos){
+    public void setFotos(List<SelecaoUpload> fotos){
         this.fotos = fotos;
     }
 

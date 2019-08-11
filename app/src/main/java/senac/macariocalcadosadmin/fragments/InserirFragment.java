@@ -3,7 +3,6 @@ package senac.macariocalcadosadmin.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +29,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import senac.macariocalcadosadmin.R;
-import senac.macariocalcadosadmin.adapters.SelecaoFotoAdapter;
+import senac.macariocalcadosadmin.adapters.SelecaoUploadAdapter;
 import senac.macariocalcadosadmin.models.Sapato;
-import senac.macariocalcadosadmin.models.SelecaoFoto;
-import senac.macariocalcadosadmin.models.Foto;
+import senac.macariocalcadosadmin.models.SelecaoUpload;
+import senac.macariocalcadosadmin.models.Upload;
 import senac.macariocalcadosadmin.models.SelecaoSapato;
 
 import static android.app.Activity.RESULT_OK;
+import static senac.macariocalcadosadmin.MainActivity.database;
 import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
 
 public class InserirFragment extends Fragment {
@@ -46,11 +46,11 @@ public class InserirFragment extends Fragment {
     public int qtdFoto;
 
     /* Models */
-    private SelecaoFoto principalFoto;
-    private List<SelecaoFoto> listaFoto = new ArrayList<>();
+    private SelecaoUpload principalFotoUpload;
+    private List<SelecaoUpload> listaFotoUpload = new ArrayList<>();
 
     /* RecyclerView, LayoutManager e Adapter */
-    private SelecaoFotoAdapter fotoAdapter;
+    private SelecaoUploadAdapter fotoAdapter;
     private RecyclerView rvFoto;
     private RecyclerView.LayoutManager lmPhotos;
 
@@ -120,8 +120,8 @@ public class InserirFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState){
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(LIST_STATE, (ArrayList<? extends Parcelable>) listaFoto);
-        outState.putParcelable(MAIN_PHOTO, principalFoto);
+        outState.putParcelableArrayList(LIST_STATE, (ArrayList<? extends Parcelable>) listaFotoUpload);
+        outState.putParcelable(MAIN_PHOTO, principalFotoUpload);
         outState.putInt(NUMBER_PHOTOS,qtdFoto);
     }
 
@@ -129,8 +129,8 @@ public class InserirFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle inState) {
         super.onActivityCreated(inState);
         if (inState != null) {
-            listaFoto = inState.getParcelableArrayList(LIST_STATE);
-            principalFoto = inState.getParcelable(MAIN_PHOTO);
+            listaFotoUpload = inState.getParcelableArrayList(LIST_STATE);
+            principalFotoUpload = inState.getParcelable(MAIN_PHOTO);
             qtdFoto = inState.getInt(NUMBER_PHOTOS);
         }
     }
@@ -170,16 +170,16 @@ public class InserirFragment extends Fragment {
 
     private void setAdapter(View view, Bundle savedInstanceState) {
         if(savedInstanceState != null) {
-            listaFoto = savedInstanceState.getParcelableArrayList(LIST_STATE);
-            principalFoto = savedInstanceState.getParcelable(MAIN_PHOTO);
+            listaFotoUpload = savedInstanceState.getParcelableArrayList(LIST_STATE);
+            principalFotoUpload = savedInstanceState.getParcelable(MAIN_PHOTO);
             qtdFoto = savedInstanceState.getInt(NUMBER_PHOTOS);
         }else{
-            listaFoto = new ArrayList<>();
-            principalFoto = null;
+            listaFotoUpload = new ArrayList<>();
+            principalFotoUpload = null;
             qtdFoto = 0;
         }
 
-        fotoAdapter = new SelecaoFotoAdapter(listaFoto, view.getContext());
+        fotoAdapter = new SelecaoUploadAdapter(listaFotoUpload, view.getContext());
 
         lmPhotos = new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
@@ -204,8 +204,8 @@ public class InserirFragment extends Fragment {
      *      caso contrário, serão apresentados.
      */
     private void setPhotosView(){
-        if(listaFoto.isEmpty()) {
-            principalFoto = null;
+        if(listaFotoUpload.isEmpty()) {
+            principalFotoUpload = null;
             ivPrincipalFoto.setVisibility(View.GONE);
             linlay1.setVisibility(View.GONE);
             tvSelecionadaFoto.setVisibility(View.VISIBLE);
@@ -214,11 +214,11 @@ public class InserirFragment extends Fragment {
             linlay1.setVisibility(View.VISIBLE);
             tvSelecionadaFoto.setVisibility(View.GONE);
 
-            if (listaFoto.size() == 1)
-                principalFoto = listaFoto.get(0);
+            if (listaFotoUpload.size() == 1)
+                principalFotoUpload = listaFotoUpload.get(0);
 
             ivPrincipalFoto.setBackgroundResource(R.color.black);
-            Picasso.get().load(principalFoto.getUrl())
+            Picasso.get().load(principalFotoUpload.getUrl())
                     .into(ivPrincipalFoto);
         }
         if(qtdFoto > 0){
@@ -248,13 +248,13 @@ public class InserirFragment extends Fragment {
                  * Se não estiver sido selecionado, então adicione no contador de imagens
                  * selecionadas; senão, retire do contador.
                  */
-                if(!listaFoto.get(position).isSelecionada()){
+                if(!listaFotoUpload.get(position).isSelecionada()){
                     qtdFoto++;
                 }else
                     qtdFoto--;
 
                 /* Altera o estado de marcação (boolean) */
-                listaFoto.get(position).setSelecionada();
+                listaFotoUpload.get(position).setSelecionada();
 
                 /* Informa ao adapter que houve ateração nos dados */
                 fotoAdapter.notifyDataSetChanged();
@@ -280,7 +280,7 @@ public class InserirFragment extends Fragment {
                 int position = viewHolder.getAdapterPosition();
 
                 /* Atualiza a foto principal */
-                principalFoto = listaFoto.get(position);
+                principalFotoUpload = listaFotoUpload.get(position);
 
                 /* Reinicia o layout */
                 setPhotosView();
@@ -312,18 +312,18 @@ public class InserirFragment extends Fragment {
                 /* Apaga as fotos se houver pelo menos uma foto selecionada */
                 if(qtdFoto > 0){
                     /* Percorre o ArrayList de Photos */
-                    for(int i = 0; i < listaFoto.size(); i++){
+                    for(int i = 0; i < listaFotoUpload.size(); i++){
                         /*
                          *  Se a foto estiver selecionada, então remova-a e determine qual foto será
                          *  a foto principal
                          */
-                        if(listaFoto.get(i).isSelecionada()) {
-                            if(listaFoto.get(i).equals(principalFoto)) {
-                                listaFoto.remove(i);
-                                if(!listaFoto.isEmpty())
-                                    principalFoto = listaFoto.get(0);
+                        if(listaFotoUpload.get(i).isSelecionada()) {
+                            if(listaFotoUpload.get(i).equals(principalFotoUpload)) {
+                                listaFotoUpload.remove(i);
+                                if(!listaFotoUpload.isEmpty())
+                                    principalFotoUpload = listaFotoUpload.get(0);
                             }else
-                                listaFoto.remove(i);
+                                listaFotoUpload.remove(i);
                             i--;
                         }
                     }
@@ -383,11 +383,11 @@ public class InserirFragment extends Fragment {
                     if(valor < 0 && qtd < 0)
                         throw new Exception();
                     /* Insere um novo sapato ao arraylist */
-                    SelecaoSapato sapato = new SelecaoSapato(nome,tipo,modelo,genero,idade);
+                    Sapato sapato = new Sapato(nome,tipo,modelo,genero,idade);
                     sapato.setQuantidade(qtd);
                     sapato.setValor(valor);
-                    sapato.setFotos(new ArrayList<Foto>(listaFoto));
-                    listaSapatos.add(sapato);
+
+                    database.insert(sapato,new ArrayList<Upload>(listaFotoUpload));
 
                     /*
                      *  Reiniciar o visualizado de fotos: zera a o contador de fotos marcadas para
@@ -395,14 +395,13 @@ public class InserirFragment extends Fragment {
                      *  arraylist ao adaptador de fotos; reinicia o visualizador
                      */
                     qtdFoto = 0;
-                    listaFoto = new ArrayList<>();
-                    fotoAdapter.setFotos(listaFoto);
+                    listaFotoUpload = new ArrayList<>();
+                    fotoAdapter.setFotos(listaFotoUpload);
                     setPhotosView();
 
                     /* reconfigura o formulário às opções padrões */
                     limparFormulario();
 
-                    Toast.makeText(getContext(),"Sapato Inserido!",Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception ex){
                     Toast.makeText(getContext(),"Atenção no cadastro!",Toast.LENGTH_SHORT)
@@ -470,8 +469,8 @@ public class InserirFragment extends Fragment {
          */
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null){
-            SelecaoFoto photo = new SelecaoFoto(data.getData());
-            listaFoto.add(photo);
+            SelecaoUpload photo = new SelecaoUpload(data.getData());
+            listaFotoUpload.add(photo);
             fotoAdapter.notifyDataSetChanged();
 
             /* Determina se será apresentado os layouts de foto e RecycleView */

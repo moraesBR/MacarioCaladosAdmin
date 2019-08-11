@@ -6,20 +6,12 @@ import android.os.Parcelable;
 
 public class Foto implements Parcelable {
     private String nome;
-    private Uri url;
+    private String url;
 
     public Foto() {
     }
 
-    public Foto(String nome) {
-        this.nome = nome;
-    }
-
-    public Foto(Uri url) {
-        this.url = url;
-    }
-
-    public Foto(String nome, Uri url) {
+    public Foto(String nome, String url) {
         if(nome.trim().equals("")){
             nome = "Sem nome";
         }
@@ -35,13 +27,14 @@ public class Foto implements Parcelable {
         this.nome = nome;
     }
 
-    public Uri getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    public void setUrl(Uri url) {
+    public void setUrl(String url) {
         this.url = url;
     }
+
 
     @Override
     public int describeContents() {
@@ -51,12 +44,12 @@ public class Foto implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.nome);
-        dest.writeParcelable(this.url, flags);
+        dest.writeString(this.url);
     }
 
     protected Foto(Parcel in) {
         this.nome = in.readString();
-        this.url = in.readParcelable(Uri.class.getClassLoader());
+        this.url = in.readString();
     }
 
     public static final Creator<Foto> CREATOR = new Creator<Foto>() {

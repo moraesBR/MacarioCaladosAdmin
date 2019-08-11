@@ -1,11 +1,13 @@
 package senac.macariocalcadosadmin.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.zip.Inflater;
 
 import senac.macariocalcadosadmin.R;
+import senac.macariocalcadosadmin.models.Sapato;
 import senac.macariocalcadosadmin.models.SelecaoSapato;
 
 public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdapter.SelacaoSapatoViewHolder> {
@@ -49,20 +52,28 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
 
     @Override
     public void onBindViewHolder(@NonNull SelacaoSapatoViewHolder holder, int position) {
-        SelecaoSapato sapato = selecaoSapatoList.get(position);
-        if (sapato.isSelecionado())
+        Sapato sapato = selecaoSapatoList.get(position).getSapato();
+        if (selecaoSapatoList.get(position).isSelecionado())
             holder.card.setBackground(context.getDrawable(R.drawable.cardbg_red));
-        else if (selecaoSapatoList.get(position).isPromocao())
+        else if (sapato.isPromocao())
             holder.card.setBackground(context.getDrawable(R.drawable.cardbg_gold));
         else
             holder.card.setBackground(context.getDrawable(R.drawable.cardbg_silver));
 
-        if (sapato.getFotos() == null || sapato.getFotos().isEmpty())
+        if (sapato.getFotos() == null || sapato.getFotos().isEmpty()) {
             Picasso.get().load(R.drawable.sem_imagem)
                     .into(holder.foto);
-        else
-            Picasso.get().load(sapato.getFotos().get(0).getUrl())
-                    .into(holder.foto);
+            holder.foto.setVisibility(View.VISIBLE);
+            holder.progressBar.setVisibility(View.GONE);
+        }
+        else {
+            Log.e("FOTO",sapato.getFotos().get(0).getUrl());
+            Picasso.get().load(sapato.getFotos().get(0).getUrl()).fit().centerCrop().into(holder.foto);
+            /*Picasso.get().load(sapato.getFotos().get(0).getUrl())
+                    .into(holder.foto);*/
+            holder.foto.setVisibility(View.VISIBLE);
+            holder.progressBar.setVisibility(View.GONE);
+        }
 
         holder.nome.setText(sapato.getNome());
         holder.modelo.setText(sapato.getModelo());
@@ -78,6 +89,7 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
         private LinearLayout card;
         private ImageView foto;
         private TextView nome, modelo, valor;
+        private ProgressBar progressBar;
 
         public SelacaoSapatoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,6 +98,7 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
             nome = itemView.findViewById(R.id.tv_nome);
             modelo = itemView.findViewById(R.id.tv_modelo);
             valor = itemView.findViewById(R.id.tv_preco);
+            progressBar = itemView.findViewById(R.id.pbarImagem);
             itemView.setTag(this);
             itemView.setOnLongClickListener(marcarSapato);
             itemView.setOnClickListener(verSapato);

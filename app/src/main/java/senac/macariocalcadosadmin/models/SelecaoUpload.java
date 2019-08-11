@@ -3,25 +3,25 @@ package senac.macariocalcadosadmin.models;
 import android.net.Uri;
 import android.os.Parcel;
 
-public class SelecaoFoto extends Foto {
+public class SelecaoUpload extends Upload {
     private boolean selecionada;
 
-    public SelecaoFoto() {
+    public SelecaoUpload() {
         super();
         this.selecionada = false;
     }
 
-    public SelecaoFoto(String nome) {
+    public SelecaoUpload(String nome) {
         super(nome);
         this.selecionada = false;
     }
 
-    public SelecaoFoto(Uri url) {
+    public SelecaoUpload(Uri url) {
         super(url);
         this.selecionada = false;
     }
 
-    public SelecaoFoto(String nome, Uri url) {
+    public SelecaoUpload(String nome, Uri url) {
         super(nome, url);
         this.selecionada = false;
     }
@@ -46,20 +46,20 @@ public class SelecaoFoto extends Foto {
         dest.writeByte(this.selecionada ? (byte) 1 : (byte) 0);
     }
 
-    protected SelecaoFoto(Parcel in) {
+    protected SelecaoUpload(Parcel in) {
         super(in);
         this.selecionada = in.readByte() != 0;
     }
 
-    public static final Creator<SelecaoFoto> CREATOR = new Creator<SelecaoFoto>() {
+    public static final Creator<SelecaoUpload> CREATOR = new Creator<SelecaoUpload>() {
         @Override
-        public SelecaoFoto createFromParcel(Parcel source) {
-            return new SelecaoFoto(source);
+        public SelecaoUpload createFromParcel(Parcel source) {
+            return new SelecaoUpload(source);
         }
 
         @Override
-        public SelecaoFoto[] newArray(int size) {
-            return new SelecaoFoto[size];
+        public SelecaoUpload[] newArray(int size) {
+            return new SelecaoUpload[size];
         }
     };
 }

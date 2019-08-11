@@ -1,17 +1,17 @@
 package senac.macariocalcadosadmin.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
-public class SelecaoSapato extends Sapato {
+public class SelecaoSapato implements Parcelable {
+    private Sapato sapato;
     private boolean selecionado;
 
-    public SelecaoSapato(String nome, String tipo, String modelo, String genero, String idade, String tamanho) {
-        super(nome, tipo, modelo, genero, idade, tamanho);
-        this.selecionado = false;
+    public SelecaoSapato() {
     }
 
-    public SelecaoSapato(String nome, String tipo, String modelo, String genero, String idade) {
-        super(nome, tipo, modelo, genero, idade);
+    public SelecaoSapato(Sapato sapato) {
+        this.sapato = sapato;
         this.selecionado = false;
     }
 
@@ -23,6 +23,13 @@ public class SelecaoSapato extends Sapato {
         this.selecionado = this.selecionado ? false: true;
     }
 
+    public Sapato getSapato() {
+        return sapato;
+    }
+
+    public void setSapato(Sapato sapato) {
+        this.sapato = sapato;
+    }
 
     @Override
     public int describeContents() {
@@ -31,16 +38,16 @@ public class SelecaoSapato extends Sapato {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
+        dest.writeParcelable(this.sapato, flags);
         dest.writeByte(this.selecionado ? (byte) 1 : (byte) 0);
     }
 
     protected SelecaoSapato(Parcel in) {
-        super(in);
+        this.sapato = in.readParcelable(Sapato.class.getClassLoader());
         this.selecionado = in.readByte() != 0;
     }
 
-    public static final Creator<SelecaoSapato> CREATOR = new Creator<SelecaoSapato>() {
+    public static final Parcelable.Creator<SelecaoSapato> CREATOR = new Parcelable.Creator<SelecaoSapato>() {
         @Override
         public SelecaoSapato createFromParcel(Parcel source) {
             return new SelecaoSapato(source);

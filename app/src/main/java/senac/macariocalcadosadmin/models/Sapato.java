@@ -2,7 +2,6 @@ package senac.macariocalcadosadmin.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import java.util.List;
 
@@ -19,38 +18,34 @@ public class Sapato implements Parcelable {
     private int quantidade;
     private boolean promocao;
 
-    public Sapato(String nome, String tipo, String modelo, String genero, String idade, String tamanho) {
-            if (nome.isEmpty() || modelo.isEmpty())
-                throw new IllegalArgumentException();
-
-            this.genero = Genero.valueOf(genero);
-
-            this.modelo = modelo;
-
-            this.tipo = Tipo.valueOf(tipo);
-
-            this.idade = Idade.valueOf(idade);
-
-            if (this.genero.equals(Genero.FEMININO)) {
-                this.tamanho = Tamanho.valueOf(TamFeminino.valueOf(tamanho).toString());
-            }
-            if (this.genero.equals(Genero.MASCULINO)) {
-                this.tamanho = Tamanho.valueOf(TamMasculino.valueOf(tamanho).toString());
-            }
-
-            this.nome = nome;
-
-            this.codigo = MD5.md5(this.nome
-                    + this.tipo.toString()
-                    + this.modelo.toString()
-                    + this.genero.toString()
-                    + this.idade.toString()
-                    + this.tamanho.toString());
-
-            this.valor = 0.0;
-            this.quantidade = 0;
-            this.promocao = false;
+    public Sapato() {
     }
+    /*
+    public Sapato(String nome, String tipo, String modelo, String genero, String idade, String tamanho) {
+        if (nome.isEmpty() || modelo.isEmpty())
+            throw new IllegalArgumentException();
+
+        this.genero = Genero.valueOf(genero);
+        this.modelo = modelo;
+        this.tipo = Tipo.valueOf(tipo);
+        this.idade = Idade.valueOf(idade);
+        if (this.genero.equals(Genero.FEMININO)) {
+            this.tamanho = Tamanho.valueOf(TamFeminino.valueOf(tamanho).toString());
+        }
+        if (this.genero.equals(Genero.MASCULINO)) {
+            this.tamanho = Tamanho.valueOf(TamMasculino.valueOf(tamanho).toString());
+        }
+        this.nome = nome;
+        this.valor = 0.0;
+        this.quantidade = 0;
+        this.promocao = false;
+        this.codigo = MD5.md5(this.nome
+                + this.tipo.toString()
+                + this.modelo
+                + this.genero.toString()
+                + this.idade.toString());
+    }
+    */
 
     public Sapato(String nome, String tipo, String modelo, String genero, String idade) {
 
@@ -58,25 +53,18 @@ public class Sapato implements Parcelable {
             throw new IllegalArgumentException("erro");
 
         this.genero = Genero.valueOf(genero);
-
         this.modelo = modelo;
-
         this.tipo = Tipo.valueOf(tipo);
-
         this.idade = Idade.valueOf(idade);
-
         this.nome = nome;
-
+        this.valor = 0.0;
+        this.quantidade = 0;
+        this.promocao = false;
         this.codigo = MD5.md5(this.nome
                 + this.tipo.toString()
                 + this.modelo
                 + this.genero.toString()
                 + this.idade.toString());
-
-        this.valor = 0.0;
-        this.quantidade = 0;
-        this.promocao = false;
-
     }
 
     public String getCodigo() {
@@ -152,6 +140,10 @@ public class Sapato implements Parcelable {
         this.fotos = fotos;
     }
 
+    public void addFoto(Foto foto) {
+        this.fotos.add(foto);
+    }
+
 
     @Override
     public int describeContents() {
@@ -160,8 +152,8 @@ public class Sapato implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.codigo);
         dest.writeString(this.nome);
+        dest.writeString(this.modelo);
         dest.writeInt(this.genero == null ? -1 : this.genero.ordinal());
         dest.writeInt(this.idade == null ? -1 : this.idade.ordinal());
         dest.writeInt(this.tipo == null ? -1 : this.tipo.ordinal());
@@ -173,8 +165,8 @@ public class Sapato implements Parcelable {
     }
 
     protected Sapato(Parcel in) {
-        this.codigo = in.readString();
         this.nome = in.readString();
+        this.modelo = in.readString();
         int tmpGenero = in.readInt();
         this.genero = tmpGenero == -1 ? null : Genero.values()[tmpGenero];
         int tmpIdade = in.readInt();
@@ -189,5 +181,16 @@ public class Sapato implements Parcelable {
         this.promocao = in.readByte() != 0;
     }
 
+    public static final Creator<Sapato> CREATOR = new Creator<Sapato>() {
+        @Override
+        public Sapato createFromParcel(Parcel source) {
+            return new Sapato(source);
+        }
+
+        @Override
+        public Sapato[] newArray(int size) {
+            return new Sapato[size];
+        }
+    };
 }
 
