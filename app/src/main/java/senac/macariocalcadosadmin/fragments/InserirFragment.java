@@ -1,7 +1,6 @@
 package senac.macariocalcadosadmin.fragments;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,10 +32,9 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.adapters.SelecaoUploadAdapter;
@@ -52,9 +50,9 @@ public class InserirFragment extends Fragment {
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     /* ------------------------- Variáveis -------------------------- */
     /* Contador de fotos para deletar do RecyclerView */
-    public int qtdFoto;
+    private int qtdFoto;
     /* Guarda o caminho da foto tirada pela câmera */
-    private String caminhoAtualImagem;
+    //private String caminhoAtualImagem;
     /* Guarda o endereço URI da foto tirada pela câmera */
     private Uri temp;
 
@@ -66,16 +64,11 @@ public class InserirFragment extends Fragment {
     /* RecyclerView, LayoutManager e Adapter */
     private SelecaoUploadAdapter fotoAdapter;
     private RecyclerView rvFoto;
-    private RecyclerView.LayoutManager lmPhotos;
 
     /* Buttons */
     private ImageButton btnNovaFoto;
     private ImageButton btnAdicioneFoto;
     private ImageButton btnApagueFoto;
-
-    /* Clicks Listener */
-    private View.OnLongClickListener marcarFoto;
-    private View.OnClickListener selecionarFoto;
 
     /* Itens do layout activity */
     private LinearLayout linlay1;
@@ -123,7 +116,7 @@ public class InserirFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.inserir_fragment,container,false);
+        View view = inflater.inflate(R.layout.inserir_fragment, container, false);
 
         dataBindView(view);
         setAdapter(view, savedInstanceState);
@@ -133,12 +126,12 @@ public class InserirFragment extends Fragment {
 
     /* ---------------------- SALVAR CONTEXTO ---------------------- */
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState){
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(LIST_STATE, (ArrayList<? extends Parcelable>) listaFotoUpload);
         outState.putParcelable(MAIN_PHOTO, principalFotoUpload);
-        outState.putInt(POS_MAIN_PHOTO,posPrincipalFotoUpload);
-        outState.putInt(NUMBER_PHOTOS,qtdFoto);
+        outState.putInt(POS_MAIN_PHOTO, posPrincipalFotoUpload);
+        outState.putInt(NUMBER_PHOTOS, qtdFoto);
     }
 
     @Override
@@ -159,14 +152,14 @@ public class InserirFragment extends Fragment {
      *      setAdapter(): Configura os dados e o layout do RecyclerView de fotos.
      */
 
-    private void dataBindView(View view){
+    private void dataBindView(View view) {
         /* Data binding do visualizador_fragment.xml */
         ivPrincipalFoto = view.findViewById(R.id.visualizador_iv_photo);
         rvFoto = view.findViewById(R.id.visualizador_recycler);
         btnNovaFoto = view.findViewById(R.id.btn_new_photo);
         btnAdicioneFoto = view.findViewById(R.id.btn_add_photo);
         btnApagueFoto = view.findViewById(R.id.btn_delete_photo);
-        linlay1        = view.findViewById(R.id.visualizador_linlay1);
+        linlay1 = view.findViewById(R.id.visualizador_linlay1);
         tvSelecionadaFoto = view.findViewById(R.id.tv_img_selec);
 
         /* Data binding do formulário em inserir_fragment.xml */
@@ -186,12 +179,12 @@ public class InserirFragment extends Fragment {
 
 
     private void setAdapter(View view, Bundle savedInstanceState) {
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             listaFotoUpload = savedInstanceState.getParcelableArrayList(LIST_STATE);
             principalFotoUpload = savedInstanceState.getParcelable(MAIN_PHOTO);
             posPrincipalFotoUpload = savedInstanceState.getInt(POS_MAIN_PHOTO);
             qtdFoto = savedInstanceState.getInt(NUMBER_PHOTOS);
-        }else{
+        } else {
             listaFotoUpload = new ArrayList<>();
             principalFotoUpload = null;
             posPrincipalFotoUpload = 0;
@@ -200,7 +193,7 @@ public class InserirFragment extends Fragment {
 
         fotoAdapter = new SelecaoUploadAdapter(listaFotoUpload, view.getContext());
 
-        lmPhotos = new LinearLayoutManager(view.getContext(),
+        RecyclerView.LayoutManager lmPhotos = new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         rvFoto.setLayoutManager(lmPhotos);
         rvFoto.setHasFixedSize(true);
@@ -222,13 +215,13 @@ public class InserirFragment extends Fragment {
      *      imagens. Se não houver fotos no adaptador de fotos, então tais elementos são escondidos;
      *      caso contrário, serão apresentados.
      */
-    private void setPhotosView(){
-        if(listaFotoUpload.isEmpty()) {
+    private void setPhotosView() {
+        if (listaFotoUpload.isEmpty()) {
             principalFotoUpload = null;
             ivPrincipalFoto.setVisibility(View.GONE);
             linlay1.setVisibility(View.GONE);
             tvSelecionadaFoto.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             ivPrincipalFoto.setVisibility(View.VISIBLE);
             linlay1.setVisibility(View.VISIBLE);
             tvSelecionadaFoto.setVisibility(View.GONE);
@@ -240,10 +233,9 @@ public class InserirFragment extends Fragment {
             Picasso.get().load(principalFotoUpload.getUrl())
                     .into(ivPrincipalFoto);
         }
-        if(qtdFoto > 0){
+        if (qtdFoto > 0) {
             btnApagueFoto.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             btnApagueFoto.setVisibility(View.GONE);
         }
     }
@@ -253,7 +245,20 @@ public class InserirFragment extends Fragment {
     private void clickable() {
         /* ---------------------- Clicks no RecyclerView ---------------------- */
         /* Marca fotos para a exclusão */
-        marcarFoto = new View.OnLongClickListener() {
+        /* Após o click longo na imagem dentro do RecyclerView */
+        /* view.getTag(): captura o viewholder clicado atrelado ao RecyclerView */
+        /* Captura a posição correspondente no adapter */
+        /*
+         * Se não estiver sido selecionado, então adicione no contador de imagens
+         * selecionadas; senão, retire do contador.
+         */
+        /* Altera o estado de marcação (boolean) */
+        /* Informa ao adapter que houve ateração nos dados */
+        /* Determina se o botão de excluir fotos será apresentado ou não no layout.
+         * Se a quantidade de fotos no contador for maior que 0, então apresente-o;
+         * Senão, esconda-o*/
+        /* Clicks Listener */
+        View.OnLongClickListener marcarFoto = new View.OnLongClickListener() {
             @Override
             /* Após o click longo na imagem dentro do RecyclerView */
             public boolean onLongClick(View view) {
@@ -267,9 +272,9 @@ public class InserirFragment extends Fragment {
                  * Se não estiver sido selecionado, então adicione no contador de imagens
                  * selecionadas; senão, retire do contador.
                  */
-                if(!listaFotoUpload.get(position).isSelecionada()){
+                if (!listaFotoUpload.get(position).isSelecionada()) {
                     qtdFoto++;
-                }else
+                } else
                     qtdFoto--;
 
                 /* Altera o estado de marcação (boolean) */
@@ -288,7 +293,12 @@ public class InserirFragment extends Fragment {
         fotoAdapter.setMarcarItem(marcarFoto);
 
         /* Seleciona a foto no RecyclerView para apresentar no layout de imagem principal */
-        selecionarFoto = new View.OnClickListener() {
+        /* Após o click curto na imagem dentro do RecyclerView */
+        /* view.getTag(): captura o viewholder clicado atrelado ao RecyclerView */
+        /* Captura a posição correspondente no adapter */
+        /* Atualiza a foto principal */
+        /* Reinicia o layout */
+        View.OnClickListener selecionarFoto = new View.OnClickListener() {
             @Override
             /* Após o click curto na imagem dentro do RecyclerView */
             public void onClick(View view) {
@@ -330,20 +340,20 @@ public class InserirFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 /* Apaga as fotos se houver pelo menos uma foto selecionada */
-                if(qtdFoto > 0){
+                if (qtdFoto > 0) {
                     /* Percorre o ArrayList de Photos */
-                    for(int i = 0; i < listaFotoUpload.size(); i++){
+                    for (int i = 0; i < listaFotoUpload.size(); i++) {
                         /*
                          *  Se a foto estiver selecionada, então remova-a e determine qual foto será
                          *  a foto principal
                          */
-                        if(listaFotoUpload.get(i).isSelecionada()) {
-                            if(listaFotoUpload.get(i).equals(principalFotoUpload)) {
+                        if (listaFotoUpload.get(i).isSelecionada()) {
+                            if (listaFotoUpload.get(i).equals(principalFotoUpload)) {
                                 posPrincipalFotoUpload = 0;
                                 listaFotoUpload.remove(i);
-                                if(!listaFotoUpload.isEmpty())
+                                if (!listaFotoUpload.isEmpty())
                                     principalFotoUpload = listaFotoUpload.get(posPrincipalFotoUpload);
-                            }else
+                            } else
                                 listaFotoUpload.remove(i);
                             i--;
                         }
@@ -365,56 +375,70 @@ public class InserirFragment extends Fragment {
         btnAdicionarSapato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean flag = false;
                 String nome, tipo, modelo, genero, idade;
                 double valor;
                 int qtd;
 
-                nome   = etNomeSapato.getText().toString().trim();
-                if(nome.isEmpty()) etNomeSapato.setError("Insira o nome");
+                try {
+                    nome = Objects.requireNonNull(etNomeSapato.getText()).toString().trim();
+                }
+                catch (NullPointerException e){
+                    nome = "";
+                    flag = true;
+                    etNomeSapato.setError("Insira o nome");
+                }
 
-                modelo = etModeloSapato.getText().toString().trim();
-                if(modelo.isEmpty()) etModeloSapato.setError("Insira o modelo");
+                try{
+                    modelo = Objects.requireNonNull(etModeloSapato.getText()).toString().trim();
+                }
+                catch (NullPointerException e){
+                    modelo = "";
+                    etModeloSapato.setError("Insira o modelo");
+                    flag = true;
+                }
 
                 try {
-                    valor = Double.parseDouble(etValorSapato.getText().toString());
-                }catch (NumberFormatException ex){
+                    valor = Double.parseDouble(Objects.requireNonNull(etValorSapato.getText()).toString());
+                } catch (NumberFormatException ex) {
+                    flag = true;
                     valor = -1.0;
                     etValorSapato.setError("Insira o preço");
                 }
 
                 try {
-                    qtd = Integer.parseInt(etQtdSapato.getText().toString());
-                }
-                catch (Exception ex){
+                    qtd = Integer.parseInt(Objects.requireNonNull(etQtdSapato.getText()).toString());
+                } catch (Exception ex) {
+                    flag = true;
                     qtd = -1;
                     etQtdSapato.setError("Insira a quantidade");
                 }
 
-                genero = rbFeminino.isChecked()?
-                        rbFeminino.getText().toString().trim().toUpperCase():
+                genero = rbFeminino.isChecked() ?
+                        rbFeminino.getText().toString().trim().toUpperCase() :
                         rbMasculino.getText().toString().trim().toUpperCase();
 
-                idade = rbAdulto.isChecked()?
-                        rbAdulto.getText().toString().trim().toUpperCase():
+                idade = rbAdulto.isChecked() ?
+                        rbAdulto.getText().toString().trim().toUpperCase() :
                         rbInfantil.getText().toString().trim().toUpperCase();
 
                 tipo = spTipo.getSelectedItem().toString().trim().toUpperCase();
 
-                try{
-                    if(valor < 0 && qtd < 0)
+                try {
+                    if (flag)
                         throw new Exception();
                     /* Insere um novo sapato ao arraylist */
-                    Sapato sapato = new Sapato(nome,tipo,modelo,genero,idade);
+                    Sapato sapato = new Sapato(nome, tipo, modelo, genero, idade);
                     sapato.setQuantidade(qtd);
                     sapato.setValor(valor);
 
-                    if(!listaFotoUpload.isEmpty() && posPrincipalFotoUpload > 0){
+                    if (!listaFotoUpload.isEmpty() && posPrincipalFotoUpload > 0) {
                         SelecaoUpload temp = listaFotoUpload.get(0);
-                        listaFotoUpload.set(0,principalFotoUpload);
-                        listaFotoUpload.set(posPrincipalFotoUpload,temp);
+                        listaFotoUpload.set(0, principalFotoUpload);
+                        listaFotoUpload.set(posPrincipalFotoUpload, temp);
                     }
 
-                    database.insert(sapato,new ArrayList<Upload>(listaFotoUpload));
+                    database.insert(sapato, new ArrayList<Upload>(listaFotoUpload));
 
                     /*
                      *  Reiniciar o visualizado de fotos: zera a o contador de fotos marcadas para
@@ -429,9 +453,8 @@ public class InserirFragment extends Fragment {
                     /* reconfigura o formulário às opções padrões */
                     limparFormulario();
 
-                }
-                catch (Exception ex){
-                    Toast.makeText(getContext(),"Atenção no cadastro!",Toast.LENGTH_SHORT)
+                } catch (Exception ex) {
+                    Toast.makeText(getContext(), "Atenção no cadastro!", Toast.LENGTH_SHORT)
                             .show();
                 }
             }
@@ -449,7 +472,7 @@ public class InserirFragment extends Fragment {
     /*
      *  limparFormulario(): Ajusta o formulário às opções padrões
      */
-    private void limparFormulario(){
+    private void limparFormulario() {
         etNomeSapato.setText("");
         etModeloSapato.setText("");
         etValorSapato.setText("");
@@ -469,18 +492,18 @@ public class InserirFragment extends Fragment {
 
     private File criarArquivoImagem() throws IOException {
         // Create an image file name
-        String tempo = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String tempo = String.valueOf(System.currentTimeMillis());
+        /*String tempo = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());*/
         String nomeArquivoImagem = "JPEG_" + tempo + "_";
-        File caminho = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File imagem = File.createTempFile(
+        File caminho = Objects.requireNonNull(getContext()).getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        // Save a file: path for use with ACTION_VIEW intents
+        //caminhoAtualImagem = imagem.getAbsolutePath();
+        return File.createTempFile(
                 nomeArquivoImagem,  /* prefix */
                 ".jpg",         /* suffix */
                 caminho      /* directory */
         );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        caminhoAtualImagem = imagem.getAbsolutePath();
-        return imagem;
     }
 
     /* ----------------- Gerar resultados a partir de uma activity ----------------- */
@@ -493,21 +516,21 @@ public class InserirFragment extends Fragment {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,PICK_IMAGE_REQUEST);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
 
     private void tirarFotoIntent() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
-        if (cameraIntent.resolveActivity(getContext().getPackageManager()) != null) {
+        if (cameraIntent.resolveActivity(Objects.requireNonNull(getContext()).getPackageManager()) != null) {
             // Create the File where the photo should go
             File arquivoImagem = null;
             try {
                 arquivoImagem = criarArquivoImagem();
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                Log.e("PhotoFile Error", ex.getMessage());
+                Log.e("PhotoFile Error", Objects.requireNonNull(ex.getMessage()));
             }
             // Continue only if the File was successfully created
             if (arquivoImagem != null) {
@@ -537,8 +560,8 @@ public class InserirFragment extends Fragment {
         /*  Se o código de requisição for PICK_IMAGE_REQUEST, resultado ok, houve dados não nulos,
          *      então, adicione uma foto ao RecyclerView.
          */
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null){
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
             SelecaoUpload photo = new SelecaoUpload(data.getData());
             listaFotoUpload.add(photo);
             fotoAdapter.notifyDataSetChanged();
@@ -546,9 +569,9 @@ public class InserirFragment extends Fragment {
             /* Determina se será apresentado os layouts de foto e RecycleView */
             setPhotosView();
         }
-        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
-            SelecaoUpload photo =  new SelecaoUpload(temp);
-            Log.e("IMAGEMURI",photo.getUrl().toString());
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            SelecaoUpload photo = new SelecaoUpload(temp);
+            Log.e("IMAGEMURI", photo.getUrl().toString());
             listaFotoUpload.add(photo);
             fotoAdapter.notifyDataSetChanged();
 

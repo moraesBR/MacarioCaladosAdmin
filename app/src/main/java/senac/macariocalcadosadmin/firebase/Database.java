@@ -3,7 +3,6 @@ package senac.macariocalcadosadmin.firebase;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ProgressBar;
@@ -11,9 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -23,11 +20,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import senac.macariocalcadosadmin.adapters.SelecaoSapatoAdapter;
 import senac.macariocalcadosadmin.models.Foto;
@@ -36,26 +33,17 @@ import senac.macariocalcadosadmin.models.SelecaoSapato;
 import senac.macariocalcadosadmin.models.Upload;
 
 public class Database {
-    private FirebaseStorage storage;
     private StorageReference sRef;
-    private FirebaseDatabase database;
     private DatabaseReference dRef;
     private Context context;
-    private StorageTask uploadTask;
-
-
-    private String name;
-    private List<Foto> photos;
-    private List<Sapato> sapatos;
-    private static int count;
 
     public Database(Context context, String root)
     {
         this.context = context;
-        this.storage = storage;
-        this.database = database;
-        this.sRef = storage.getInstance().getReference(root);
-        this.dRef = database.getInstance().getReference(root);
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        this.sRef = storage.getReference(root);
+        this.dRef = database.getReference(root);
     }
 
     private String getFileExtension(Uri uri) {
@@ -65,16 +53,12 @@ public class Database {
     }
 
     public void insert(final Sapato sapato, final List<Upload> uploads){
-        final int size = uploads.size();
-        int i = 1;
         if(sapato != null){
             if(!uploads.isEmpty()){
                 for(final Upload upload : uploads){
-                    name = System.currentTimeMillis() + "." + getFileExtension(upload.getUrl());
-                    /*final Foto foto = new Foto();
-                    foto.setNome(name);*/
+                    String name = System.currentTimeMillis() + "." + getFileExtension(upload.getUrl());
                     final StorageReference fRef = sRef.child(name);
-                    uploadTask = fRef.putFile(upload.getUrl())
+                    fRef.putFile(upload.getUrl())
                             .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -86,12 +70,10 @@ public class Database {
                                                         .child(sapato.getCodigo())
                                                         .push()
                                                         .getKey();
-                                                //if(foto.getNome().equals(name)) {
 
                                                     dRef.child("fotos").child(sapato.getCodigo())
-                                                            .child(uploadId)
+                                                            .child(Objects.requireNonNull(uploadId))
                                                             .setValue(new Foto(fRef.getName(),uri.toString()));
-                                                //}
                                             }
                                         });
                                     }
@@ -124,9 +106,9 @@ public class Database {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     final Sapato sapato = ds.getValue(Sapato.class);
                     final ArrayList<Foto> foto = new ArrayList<>();
-                    sapato.setFotos(foto);
+                    Objects.requireNonNull(sapato).setFotos(foto);
 
-                    if(sapato != null && sapato.getCodigo() != null && !sapato.getCodigo().isEmpty()){
+                    if(sapato.getCodigo() != null && !sapato.getCodigo().isEmpty()){
                         sapatos.add(new SelecaoSapato(sapato));
                         dRef.child("fotos").child(sapato.getCodigo()).addValueEventListener(new ValueEventListener() {
                             @Override

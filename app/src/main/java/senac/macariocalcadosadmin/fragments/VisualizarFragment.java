@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -21,7 +20,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import senac.macariocalcadosadmin.EditarSapato;
 import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.adapters.SelecaoSapatoAdapter;
-import senac.macariocalcadosadmin.models.Sapato;
 
 import static senac.macariocalcadosadmin.MainActivity.database;
 import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
@@ -32,13 +30,9 @@ public class VisualizarFragment extends Fragment {
 
     private SelecaoSapatoAdapter sapatoAdapter;
     private RecyclerView rvSapatos;
-    private RecyclerView.LayoutManager lmSapatos;
     private FloatingActionButton apagarSapato;
     private ProgressBar progressBar;
 
-    /* Clicks Listener */
-    private View.OnLongClickListener marcarCard;
-    private View.OnClickListener verSapato;
     private final String POSICAO_ARRAY = "posição sapato arraylist";
 
     public VisualizarFragment() {
@@ -55,7 +49,7 @@ public class VisualizarFragment extends Fragment {
         View view = inflater.inflate(R.layout.visualizar_fragment, container, false);
 
         dataBinding(view);
-        setAdapters(view, savedInstanceState);
+        setAdapters(view);
         setListener();
 
         return view;
@@ -68,9 +62,9 @@ public class VisualizarFragment extends Fragment {
     }
 
 
-    private void setAdapters(View view, Bundle savedInstanceState) {
+    private void setAdapters(View view) {
         sapatoAdapter = new SelecaoSapatoAdapter(listaSapatos, view.getContext());
-        lmSapatos = new GridLayoutManager(view.getContext(), 2);
+        RecyclerView.LayoutManager lmSapatos = new GridLayoutManager(view.getContext(), 2);
         rvSapatos.setLayoutManager(lmSapatos);
         rvSapatos.setHasFixedSize(true);
         rvSapatos.setAdapter(sapatoAdapter);
@@ -79,7 +73,16 @@ public class VisualizarFragment extends Fragment {
     }
 
     private void setListener() {
-        marcarCard = new View.OnLongClickListener() {
+        /* view.getTag(): captura o viewholder clicado atrelado ao RecyclerView */
+        /* Captura a posição correspondente no adapter */
+        /*
+         * Se não estiver sido selecionado, então adicione no contador de imagens
+         * selecionadas; senão, retire do contador.
+         */
+        /* Altera o estado de marcação (boolean) */
+        /* Informa ao adapter que houve ateração nos dados */
+        /* Clicks Listener */
+        View.OnLongClickListener marcarCard = new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 /* view.getTag(): captura o viewholder clicado atrelado ao RecyclerView */
@@ -109,7 +112,9 @@ public class VisualizarFragment extends Fragment {
         };
         sapatoAdapter.setMarcarSapato(marcarCard);
 
-        verSapato = new View.OnClickListener() {
+        /* view.getTag(): captura o viewholder clicado atrelado ao RecyclerView */
+        /* Captura a posição correspondente no adapter */
+        View.OnClickListener verSapato = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /* view.getTag(): captura o viewholder clicado atrelado ao RecyclerView */
@@ -119,7 +124,7 @@ public class VisualizarFragment extends Fragment {
                 int position = viewHolder.getAdapterPosition();
                 Intent editarSapato = new Intent(getActivity(), EditarSapato.class);
 
-                editarSapato.putExtra(POSICAO_ARRAY,position);
+                editarSapato.putExtra(POSICAO_ARRAY, position);
                 startActivity(editarSapato);
             }
         };
@@ -163,7 +168,7 @@ public class VisualizarFragment extends Fragment {
         });
     }
 
-    public void setSapatoView() {
+    private void setSapatoView() {
         if (qtdFoto > 0)
             apagarSapato.setVisibility(View.VISIBLE);
         else
