@@ -1,8 +1,12 @@
 package senac.macariocalcadosadmin.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Parcelable;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +23,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import senac.macariocalcadosadmin.R;
@@ -41,6 +50,7 @@ import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
 
 public class InserirFragment extends Fragment {
 
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
     /* ------------------------- Variáveis -------------------------- */
     /* Contador de fotos para deletar do RecyclerView */
     public int qtdFoto;
@@ -89,6 +99,8 @@ public class InserirFragment extends Fragment {
     private static final String MAIN_PHOTO = "main_photo";
     /* Referência à quantidade de fotos marcadas para exclusão */
     private static final String NUMBER_PHOTOS = "number photos";
+
+
 
 
     public InserirFragment() {
@@ -292,7 +304,7 @@ public class InserirFragment extends Fragment {
         btnNovaFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                dispatchTakePictureIntent();
             }
         });
 
@@ -476,5 +488,58 @@ public class InserirFragment extends Fragment {
             /* Determina se será apresentado os layouts de foto e RecycleView */
             setPhotosView();
         }
+        if(requestCode == REQUEST_IMAGE_CAPTURE && requestCode == RESULT_OK){
+            Bundle extras = data.getExtras();
+            SelecaoUpload photo =  new SelecaoUpload(temp);
+            Log.e("FOTO",photo.getUrl().toString());
+            listaFotoUpload.add(photo);
+            fotoAdapter.notifyDataSetChanged();
+        }
+    }
+
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.e("PhotoFile Error", ex.getMessage());
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(getContext(),
+                        "senac.fileprovider",
+                        photoFile);
+                temp = photoURI;
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+
+    }
+
+    String currentPhotoPath;
+    Uri temp;
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 }
