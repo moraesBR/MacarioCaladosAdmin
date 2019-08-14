@@ -1,6 +1,7 @@
 package senac.macariocalcadosadmin.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -42,20 +43,23 @@ import senac.macariocalcadosadmin.adapters.SelecaoUploadAdapter;
 import senac.macariocalcadosadmin.models.Sapato;
 import senac.macariocalcadosadmin.models.SelecaoUpload;
 import senac.macariocalcadosadmin.models.Upload;
-import senac.macariocalcadosadmin.models.SelecaoSapato;
 
 import static android.app.Activity.RESULT_OK;
 import static senac.macariocalcadosadmin.MainActivity.database;
-import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
 
 public class InserirFragment extends Fragment {
 
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 2;
     /* ------------------------- Variáveis -------------------------- */
     /* Contador de fotos para deletar do RecyclerView */
     public int qtdFoto;
+    /* Guarda o caminho da foto tirada pela câmera */
+    private String caminhoAtualImagem;
+    /* Guarda o endereço URI da foto tirada pela câmera */
+    private Uri temp;
 
     /* Models */
+    private int posPrincipalFotoUpload;
     private SelecaoUpload principalFotoUpload;
     private List<SelecaoUpload> listaFotoUpload = new ArrayList<>();
 
@@ -99,8 +103,7 @@ public class InserirFragment extends Fragment {
     private static final String MAIN_PHOTO = "main_photo";
     /* Referência à quantidade de fotos marcadas para exclusão */
     private static final String NUMBER_PHOTOS = "number photos";
-
-
+    private String POS_MAIN_PHOTO = "posição foto principal";
 
 
     public InserirFragment() {
@@ -134,6 +137,7 @@ public class InserirFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(LIST_STATE, (ArrayList<? extends Parcelable>) listaFotoUpload);
         outState.putParcelable(MAIN_PHOTO, principalFotoUpload);
+        outState.putInt(POS_MAIN_PHOTO,posPrincipalFotoUpload);
         outState.putInt(NUMBER_PHOTOS,qtdFoto);
     }
 
@@ -143,6 +147,7 @@ public class InserirFragment extends Fragment {
         if (inState != null) {
             listaFotoUpload = inState.getParcelableArrayList(LIST_STATE);
             principalFotoUpload = inState.getParcelable(MAIN_PHOTO);
+            posPrincipalFotoUpload = inState.getInt(POS_MAIN_PHOTO);
             qtdFoto = inState.getInt(NUMBER_PHOTOS);
         }
     }
@@ -184,10 +189,12 @@ public class InserirFragment extends Fragment {
         if(savedInstanceState != null) {
             listaFotoUpload = savedInstanceState.getParcelableArrayList(LIST_STATE);
             principalFotoUpload = savedInstanceState.getParcelable(MAIN_PHOTO);
+            posPrincipalFotoUpload = savedInstanceState.getInt(POS_MAIN_PHOTO);
             qtdFoto = savedInstanceState.getInt(NUMBER_PHOTOS);
         }else{
             listaFotoUpload = new ArrayList<>();
             principalFotoUpload = null;
+            posPrincipalFotoUpload = 0;
             qtdFoto = 0;
         }
 
@@ -293,6 +300,7 @@ public class InserirFragment extends Fragment {
 
                 /* Atualiza a foto principal */
                 principalFotoUpload = listaFotoUpload.get(position);
+                posPrincipalFotoUpload = position;
 
                 /* Reinicia o layout */
                 setPhotosView();
@@ -304,7 +312,7 @@ public class InserirFragment extends Fragment {
         btnNovaFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dispatchTakePictureIntent();
+                tirarFotoIntent();
             }
         });
 
@@ -331,9 +339,10 @@ public class InserirFragment extends Fragment {
                          */
                         if(listaFotoUpload.get(i).isSelecionada()) {
                             if(listaFotoUpload.get(i).equals(principalFotoUpload)) {
+                                posPrincipalFotoUpload = 0;
                                 listaFotoUpload.remove(i);
                                 if(!listaFotoUpload.isEmpty())
-                                    principalFotoUpload = listaFotoUpload.get(0);
+                                    principalFotoUpload = listaFotoUpload.get(posPrincipalFotoUpload);
                             }else
                                 listaFotoUpload.remove(i);
                             i--;
@@ -399,6 +408,12 @@ public class InserirFragment extends Fragment {
                     sapato.setQuantidade(qtd);
                     sapato.setValor(valor);
 
+                    if(!listaFotoUpload.isEmpty() && posPrincipalFotoUpload > 0){
+                        SelecaoUpload temp = listaFotoUpload.get(0);
+                        listaFotoUpload.set(0,principalFotoUpload);
+                        listaFotoUpload.set(posPrincipalFotoUpload,temp);
+                    }
+
                     database.insert(sapato,new ArrayList<Upload>(listaFotoUpload));
 
                     /*
@@ -452,6 +467,22 @@ public class InserirFragment extends Fragment {
         spTipo.setSelection(0);
     }
 
+    private File criarArquivoImagem() throws IOException {
+        // Create an image file name
+        String tempo = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String nomeArquivoImagem = "JPEG_" + tempo + "_";
+        File caminho = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File imagem = File.createTempFile(
+                nomeArquivoImagem,  /* prefix */
+                ".jpg",         /* suffix */
+                caminho      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        caminhoAtualImagem = imagem.getAbsolutePath();
+        return imagem;
+    }
+
     /* ----------------- Gerar resultados a partir de uma activity ----------------- */
     /*
      *  openFileChooser(): Busca uma imagem através de uma activity padrão e retorna o resultado via
@@ -464,6 +495,33 @@ public class InserirFragment extends Fragment {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent,PICK_IMAGE_REQUEST);
     }
+
+
+    private void tirarFotoIntent() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (cameraIntent.resolveActivity(getContext().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File arquivoImagem = null;
+            try {
+                arquivoImagem = criarArquivoImagem();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.e("PhotoFile Error", ex.getMessage());
+            }
+            // Continue only if the File was successfully created
+            if (arquivoImagem != null) {
+                Uri photoURI = FileProvider.getUriForFile(getContext(),
+                        "senac.fileprovider",
+                        arquivoImagem);
+                temp = photoURI;
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+
+    }
+
 
     /*
      *  onActivityResult(): Recebe e trata o resultado obtido pelo método openFileChooser. Possui
@@ -488,58 +546,14 @@ public class InserirFragment extends Fragment {
             /* Determina se será apresentado os layouts de foto e RecycleView */
             setPhotosView();
         }
-        if(requestCode == REQUEST_IMAGE_CAPTURE && requestCode == RESULT_OK){
-            Bundle extras = data.getExtras();
+        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
             SelecaoUpload photo =  new SelecaoUpload(temp);
-            Log.e("FOTO",photo.getUrl().toString());
+            Log.e("IMAGEMURI",photo.getUrl().toString());
             listaFotoUpload.add(photo);
             fotoAdapter.notifyDataSetChanged();
+
+            /* Determina se será apresentado os layouts de foto e RecycleView */
+            setPhotosView();
         }
-    }
-
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                Log.e("PhotoFile Error", ex.getMessage());
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(getContext(),
-                        "senac.fileprovider",
-                        photoFile);
-                temp = photoURI;
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            }
-        }
-
-    }
-
-    String currentPhotoPath;
-    Uri temp;
-
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
     }
 }
