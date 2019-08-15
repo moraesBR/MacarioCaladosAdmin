@@ -53,14 +53,15 @@ import static senac.macariocalcadosadmin.MainActivity.database;
 
 public class InserirFragment extends Fragment {
 
-    private static final int REQUEST_IMAGE_CAPTURE = 2;
+    private static final int PICK_IMG_FROM_CAMERA = 2;
     /* ------------------------- Variáveis -------------------------- */
     /* Contador de fotos para deletar do RecyclerView */
     private int qtdFoto;
     /* Guarda o caminho da foto tirada pela câmera */
-    //private String caminhoAtualImagem;
+    private String caminhoAtualImagem;
     /* Guarda o endereço URI da foto tirada pela câmera */
     private Uri temp;
+    private File arquivoImagem;
 
     /* Models */
     private int posPrincipalFotoUpload;
@@ -95,7 +96,7 @@ public class InserirFragment extends Fragment {
 
     /* ------------------------- Identificadores -------------------------- */
     /* Solicitação de inicialização de atividade */
-    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int PICK_IMG_FROM_STORAGE = 1;
     /* Referência ao conteúdo do Array List de Photos */
     private static final String LIST_STATE = "list_state";
     /* Referência à foto principal do layout */
@@ -250,20 +251,18 @@ public class InserirFragment extends Fragment {
     /* clickable(): Controla as ações de cliques dos botões e afins */
     private void clickable() {
         /* ---------------------- Clicks no RecyclerView ---------------------- */
-        /* Marca fotos para a exclusão */
-        /* Após o click longo na imagem dentro do RecyclerView */
-        /* view.getTag(): captura o viewholder clicado atrelado ao RecyclerView */
-        /* Captura a posição correspondente no adapter */
-        /*
-         * Se não estiver sido selecionado, então adicione no contador de imagens
-         * selecionadas; senão, retire do contador.
+        /*  Marca fotos para a exclusão
+         *  Após o click longo na imagem dentro do RecyclerView:
+         *      1) view.getTag(): captura o viewholder clicado atrelado ao RecyclerView
+         *      2) Captura a posição correspondente no adapter
+         *      3) Se não estiver sido selecionado, então adicione no contador de imagens
+         *          selecionadas; senão, retire do contador
+         *      4) Altera o estado de marcação (boolean)
+         *      5) Informa ao adapter que houve ateração nos dados
+         *      6) Determina se o botão de excluir fotos será apresentado ou não no layout. Se a
+         *          quantidade de fotos no contador for maior que 0, então apresente-o; Senão,
+         *          esconda-o.
          */
-        /* Altera o estado de marcação (boolean) */
-        /* Informa ao adapter que houve ateração nos dados */
-        /* Determina se o botão de excluir fotos será apresentado ou não no layout.
-         * Se a quantidade de fotos no contador for maior que 0, então apresente-o;
-         * Senão, esconda-o*/
-        /* Clicks Listener */
         View.OnLongClickListener marcarFoto = new View.OnLongClickListener() {
             @Override
             /* Após o click longo na imagem dentro do RecyclerView */
@@ -298,12 +297,14 @@ public class InserirFragment extends Fragment {
         };
         fotoAdapter.setMarcarItem(marcarFoto);
 
-        /* Seleciona a foto no RecyclerView para apresentar no layout de imagem principal */
-        /* Após o click curto na imagem dentro do RecyclerView */
-        /* view.getTag(): captura o viewholder clicado atrelado ao RecyclerView */
-        /* Captura a posição correspondente no adapter */
-        /* Atualiza a foto principal */
-        /* Reinicia o layout */
+        /*
+         *  Seleciona a foto no RecyclerView para apresentar no layout de imagem principal
+         *  Após o click curto na imagem dentro do RecyclerView:
+         *      1) view.getTag(): captura o viewholder clicado atrelado ao RecyclerView
+         *      2) Captura a posição correspondente no adapter
+         *      3) Atualiza a foto principal
+         *      4) Reinicia o layout
+         */
         View.OnClickListener selecionarFoto = new View.OnClickListener() {
             @Override
             /* Após o click curto na imagem dentro do RecyclerView */
@@ -431,9 +432,8 @@ public class InserirFragment extends Fragment {
                 tipo = spTipo.getSelectedItem().toString().trim().toUpperCase();
 
                 try {
-                    if (flag)
-                        throw new Exception();
-                    /* Insere um novo sapato ao arraylist */
+                    if (flag) throw new Exception();
+
                     Sapato sapato = new Sapato(nome, tipo, modelo, genero, idade);
                     sapato.setQuantidade(qtd);
                     sapato.setValor(valor);
@@ -471,6 +471,9 @@ public class InserirFragment extends Fragment {
     /*
      *  Métodos
      *      limparFormulario(): Ajusta o formulário às opções padrões
+     *      criarArquivoImagem(): Cria um arquivo vazio no storage
+     *      redimensionarImagem(File, String): Reduz a qualidade e as dimensões da imagem
+     *      tirarFotoIntent(): Tira uma foto através de uma activity padrão
      *      openFileChooser(): Busca uma imagem através de uma activity padrão
      *      onActivityResult():  Recebe e trata o resultado obtido pelo método openFileChooser.
      */
@@ -496,6 +499,10 @@ public class InserirFragment extends Fragment {
         spTipo.setSelection(0);
     }
 
+    /*
+     *   criarArquivoImagem(): Cria um arquivo vazio no Storage que receberá as informações da
+     *      imagem gerada pela foto.
+     */
     private File criarArquivoImagem() throws IOException {
         // Create an image file name
         String tempo = String.valueOf(System.currentTimeMillis());
@@ -503,97 +510,24 @@ public class InserirFragment extends Fragment {
         String nomeArquivoImagem = "JPEG_" + tempo + "_";
         File caminho = Objects.requireNonNull(getContext()).getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
+        File image = File.createTempFile(nomeArquivoImagem,".jpg",caminho);
+
         // Save a file: path for use with ACTION_VIEW intents
-        //caminhoAtualImagem = imagem.getAbsolutePath();
-        return File.createTempFile(
-                nomeArquivoImagem,  /* prefix */
-                ".jpg",         /* suffix */
-                caminho      /* directory */
-        );
+        caminhoAtualImagem = Objects.requireNonNull(image).getAbsolutePath();
+
+        return image;
     }
-
-    /* ----------------- Gerar resultados a partir de uma activity ----------------- */
-    /*
-     *  openFileChooser(): Busca uma imagem através de uma activity padrão e retorna o resultado via
-     *      identificado (PICK_IMAGE_REQUEST). Quando o usuário terminar esta atividade, o sistema
-     *      chamará o método onActivityResult()
-     */
-    private void openFileChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-    }
-
-
-    File arquivoImagem;
-    private void tirarFotoIntent() {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (cameraIntent.resolveActivity(Objects.requireNonNull(getContext()).getPackageManager()) != null) {
-            // Create the File where the photo should go
-            arquivoImagem = null;
-            try {
-                arquivoImagem = criarArquivoImagem();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                Log.e("PhotoFile Error", Objects.requireNonNull(ex.getMessage()));
-            }
-            // Continue only if the File was successfully created
-            if (arquivoImagem != null) {
-                Uri photoURI = FileProvider.getUriForFile(getContext(),
-                        "senac.fileprovider",
-                        arquivoImagem);
-                temp = photoURI;
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
-            }
-        }
-
-    }
-
 
     /*
-     *  onActivityResult(): Recebe e trata o resultado obtido pelo método openFileChooser. Possui
-     *      três argumentos. O requestCode indica o código de solicitação passado ao método
-     *      startActivityForResult(); resultCode informa o código de resultado pela atividade gerada
-     *      em openFileChooser; data que é o Intent com os dados coletados, que no caso é aquela um
-     *      arquivo de foto qualquer.
+     *  redimensionarImagem(File, String): Reduz a qualidade e as dimensões da imagem.
      */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        /*  Se o código de requisição for PICK_IMAGE_REQUEST, resultado ok, houve dados não nulos,
-         *      então, adicione uma foto ao RecyclerView.
-         */
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null) {
-            SelecaoUpload photo = new SelecaoUpload(data.getData());
-            listaFotoUpload.add(photo);
-            fotoAdapter.notifyDataSetChanged();
-
-            /* Determina se será apresentado os layouts de foto e RecycleView */
-            setPhotosView();
-        }
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            SelecaoUpload photo = new SelecaoUpload(temp);
-            resize(arquivoImagem, String.valueOf(System.currentTimeMillis()));
-            listaFotoUpload.add(photo);
-            fotoAdapter.notifyDataSetChanged();
-
-            /* Determina se será apresentado os layouts de foto e RecycleView */
-            setPhotosView();
-        }
-    }
-
-    public void resize(File file, String benchMark) {
+    private void redimensionarImagem(File file, String benchMark) {
         try {
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             bmOptions.inJustDecodeBounds = false;
             bmOptions.inPreferredConfig = Bitmap.Config.RGB_565;
             bmOptions.inDither = true;
-            Bitmap bitmap = BitmapFactory.decodeFile(temp.getPath(), bmOptions);
+            Bitmap bitmap = BitmapFactory.decodeFile(caminhoAtualImagem, bmOptions);
             int w = bitmap.getWidth();
             int h = bitmap.getHeight();
             Log.e("width & Height", "width " + bitmap.getWidth());
@@ -625,7 +559,98 @@ public class InserirFragment extends Fragment {
         }
 
         catch( Exception e ){
+            Log.e("Compress", Objects.requireNonNull(e.getMessage()));
+        }
+    }
 
+    /* ----------------- Gerar resultados a partir de uma activity ----------------- */
+    /*
+     *  openFileChooser(): Busca uma imagem através de uma activity padrão e retorna o resultado via
+     *      identificador (PICK_IMG_FROM_STORAGE). Quando o usuário terminar esta atividade, o sistema
+     *      chamará o método onActivityResult()
+     */
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMG_FROM_STORAGE);
+    }
+
+
+    /*
+     *  tirarFotoIntent(): Tira uma foto através de uma activity padrão e retorna o resultado via
+     *      identificador (PICK_IMG_FROM_CAMERA). Ao término desta activity, a foto criada é
+     *      compactada e adicionada ao recyclerview.
+     */
+    private void tirarFotoIntent() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Garante que existe uma atividade de câmera para lidar com o intent
+        if (cameraIntent.resolveActivity(Objects.requireNonNull(getContext()).getPackageManager()) != null) {
+            // Cria o arquivo onde a foto deve ir
+            arquivoImagem = null;
+            try {
+                arquivoImagem = criarArquivoImagem();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.e("PhotoFile Error", Objects.requireNonNull(ex.getMessage()));
+            }
+            // Continua apenas se o arquivo foi criado corretamente
+            if (arquivoImagem != null) {
+                Uri photoURI = FileProvider.getUriForFile(getContext(),
+                        "senac.fileprovider",
+                        arquivoImagem);
+                temp = photoURI;
+
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(cameraIntent, PICK_IMG_FROM_CAMERA);
+            }
+        }
+
+    }
+
+
+    /*
+     *  onActivityResult(): Trata os resultados de atividades responsáveis por captar imagens de
+     *      sapatos. O requestCode indica o código de solicitação passado ao método
+     *      startActivityForResult(); resultCode informa o código de resultado utilizada pela
+     *      atividade; data é o Intent com os dados coletados. As atividades que estão atreladas aos
+     *      resquestCode PICK_IMG_FROM_STORAGE e PICK_IMG_FROM_CAMERA captam imagem a partir do
+     *      disco e gerador por câmera, respectivamente.
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        /*  Se o código de requisição for PICK_IMG_FROM_STORAGE, resultado ok, houver dados não
+         *      nulos, então, adicione uma foto ao RecyclerView.
+         */
+        if (requestCode == PICK_IMG_FROM_STORAGE && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+
+            SelecaoUpload photo = new SelecaoUpload(data.getData());
+            listaFotoUpload.add(photo);
+            fotoAdapter.notifyDataSetChanged();
+
+            /* Gerenciador do visualizador de fotos */
+            setPhotosView();
+        }
+
+        /*
+         *  Se o código de requisição for PICK_IMG_FROM_CAMERA, resultado ok, então, adicione uma
+         *      foto ao RecyclerView.
+         */
+        if (requestCode == PICK_IMG_FROM_CAMERA && resultCode == RESULT_OK) {
+
+            SelecaoUpload photo = new SelecaoUpload(temp);
+
+            /* Compacta a imagem para transmissão ao firebase */
+            redimensionarImagem(arquivoImagem, String.valueOf(System.currentTimeMillis()));
+
+            listaFotoUpload.add(photo);
+            fotoAdapter.notifyDataSetChanged();
+
+            /* Gerenciador do visualizador de fotos */
+            setPhotosView();
         }
     }
 }

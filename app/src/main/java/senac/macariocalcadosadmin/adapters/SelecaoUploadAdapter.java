@@ -56,14 +56,6 @@ public class SelecaoUploadAdapter extends RecyclerView.Adapter<SelecaoUploadAdap
         else
             holder.image.setBackgroundResource(R.color.black);
 
-        int ivAltura = holder.image.getHeight();
-        int ivLargura = holder.image.getWidth();
-
-        String output = ivAltura + " " +  ivLargura + "\n" +
-                holder.image.getMeasuredHeight() + " " + holder.image.getMeasuredWidth() + "\n" +
-                holder.image.getMaxHeight() + " " + holder.image.getMaxWidth();
-
-
         Picasso.get().load(fotos.get(position).getUrl())
                 .resize(80,80)
                 .into(holder.image);

@@ -1,7 +1,6 @@
 package senac.macariocalcadosadmin.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.models.Sapato;
@@ -46,8 +44,7 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
     @Override
     public SelacaoSapatoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.sapato_item, parent, false);
-        SelacaoSapatoViewHolder holder = new SelacaoSapatoViewHolder(view);
-        return holder;
+        return new SelacaoSapatoViewHolder(view);
     }
 
     @Override
@@ -67,10 +64,12 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
             holder.progressBar.setVisibility(View.GONE);
         }
         else {
-            Log.e("FOTO",sapato.getFotos().get(0).getUrl());
-            Picasso.get().load(sapato.getFotos().get(0).getUrl()).fit().centerCrop().into(holder.foto);
-            /*Picasso.get().load(sapato.getFotos().get(0).getUrl())
-                    .into(holder.foto);*/
+            Picasso.get()
+                    .load(sapato.getFotos().get(0).getUrl())
+                    .fit()
+                    .centerCrop()
+                    .into(holder.foto);
+
             holder.foto.setVisibility(View.VISIBLE);
             holder.progressBar.setVisibility(View.GONE);
         }
@@ -85,13 +84,13 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
         return selecaoSapatoList.size();
     }
 
-    public class SelacaoSapatoViewHolder extends RecyclerView.ViewHolder {
+    class SelacaoSapatoViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout card;
         private ImageView foto;
         private TextView nome, modelo, valor;
         private ProgressBar progressBar;
 
-        public SelacaoSapatoViewHolder(@NonNull View itemView) {
+        SelacaoSapatoViewHolder(@NonNull View itemView) {
             super(itemView);
             card = itemView.findViewById(R.id.card_sapato);
             foto = itemView.findViewById(R.id.iv_sapato);
