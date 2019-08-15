@@ -14,6 +14,7 @@ public class Sapato implements Parcelable {
     private Tipo tipo;
     private Tamanho tamanho;
     private double valor;
+    private double antigoValor;
     private List<Foto> fotos;
     private int quantidade;
     private boolean promocao;
@@ -104,6 +105,10 @@ public class Sapato implements Parcelable {
         return valor;
     }
 
+    public double getAntigoValor() {
+        return antigoValor;
+    }
+
     public List<Foto> getFotos() {
         return fotos;
     }
@@ -137,10 +142,10 @@ public class Sapato implements Parcelable {
         try {
             if (valor < 0.0) throw new IllegalArgumentException();
             this.promocao = valor < this.valor ? true : false;
+            this.antigoValor = this.valor;
             this.valor = valor;
             return true;
         } catch (IllegalArgumentException ex) {
-            this.valor = 0.0;
             return false;
         }
     }
