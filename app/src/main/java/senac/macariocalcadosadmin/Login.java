@@ -29,7 +29,7 @@ public class Login extends AppCompatActivity {
     private Handler handler;
     private Runnable runnable;
 
-    protected static FirebaseAuth auth;
+    public static FirebaseAuth auth;
 
 /* ---------------------------------- Ciclo de Vida do App -------------------------------------- */
 

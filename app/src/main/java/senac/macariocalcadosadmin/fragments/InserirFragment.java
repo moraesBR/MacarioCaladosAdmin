@@ -1,6 +1,10 @@
 package senac.macariocalcadosadmin.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,7 +34,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -520,12 +526,13 @@ public class InserirFragment extends Fragment {
     }
 
 
+    File arquivoImagem;
     private void tirarFotoIntent() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (cameraIntent.resolveActivity(Objects.requireNonNull(getContext()).getPackageManager()) != null) {
             // Create the File where the photo should go
-            File arquivoImagem = null;
+            arquivoImagem = null;
             try {
                 arquivoImagem = criarArquivoImagem();
             } catch (IOException ex) {
@@ -571,12 +578,54 @@ public class InserirFragment extends Fragment {
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             SelecaoUpload photo = new SelecaoUpload(temp);
-            Log.e("IMAGEMURI", photo.getUrl().toString());
+            resize(arquivoImagem, String.valueOf(System.currentTimeMillis()));
             listaFotoUpload.add(photo);
             fotoAdapter.notifyDataSetChanged();
 
             /* Determina se será apresentado os layouts de foto e RecycleView */
             setPhotosView();
+        }
+    }
+
+    public void resize(File file, String benchMark) {
+        try {
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inPreferredConfig = Bitmap.Config.RGB_565;
+            bmOptions.inDither = true;
+            Bitmap bitmap = BitmapFactory.decodeFile(temp.getPath(), bmOptions);
+            int w = bitmap.getWidth();
+            int h = bitmap.getHeight();
+            Log.e("width & Height", "width " + bitmap.getWidth());
+            if (bitmap.getWidth() > 1200) {
+                w = bitmap.getWidth() * 20 / 100;
+                h = bitmap.getHeight() * 20 / 100;
+            }
+
+            Log.e("width & Height", "width " + w + " height " + h);
+            bitmap = Bitmap.createScaledBitmap(bitmap, w, h, true);
+
+            Canvas c = new Canvas(bitmap);
+            Paint p = new Paint();
+            p.setColor(getResources().getColor(R.color.black));
+            p.setStyle(Paint.Style.FILL_AND_STROKE);
+            // paint.setColor(Color.BLACK);            p.setTextSize(20);
+            c.drawText(benchMark, 10, 20, p);
+
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, bytes);
+            try {
+                Log.e("Compressing", "Compressing");
+                FileOutputStream fo = new FileOutputStream(file);
+                fo.write(bytes.toByteArray());
+                fo.close();
+            } catch (Exception e) {
+                Log.e("Exception", "Image Resizing" + e.getMessage());
+            }
+        }
+
+        catch( Exception e ){
+
         }
     }
 }

@@ -102,32 +102,35 @@ public class Database {
         dRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                sapatos.clear();
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    final Sapato sapato = ds.getValue(Sapato.class);
-                    final ArrayList<Foto> foto = new ArrayList<>();
-                    Objects.requireNonNull(sapato).setFotos(foto);
+                if (dataSnapshot != null) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    sapatos.clear();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        final Sapato sapato = ds.getValue(Sapato.class);
+                        final ArrayList<Foto> foto = new ArrayList<>();
+                        Objects.requireNonNull(sapato).setFotos(foto);
 
-                    if(sapato.getCodigo() != null && !sapato.getCodigo().isEmpty()){
-                        sapatos.add(new SelecaoSapato(sapato));
-                        dRef.child("fotos").child(sapato.getCodigo()).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot ds : dataSnapshot.getChildren()){
-                                    sapato.addFoto(ds.getValue(Foto.class));
+                        if (sapato.getCodigo() != null && !sapato.getCodigo().isEmpty()) {
+                            sapatos.add(new SelecaoSapato(sapato));
+                            dRef.child("fotos").child(sapato.getCodigo()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                        sapato.addFoto(ds.getValue(Foto.class));
+                                    }
+                                    sapatoAdapter.notifyDataSetChanged();
                                 }
-                                sapatoAdapter.notifyDataSetChanged();
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
+                    sapatoAdapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
-                sapatoAdapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override

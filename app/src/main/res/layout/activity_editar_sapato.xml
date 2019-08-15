@@ -22,11 +22,13 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/inserir_fragment"
+    <!--include layout="@layout/inserir_fragment"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_below="@id/appbarlayout"
-        />
+        /-->
+
+    <include layout="@layout/content_editar_sapato"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
