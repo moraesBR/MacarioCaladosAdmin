@@ -63,6 +63,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:orientation="vertical">
+
             <!-- Nome e Modelo -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,7 +79,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    >
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextAppearance.MaterialComponents.Body1"
@@ -103,14 +107,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    >
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextAppearance.MaterialComponents.Body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed-medium"
-                        android:text="Nome"
+                        android:text="Modelo"
                         android:textSize="20dp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -152,6 +159,8 @@
                     android:textSize="22dp"
                     android:fontFamily="sans-serif-condensed-medium"
                     style="@style/TextAppearance.MaterialComponents.Body1"
+                    android:clickable="true"
+                    android:background="?android:attr/selectableItemBackground"
                     />
 
             </LinearLayout>
@@ -171,7 +180,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    >
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextAppearance.MaterialComponents.Body1"
@@ -196,7 +208,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    >
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextAppearance.MaterialComponents.Body1"
@@ -233,7 +248,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    >
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextAppearance.MaterialComponents.Body1"
@@ -258,7 +276,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    >
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextAppearance.MaterialComponents.Body1"

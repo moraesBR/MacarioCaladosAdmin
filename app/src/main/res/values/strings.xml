@@ -31,13 +31,8 @@
     <string name="idade">Idade</string>
     <string name="tipo">Tipo</string>
     <string name="tamanhos">Tamanhos</string>
-
-    <string-array name="sp_tipo">
-        <item>TIPOS DE SAPATO</item>
-        <item>@string/menu_casual</item>
-        <item>@string/menu_esportivo</item>
-        <item>@string/menu_social</item>
-    </string-array>
+    <string name="confirma">Confirmar</string>
+    <string name="cancela">Cancelar</string>
 
     <string name="title_activity_editar_sapato">Editar Sapato</string>
 

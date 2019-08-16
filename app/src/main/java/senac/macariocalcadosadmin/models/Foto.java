@@ -1,6 +1,5 @@
 package senac.macariocalcadosadmin.models;
 
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -47,7 +46,7 @@ public class Foto implements Parcelable {
         dest.writeString(this.url);
     }
 
-    protected Foto(Parcel in) {
+    private Foto(Parcel in) {
         this.nome = in.readString();
         this.url = in.readString();
     }

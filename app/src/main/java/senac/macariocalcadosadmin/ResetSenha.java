@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
 import senac.macariocalcadosadmin.firebase.Conexao;
 
 public class ResetSenha extends AppCompatActivity {
@@ -61,10 +63,10 @@ public class ResetSenha extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_reset_senha);
         setActionBar(toolbar);
         try {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+            Objects.requireNonNull(getActionBar()).setDisplayHomeAsUpEnabled(true);
             getActionBar().setDisplayShowHomeEnabled(true);
             getActionBar().setTitle("");
-        }catch (NullPointerException e){}
+        }catch (NullPointerException ignored){}
     }
 
 /* ---------------------------------- Métodos de Controles -------------------------------------- */

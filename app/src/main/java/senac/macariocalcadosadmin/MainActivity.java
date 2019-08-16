@@ -5,18 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import senac.macariocalcadosadmin.adapters.ViewPagerAdapter;
 import senac.macariocalcadosadmin.firebase.Conexao;
@@ -24,24 +23,18 @@ import senac.macariocalcadosadmin.firebase.Database;
 import senac.macariocalcadosadmin.fragments.BuscarFragment;
 import senac.macariocalcadosadmin.fragments.InserirFragment;
 import senac.macariocalcadosadmin.fragments.VisualizarFragment;
-import senac.macariocalcadosadmin.models.Sapato;
 import senac.macariocalcadosadmin.models.SelecaoSapato;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
 
-    private FirebaseAuth auth;
-    private FirebaseUser user;
-
     private Toolbar toolbar;
     private BottomNavigationView bottomNavigationView;
-    private VisualizarFragment visualizarFragment;
-    private BuscarFragment buscarFragment;
-    private InserirFragment inserirFragment;
     private ViewPager viewPager;
     private MenuItem prevMenuItem;
 
     public static  List<SelecaoSapato> listaSapatos = new ArrayList<>();
 
+    @SuppressLint("StaticFieldLeak")
     public static Database database;
 
     @Override
@@ -58,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onStart() {
         super.onStart();
-        auth = Conexao.getFirebaseAuth();
-        user = Conexao.getFirebaseUser();
     }
 
     private final String LIST_SHOES_STATE = "lista de sapatos";
@@ -73,9 +64,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if(savedInstanceState != null){
-            listaSapatos = savedInstanceState.getParcelableArrayList(LIST_SHOES_STATE);
-        }
+        listaSapatos = savedInstanceState.getParcelableArrayList(LIST_SHOES_STATE);
     }
 
     private void bindView() {
@@ -87,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private void setView() {
         setSupportActionBar(toolbar);
         toolbar.inflateMenu(R.menu.menu_toolbar_main);
-        getSupportActionBar().setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("");
         bottomNavigationView.setOnNavigationItemSelectedListener(MainActivity.this);
         viewPager.addOnPageChangeListener(MainActivity.this);
         setViewPager(viewPager);
@@ -95,9 +84,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private void setViewPager(ViewPager viewPager){
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        visualizarFragment = new VisualizarFragment();
-        buscarFragment = new BuscarFragment();
-        inserirFragment = new InserirFragment();
+        VisualizarFragment visualizarFragment = new VisualizarFragment();
+        BuscarFragment buscarFragment = new BuscarFragment();
+        InserirFragment inserirFragment = new InserirFragment();
         adapter.addFragment(visualizarFragment);
         adapter.addFragment(buscarFragment);
         adapter.addFragment(inserirFragment);

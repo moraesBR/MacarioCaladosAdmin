@@ -26,9 +26,6 @@ public class Login extends AppCompatActivity {
     private EditText etLogin, etPassword;
     private Button btnLogin, btnForgetPassword;
 
-    private Handler handler;
-    private Runnable runnable;
-
     public static FirebaseAuth auth;
 
 /* ---------------------------------- Ciclo de Vida do App -------------------------------------- */
@@ -93,8 +90,8 @@ public class Login extends AppCompatActivity {
      *      (no caso, 2000 ms) para realizar a ação.
      */
     private void splashscreen(){
-        handler = new Handler();
-        runnable = new Runnable() {
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 rellay1.setVisibility(View.VISIBLE);

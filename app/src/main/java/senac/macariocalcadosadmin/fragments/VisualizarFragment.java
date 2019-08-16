@@ -134,7 +134,7 @@ public class VisualizarFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext(),R.style.AlertDialogStyle);
                 builder.setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("REMOVENDO...")
                         .setMessage("Você tem certeza que deseja excluir estes sapatos?")

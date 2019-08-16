@@ -3,6 +3,7 @@ package senac.macariocalcadosadmin.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sapato implements Parcelable {
@@ -69,6 +70,14 @@ public class Sapato implements Parcelable {
                 + this.idade.toString());
     }
 
+    public void setCodigo(){
+        this.codigo = MD5.md5(this.nome
+                + this.tipo.toString()
+                + this.modelo
+                + this.genero.toString()
+                + this.idade.toString());
+    }
+
     public String getKey() {
         return key;
     }
@@ -117,12 +126,28 @@ public class Sapato implements Parcelable {
         return quantidade;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
+
+    public void setIdade(Idade idade) {
+        this.idade = idade;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
     }
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public boolean isPromocao() {
@@ -154,6 +179,22 @@ public class Sapato implements Parcelable {
         this.fotos = fotos;
     }
 
+    public static void copiar(Sapato orig, Sapato dest){
+        dest.codigo = String.copyValueOf(orig.codigo.toCharArray());
+        dest.nome = String.copyValueOf(orig.nome.toCharArray());
+        dest.modelo = String.copyValueOf(orig.modelo.toCharArray());
+        dest.genero = Genero.valueOf(orig.genero.toString());
+        dest.tipo = Tipo.valueOf(orig.tipo.toString());
+        dest.idade = Idade.valueOf(orig.idade.toString());
+        //dest.tamanho = Tamanho.valueOf(orig.tamanho.toString());
+        dest.valor = orig.valor;
+        dest.antigoValor = orig.antigoValor;
+        dest.fotos = new ArrayList<>(orig.fotos);
+        dest.quantidade = orig.quantidade;
+        dest.promocao = orig.promocao;
+        dest.key = orig.key;
+    }
+
     public void addFoto(Foto foto) {
         this.fotos.add(foto);
     }
@@ -164,7 +205,7 @@ public class Sapato implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public  void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.codigo);
         dest.writeString(this.nome);
         dest.writeString(this.modelo);
