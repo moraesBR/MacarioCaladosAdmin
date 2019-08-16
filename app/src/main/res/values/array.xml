@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sp_tipo">
+        <item>TIPOS DE SAPATO</item>
+        <item>@string/menu_casual</item>
+        <item>@string/menu_esportivo</item>
+        <item>@string/menu_social</item>
+    </string-array>
+
+    <string-array name="sp_tipo2">
+        <item>CASUAL</item>
+        <item>ESPORTIVO</item>
+        <item>SOCIAL</item>
+    </string-array>
+
+    <string-array name="sp_genero">
+        <item>FEMININO</item>
+        <item>MASCULINO</item>
+    </string-array>
+
+    <string-array name="sp_idade">
+        <item>ADULTO</item>
+        <item>INFANTIL</item>
+    </string-array>
+</resources>
