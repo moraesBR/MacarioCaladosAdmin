@@ -35,5 +35,8 @@
     <string name="cancela">Cancelar</string>
 
     <string name="title_activity_editar_sapato">Editar Sapato</string>
+    <string name="pesquisar">Pesquisar</string>
+    <string name="categorias">Categorias</string>
+    <string name="feminino">Feminino</string>
 
 </resources>
