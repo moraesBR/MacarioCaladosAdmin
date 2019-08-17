@@ -3,6 +3,7 @@ package senac.macariocalcadosadmin;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import senac.macariocalcadosadmin.models.Sapato;
 import senac.macariocalcadosadmin.models.SelecaoFoto;
 import senac.macariocalcadosadmin.models.Tipo;
 
+import static senac.macariocalcadosadmin.MainActivity.database;
 import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
 
 public class EditarSapato extends AppCompatActivity {
@@ -44,10 +46,13 @@ public class EditarSapato extends AppCompatActivity {
 
     private List<SelecaoFoto> lista;
     private Sapato sapato = new Sapato();
+    private Sapato origSapato;
     private int posicao;
     private final String FOTO_ARRAYLIST = "foto arraylist";
 
     private TabLayout tabLayout;
+
+    private FloatingActionButton fab;
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
@@ -79,7 +84,7 @@ public class EditarSapato extends AppCompatActivity {
         if (bundle != null) {
             String POSICAO_ARRAY = "posição sapato arraylist";
             posicao = bundle.getInt(POSICAO_ARRAY);
-            Sapato origSapato = listaSapatos.get(posicao).getSapato();
+            origSapato = listaSapatos.get(posicao).getSapato();
             Sapato.copiar(origSapato, sapato);
         }
         if (savedInstanceState != null) {
@@ -105,6 +110,8 @@ public class EditarSapato extends AppCompatActivity {
         linlay_idade = findViewById(R.id.linlay_sapato_idade);
         linlay_tipo = findViewById(R.id.linlay_sapato_tipo);
         linlay_quantidade = findViewById(R.id.linlay_sapato_quantidade);
+
+        fab = findViewById(R.id.fab_update);
     }
 
     private void setView() {
@@ -157,6 +164,7 @@ public class EditarSapato extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 sapato.setNome(etNome.getText().toString());
                                 nome.setText(sapato.getNome());
+                                fab.setVisibility(View.VISIBLE);
                             }
                         })
                         .setNegativeButton(R.string.cancela, new DialogInterface.OnClickListener() {
@@ -186,6 +194,7 @@ public class EditarSapato extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 sapato.setModelo(etNome.getText().toString());
                                 modelo.setText(sapato.getModelo());
+                                fab.setVisibility(View.VISIBLE);
                             }
                         })
                         .setNegativeButton(R.string.cancela, new DialogInterface.OnClickListener() {
@@ -215,6 +224,7 @@ public class EditarSapato extends AppCompatActivity {
                                                 break;
                                         }
                                         genero.setText(sapato.getGenero().toString());
+                                        fab.setVisibility(View.VISIBLE);
                                     }
                                 });
                 builder.create().show();
@@ -238,6 +248,7 @@ public class EditarSapato extends AppCompatActivity {
                                                 break;
                                         }
                                         idade.setText(sapato.getIdade().toString());
+                                        fab.setVisibility(View.VISIBLE);
                                     }
                                 });
                 builder.create().show();
@@ -264,6 +275,7 @@ public class EditarSapato extends AppCompatActivity {
                                                 break;
                                         }
                                         tipo.setText(sapato.getTipo().toString());
+                                        fab.setVisibility(View.VISIBLE);
                                     }
                                 });
                 builder.create().show();
@@ -294,6 +306,7 @@ public class EditarSapato extends AppCompatActivity {
                                 else
                                     valor.setText(String.format(new Locale("pt","BR"),
                                             "R$ %.2f", sapato.getValor()));
+                                fab.setVisibility(View.VISIBLE);
                             }
                         })
                         .setNegativeButton(R.string.cancela, new DialogInterface.OnClickListener() {
@@ -324,6 +337,7 @@ public class EditarSapato extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 sapato.setQuantidade(Integer.parseInt(etQtd.getText().toString()));
                                 quantidade.setText(String.valueOf(sapato.getQuantidade()));
+                                fab.setVisibility(View.VISIBLE);
                             }
                         })
                         .setNegativeButton(R.string.cancela, new DialogInterface.OnClickListener() {
@@ -333,6 +347,14 @@ public class EditarSapato extends AppCompatActivity {
                         })
                         .create()
                         .show();
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                database.update(sapato);
+                finish();
             }
         });
     }

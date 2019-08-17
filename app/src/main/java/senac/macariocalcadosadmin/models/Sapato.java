@@ -166,10 +166,13 @@ public class Sapato implements Parcelable {
     public boolean setValor(double valor) {
         try {
             if (valor < 0.0) throw new IllegalArgumentException();
-            this.promocao = valor < this.valor ? true : false;
-            this.antigoValor = this.valor;
-            this.valor = valor;
-            return true;
+            if(valor != this.valor) {
+                this.promocao = valor < this.valor ? true : false;
+                this.antigoValor = this.valor;
+                this.valor = valor;
+                return true;
+            }
+            return false;
         } catch (IllegalArgumentException ex) {
             return false;
         }

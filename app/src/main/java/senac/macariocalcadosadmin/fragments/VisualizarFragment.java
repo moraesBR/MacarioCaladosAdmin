@@ -145,7 +145,7 @@ public class VisualizarFragment extends Fragment {
                                 if (qtdFoto > 0) {
                                     for (int i = 0; i < listaSapatos.size(); i++)
                                         if (listaSapatos.get(i).isSelecionado()) {
-                                            database.delete(listaSapatos.get(i).getSapato(),sapatoAdapter);
+                                            database.delete(listaSapatos.get(i).getSapato());
                                             listaSapatos.remove(i--);
                                         }
                                 }

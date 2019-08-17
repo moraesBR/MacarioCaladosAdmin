@@ -88,14 +88,36 @@ public class Database {
         }
     }
 
-    public void delete(final Sapato sapato, final SelecaoSapatoAdapter adapter){
+    public void delete(final Sapato sapato){
         for(Foto f : sapato.getFotos() ){
             StorageReference imageRef = sRef.child(f.getNome());
             imageRef.delete();
         }
         dRef.child("fotos").child(sapato.getCodigo()).removeValue();
         dRef.child(sapato.getKey()).removeValue();
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
+    }
+
+    public void update(@NonNull Sapato novo){
+        dRef.child("fotos").child(novo.getCodigo()).removeValue();
+        novo.setCodigo();
+
+        List<Foto> temp = novo.getFotos();
+        novo.setFotos(null);
+
+        if(!temp.isEmpty()){
+            for(Foto foto : temp){
+                String uploadId = dRef.child("fotos")
+                        .child(novo.getCodigo())
+                        .push()
+                        .getKey();
+                dRef.child("fotos").child(novo.getCodigo()).child(uploadId).setValue(foto);
+            }
+        }
+        dRef.child(novo.getKey()).setValue(novo);
+
+        Toast.makeText(context, "Sapato Inserido!", Toast
+                    .LENGTH_SHORT).show();
     }
 
     public void read(final SelecaoSapatoAdapter sapatoAdapter, final List<SelecaoSapato> sapatos, final ProgressBar progressBar){
