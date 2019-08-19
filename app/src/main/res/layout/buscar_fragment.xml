@@ -24,7 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="@string/categorias"
-        android:textSize="18sp" />
+        android:fontFamily="sans-serif-medium"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:textStyle="bold"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,65 +36,30 @@
         android:orientation="horizontal"
         android:weightSum="3">
 
-        <LinearLayout
+        <!-- Começa aqui -->
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@drawable/images"
+            android:alpha="0.5"
             android:orientation="horizontal"
-            android:background="@color/colorPrimaryText">
+            android:clickable="true"
+            >
 
-            <RelativeLayout
-                android:id="@+id/rellay_modelo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:background="@color/colorPrimaryText">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hashhajsajkl"
+                android:textColor="@color/black"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="5dp"
+                />
 
-                <RelativeLayout
-                    android:id="@+id/rellay_modelo1"
-                    android:layout_width="160dp"
-                    android:layout_height="@dimen/altura_img_card"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"
-                    >
-
-                    <ProgressBar
-                        android:id="@+id/pbarmodelo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:indeterminate="true"
-                        android:layout_alignParentTop="true"
-                        android:visibility="visible"
-                        />
-
-                    <ImageView
-                        android:id="@+id/img_modelo1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:background="@color/white"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone"
-                        />
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/txt_modelo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rellay_imagem"
-                    android:layout_marginTop="3dp"
-                    android:gravity="center"
-                    android:text="@string/menu_masculino"
-                    android:textAlignment="center" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
+        </RelativeLayout>
+        <!-- Termina aqui -->
 
         <LinearLayout
             android:layout_width="0dp"
