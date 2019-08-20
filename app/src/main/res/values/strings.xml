@@ -38,5 +38,9 @@
     <string name="pesquisar">Pesquisar</string>
     <string name="categorias">Categorias</string>
     <string name="feminino">Feminino</string>
+    <string name="ESTILO">Estilo</string>
+    <string name="SEXO">SEXO</string>
+    <string name="Sexo">Sexo</string>
+    <string name="Idade">Idade</string>
 
 </resources>

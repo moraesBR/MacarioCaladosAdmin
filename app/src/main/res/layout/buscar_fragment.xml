@@ -37,6 +37,7 @@
         android:weightSum="3">
 
         <!-- Começa aqui -->
+
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -51,7 +52,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="hashhajsajkl"
+                android:text="CASUAL"
                 android:textColor="@color/black"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
@@ -61,130 +62,52 @@
         </RelativeLayout>
         <!-- Termina aqui -->
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+
+            android:alpha="0.5"
             android:orientation="horizontal"
-            android:background="@color/colorPrimaryText">
+            android:clickable="true">
 
-            <RelativeLayout
-                android:id="@+id/rellay_modelo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:background="@color/colorPrimaryText"
-                tools:ignore="DuplicateIds">
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ESPORTIVO"
+                android:textColor="@color/black"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="5dp"
+                />
 
-                <RelativeLayout
-                    android:id="@+id/rellay_modelo1"
-                    android:layout_width="160dp"
-                    android:layout_height="@dimen/altura_img_card"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"
-                    tools:ignore="DuplicateIds">
+        </RelativeLayout>
 
-                    <ProgressBar
-                        android:id="@+id/pbarmodelo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:indeterminate="true"
-                        android:layout_alignParentTop="true"
-                        android:visibility="visible"
-                        />
-
-                    <ImageView
-                        android:id="@+id/img_modelo2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:background="@color/white"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone"
-                        />
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/txt_modelo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rellay_imagem"
-                    android:layout_marginTop="3dp"
-                    android:gravity="center"
-                    android:text="@string/feminino"
-                    android:textAlignment="center" />
-
-            </RelativeLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+
+            android:alpha="0.5"
             android:orientation="horizontal"
-            android:background="@color/colorPrimaryText">
+            android:clickable="true">
 
-            <RelativeLayout
-                android:id="@+id/rellay_modelo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:background="@color/colorPrimaryText"
-                tools:ignore="DuplicateIds">
-
-                <RelativeLayout
-                    android:id="@+id/rellay_modelo1"
-                    android:layout_width="160dp"
-                    android:layout_height="@dimen/altura_img_card"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"
-                    tools:ignore="DuplicateIds">
-
-                    <ProgressBar
-                        android:id="@+id/pbarmodelo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:indeterminate="true"
-                        android:layout_alignParentTop="true"
-                        android:visibility="visible"
-                        tools:ignore="DuplicateIds" />
-
-                    <ImageView
-                        android:id="@+id/img_modelo3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:background="@color/white"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone"
-                        tools:ignore="DuplicateIds" />
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/txt_modelo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rellay_imagem"
-                    android:layout_marginTop="3dp"
-                    android:gravity="center"
-                    android:text="@string/menu_infantil"
-                    android:textAlignment="center"
-                    tools:ignore="DuplicateIds" />
-
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SOCIAL"
+                android:textColor="@color/black"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="5dp"
+                />
 
 
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -194,131 +117,59 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:background="@color/colorPrimaryText">
+            android:clickable="true">
 
-            <RelativeLayout
-                android:id="@+id/rellay_modelo"
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:background="@color/colorPrimaryText"
-                tools:ignore="DuplicateIds">
+                android:scaleType="fitXY"
+                android:src="@drawable/imagem_social_masculino"
+                android:alpha="0.5"
+                >
 
-                <RelativeLayout
-                    android:id="@+id/rellay_modelo1"
-                    android:layout_width="160dp"
-                    android:layout_height="@dimen/altura_img_card"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"
-                    tools:ignore="DuplicateIds">
+            </androidx.appcompat.widget.AppCompatImageView>
 
-                    <ProgressBar
-                        android:id="@+id/pbarmodelo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:indeterminate="true"
-                        android:layout_alignParentTop="true"
-                        android:visibility="visible"
-                        tools:ignore="DuplicateIds" />
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MASCULINO"
+                android:textColor="@color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="5dp"
+                />
 
-                    <ImageView
-                        android:id="@+id/img_modelo1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:background="@color/white"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone"
-                        tools:ignore="DuplicateIds" />
-                </RelativeLayout>
+        </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/txt_modelo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rellay_imagem"
-                    android:layout_marginTop="3dp"
-                    android:gravity="center"
-                    android:text="Casual"
-                    android:textAlignment="center"
-                    tools:ignore="DuplicateIds" />
-
-            </RelativeLayout>
-
-
-
-        </LinearLayout>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@drawable/imagem_social_feminino"
+            android:alpha="0.5"
             android:orientation="horizontal"
-            android:background="@color/colorPrimaryText">
+            android:clickable="true">
 
-            <RelativeLayout
-                android:id="@+id/rellay_modelo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:background="@color/colorPrimaryText"
-                tools:ignore="DuplicateIds">
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FEMININO"
+                android:textColor="@color/black"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="5dp"
+                />
 
-                <RelativeLayout
-                    android:id="@+id/rellay_modelo1"
-                    android:layout_width="160dp"
-                    android:layout_height="@dimen/altura_img_card"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"
-                    tools:ignore="DuplicateIds">
-
-                    <ProgressBar
-                        android:id="@+id/pbarmodelo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:indeterminate="true"
-                        android:layout_alignParentTop="true"
-                        android:visibility="visible"
-                        tools:ignore="DuplicateIds" />
-
-                    <ImageView
-                        android:id="@+id/img_modelo1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:background="@color/white"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone"
-                        tools:ignore="DuplicateIds" />
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/txt_modelo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rellay_imagem"
-                    android:layout_marginTop="3dp"
-                    android:gravity="center"
-                    android:text="Esportivo"
-                    android:textAlignment="center" />
-
-            </RelativeLayout>
-
-
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -329,131 +180,51 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+
+            android:alpha="0.5"
             android:orientation="horizontal"
-            android:background="@color/colorPrimaryText">
+            android:clickable="true">
 
-            <RelativeLayout
-                android:id="@+id/rellay_modelo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:background="@color/colorPrimaryText"
-                tools:ignore="DuplicateIds">
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADULTO"
+                android:textColor="@color/black"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="5dp"
+                />
 
-                <RelativeLayout
-                    android:id="@+id/rellay_modelo1"
-                    android:layout_width="160dp"
-                    android:layout_height="@dimen/altura_img_card"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"
-                    tools:ignore="DuplicateIds">
+        </RelativeLayout>
 
-                    <ProgressBar
-                        android:id="@+id/pbarmodelo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:indeterminate="true"
-                        android:layout_alignParentTop="true"
-                        android:visibility="visible"
-                        tools:ignore="DuplicateIds" />
-
-                    <ImageView
-                        android:id="@+id/img_modelo1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:background="@color/white"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone"
-                        tools:ignore="DuplicateIds" />
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/txt_modelo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rellay_imagem"
-                    android:layout_marginTop="3dp"
-                    android:gravity="center"
-                    android:text="Infantil"
-                    android:textAlignment="center"
-                    tools:ignore="DuplicateIds" />
-
-            </RelativeLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+
+            android:alpha="0.5"
             android:orientation="horizontal"
-            android:background="@color/colorPrimaryText">
+            android:clickable="true">
 
-            <RelativeLayout
-                android:id="@+id/rellay_modelo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:background="@color/colorPrimaryText"
-                tools:ignore="DuplicateIds">
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="INFANTIL"
+                android:textColor="@color/black"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="5dp"
+                />
 
-                <RelativeLayout
-                    android:id="@+id/rellay_modelo1"
-                    android:layout_width="160dp"
-                    android:layout_height="@dimen/altura_img_card"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"
-                    tools:ignore="DuplicateIds">
-
-                    <ProgressBar
-                        android:id="@+id/pbarmodelo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:indeterminate="true"
-                        android:layout_alignParentTop="true"
-                        android:visibility="visible"
-                        tools:ignore="DuplicateIds" />
-
-                    <ImageView
-                        android:id="@+id/img_modelo1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:background="@color/white"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone"
-                        tools:ignore="DuplicateIds" />
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/txt_modelo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rellay_imagem"
-                    android:layout_marginTop="3dp"
-                    android:gravity="center"
-                    android:text="Modelo"
-                    android:textAlignment="center"
-                    tools:ignore="DuplicateIds" />
-
-            </RelativeLayout>
-
-
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
