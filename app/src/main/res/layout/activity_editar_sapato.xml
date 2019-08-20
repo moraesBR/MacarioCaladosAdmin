@@ -312,6 +312,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:visibility="gone"
+        android:src="@android:drawable/ic_menu_upload"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:layout_margin="10dp"
         />
 
 </RelativeLayout>

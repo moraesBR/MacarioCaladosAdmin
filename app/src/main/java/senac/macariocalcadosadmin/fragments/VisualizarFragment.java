@@ -3,6 +3,7 @@ package senac.macariocalcadosadmin.fragments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import senac.macariocalcadosadmin.EditarSapato;
 import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.adapters.SelecaoSapatoAdapter;
+import senac.macariocalcadosadmin.models.Campo;
 
 import static senac.macariocalcadosadmin.MainActivity.database;
 import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
@@ -69,7 +71,8 @@ public class VisualizarFragment extends Fragment {
         rvSapatos.setHasFixedSize(true);
         rvSapatos.setAdapter(sapatoAdapter);
 
-        database.read(sapatoAdapter,listaSapatos,progressBar);
+        database.read(sapatoAdapter,progressBar);
+        //database.read(sapatoAdapter,database.filtro(Campo.VALOR));
     }
 
     private void setListener() {

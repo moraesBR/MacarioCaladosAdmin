@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Objects;
 
 import senac.macariocalcadosadmin.adapters.SelecaoSapatoAdapter;
+import senac.macariocalcadosadmin.models.Campo;
 import senac.macariocalcadosadmin.models.Foto;
 import senac.macariocalcadosadmin.models.Sapato;
 import senac.macariocalcadosadmin.models.SelecaoSapato;
@@ -120,8 +122,10 @@ public class Database {
                     .LENGTH_SHORT).show();
     }
 
-    public void read(final SelecaoSapatoAdapter sapatoAdapter, final List<SelecaoSapato> sapatos, final ProgressBar progressBar){
-        dRef.addValueEventListener(new ValueEventListener() {
+    public void read(final SelecaoSapatoAdapter sapatoAdapter, final ProgressBar progressBar){
+        final List<SelecaoSapato> sapatos = sapatoAdapter.getSelecaoSapatoList();
+
+        dRef.orderByChild("nome").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 progressBar.setVisibility(View.VISIBLE);
@@ -159,4 +163,70 @@ public class Database {
             }
         });
     }
+
+    public void read(@NonNull final SelecaoSapatoAdapter sapatoAdapter, @NonNull Query filtro){
+
+        final List<SelecaoSapato> sapatos = sapatoAdapter.getSelecaoSapatoList();
+
+        filtro.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                sapatos.clear();
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                    final Sapato sapato = ds.getValue(Sapato.class);
+                    final ArrayList<Foto> foto = new ArrayList<>();
+                    Objects.requireNonNull(sapato).setFotos(foto);
+
+                    if (sapato.getCodigo() != null && !sapato.getCodigo().isEmpty()) {
+                        sapatos.add(new SelecaoSapato(sapato));
+
+                        dRef.child("fotos").child(sapato.getCodigo()).addValueEventListener(
+                                new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot ds : dataSnapshot.getChildren())
+                                    sapato.addFoto(ds.getValue(Foto.class));
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+
+                        });
+                    }
+                }
+                sapatoAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    public Query filtro(@NonNull Campo campo){
+        return dRef.orderByChild(campo.toString());
+    }
+
+    public Query filtro(@NonNull Campo campo, @NonNull String valor){
+        return dRef.orderByChild(campo.toString()).equalTo(valor);
+    }
+
+    public Query filtro(boolean promocao){
+        return dRef.orderByChild(Campo.PROMOCAO.toString()).equalTo(promocao);
+    }
+
+    public Query filtro(double valor){
+        return dRef.orderByChild(Campo.VALOR.toString()).endAt(valor);
+    }
+
+    public Query filtro(double valorInicial, double valorFinal){
+        return dRef.orderByChild(Campo.VALOR.toString()).startAt(valorInicial).endAt(valorFinal);
+    }
+
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.models.Sapato;
@@ -38,6 +39,10 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
     public SelecaoSapatoAdapter(List<SelecaoSapato> selecaoSapatoList, Context context) {
         this.selecaoSapatoList = selecaoSapatoList;
         this.context = context;
+    }
+
+    public List<SelecaoSapato> getSelecaoSapatoList() {
+        return selecaoSapatoList;
     }
 
     @NonNull
@@ -76,7 +81,7 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
 
         holder.nome.setText(sapato.getNome());
         holder.modelo.setText(sapato.getModelo());
-        holder.valor.setText("R$ " + String.format("%.2f", sapato.getValor()));
+        holder.valor.setText(String.format(new Locale("pt","BR"),"R$ %.2f", sapato.getValor()));
     }
 
     @Override
@@ -103,4 +108,6 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
             itemView.setOnClickListener(verSapato);
         }
     }
+
+
 }
