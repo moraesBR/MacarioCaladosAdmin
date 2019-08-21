@@ -137,7 +137,7 @@ public class VisualizarFragment extends Fragment {
                 int position = viewHolder.getAdapterPosition();
                 Intent editarSapato = new Intent(getActivity(), EditarSapato.class);
 
-                editarSapato.putExtra(POSICAO_ARRAY, position);
+                editarSapato.putExtra(POSICAO_ARRAY, sapatoAdapter.getSelecaoSapatoList().get(position).getSapato());
                 startActivity(editarSapato);
             }
         };

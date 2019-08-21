@@ -83,8 +83,9 @@ public class EditarSapato extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             String POSICAO_ARRAY = "posição sapato arraylist";
-            posicao = bundle.getInt(POSICAO_ARRAY);
-            origSapato = listaSapatos.get(posicao).getSapato();
+            // posicao = bundle.getInt(POSICAO_ARRAY);
+            // origSapato = listaSapatos.get(posicao).getSapato();
+            origSapato = bundle.getParcelable(POSICAO_ARRAY);
             Sapato.copiar(origSapato, sapato);
         }
         if (savedInstanceState != null) {
@@ -137,7 +138,7 @@ public class EditarSapato extends AppCompatActivity {
 
     private void setAdapters() {
         lista = new ArrayList<>();
-        for (Foto f : listaSapatos.get(posicao).getSapato().getFotos()) {
+        for (Foto f : origSapato.getFotos()) {
             lista.add(new SelecaoFoto(f));
         }
         SelecaoFotoAdapter adapter = new SelecaoFotoAdapter(lista, this);
