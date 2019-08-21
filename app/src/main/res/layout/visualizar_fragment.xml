@@ -15,10 +15,22 @@
         android:visibility="visible"
         />
 
+    <SearchView
+        android:id="@+id/visualizar_busca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:queryHint="Nome ou modelo"
+        android:layout_margin="10dp"
+        android:layout_alignParentTop="true"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/layout_bg"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_sapatos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/visualizar_busca"
         android:layout_margin="5dp"
         >
 

@@ -1,19 +1,26 @@
 package senac.macariocalcadosadmin.fragments;
 
+import android.app.SearchableInfo;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,7 +28,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import senac.macariocalcadosadmin.EditarSapato;
 import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.adapters.SelecaoSapatoAdapter;
-import senac.macariocalcadosadmin.models.Campo;
 
 import static senac.macariocalcadosadmin.MainActivity.database;
 import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
@@ -34,6 +40,7 @@ public class VisualizarFragment extends Fragment {
     private RecyclerView rvSapatos;
     private FloatingActionButton apagarSapato;
     private ProgressBar progressBar;
+    private SearchView searchView;
 
     private final String POSICAO_ARRAY = "posição sapato arraylist";
 
@@ -61,15 +68,18 @@ public class VisualizarFragment extends Fragment {
         rvSapatos = view.findViewById(R.id.rv_sapatos);
         apagarSapato = view.findViewById(R.id.fab_apaga_sapato);
         progressBar = view.findViewById(R.id.progressbar);
+        searchView = view.findViewById(R.id.visualizar_busca);
     }
 
 
     private void setAdapters(View view) {
         sapatoAdapter = new SelecaoSapatoAdapter(listaSapatos, view.getContext());
-        RecyclerView.LayoutManager lmSapatos = new GridLayoutManager(view.getContext(), 2);
+        rvSapatos.setAdapter(sapatoAdapter);
+        RecyclerView.LayoutManager lmSapatos = new GridLayoutManager(view.getContext(), 2,
+                RecyclerView.VERTICAL,false);
         rvSapatos.setLayoutManager(lmSapatos);
         rvSapatos.setHasFixedSize(true);
-        rvSapatos.setAdapter(sapatoAdapter);
+
 
         database.read(sapatoAdapter,progressBar);
         //database.read(sapatoAdapter,database.filtro(Campo.VALOR));
@@ -167,6 +177,20 @@ public class VisualizarFragment extends Fragment {
                         });
                 builder.create();
                 builder.show();
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                sapatoAdapter.getFilter().filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                sapatoAdapter.getFilter().filter(s);
+                return false;
             }
         });
     }

@@ -27,20 +27,17 @@
 
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Fechar</string>
-    <string name="genero">Gênero</string>
-    <string name="idade">Idade</string>
-    <string name="tipo">Tipo</string>
-    <string name="tamanhos">Tamanhos</string>
     <string name="confirma">Confirmar</string>
     <string name="cancela">Cancelar</string>
 
     <string name="title_activity_editar_sapato">Editar Sapato</string>
     <string name="pesquisar">Pesquisar</string>
     <string name="categorias">Categorias</string>
-    <string name="feminino">Feminino</string>
-    <string name="ESTILO">Estilo</string>
-    <string name="SEXO">SEXO</string>
-    <string name="Sexo">Sexo</string>
-    <string name="Idade">Idade</string>
+    <string name="genero">Gênero</string>
+    <string name="idade">Idade</string>
+    <string name="tipo">Tipo</string>
+    <string name="tamanhos">Tamanhos</string>
+    <string name="estilo">Estilo</string>
+    <string name="sexo">Sexo</string>
 
 </resources>

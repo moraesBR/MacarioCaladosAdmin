@@ -82,7 +82,7 @@ public class SelecaoFotoAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ImageView imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        Picasso.get().load(listaFotos.get(position).getFoto().getUrl()).fit().into(imageView);
+        Picasso.get().load(listaFotos.get(position).getFoto().getUrl()).into(imageView);
         container.addView(imageView, 0);
         //selectDot(position);
         return imageView;

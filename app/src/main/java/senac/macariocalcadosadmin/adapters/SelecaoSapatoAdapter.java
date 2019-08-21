@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,9 +24,10 @@ import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.models.Sapato;
 import senac.macariocalcadosadmin.models.SelecaoSapato;
 
-public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdapter.SelacaoSapatoViewHolder> {
+public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdapter.SelacaoSapatoViewHolder> implements Filterable {
 
     private List<SelecaoSapato> selecaoSapatoList;
+    private List<SelecaoSapato> backup;
     private Context context;
     private View.OnClickListener verSapato;
     private View.OnLongClickListener marcarSapato;
@@ -37,7 +41,9 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
     }
 
     public SelecaoSapatoAdapter(List<SelecaoSapato> selecaoSapatoList, Context context) {
+        super();
         this.selecaoSapatoList = selecaoSapatoList;
+        this.backup = selecaoSapatoList;
         this.context = context;
     }
 
@@ -87,6 +93,45 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
     @Override
     public int getItemCount() {
         return selecaoSapatoList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String query = charSequence.toString();
+
+                if(query.isEmpty())
+                {
+                    selecaoSapatoList = backup;
+                }
+                else
+                {
+                    List<SelecaoSapato> filtro = new ArrayList<>();
+                    for(SelecaoSapato s : backup)
+                    {
+                        if(s.getSapato().getNome().toLowerCase().startsWith(query) ||
+                            s.getSapato().getModelo().toLowerCase().startsWith(query))
+                        {
+                            filtro.add(s);
+                        }
+                    }
+                    selecaoSapatoList = filtro;
+                }
+
+
+                FilterResults resultado = new FilterResults();
+                resultado.values = selecaoSapatoList;
+                return resultado;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                selecaoSapatoList = (List<SelecaoSapato>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     class SelacaoSapatoViewHolder extends RecyclerView.ViewHolder {
