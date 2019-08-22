@@ -81,12 +81,12 @@ public class FiltroSapato extends AppCompatActivity {
                 case GENERO:{
                     if(bundle.getSerializable(CAMPO_INFO) == Genero.MASCULINO ){
                         database.read(listaAdapter,
-                                database.filtro(Campo.TIPO, Genero.MASCULINO.toString()),
+                                database.filtro(Campo.GENERO, Genero.MASCULINO.toString()),
                                 progressBar);
                     }
                     if(bundle.getSerializable(CAMPO_INFO) == Genero.FEMININO ){
                         database.read(listaAdapter,
-                                database.filtro(Campo.TIPO, Genero.FEMININO.toString()),
+                                database.filtro(Campo.GENERO, Genero.FEMININO.toString()),
                                 progressBar);
                     }
                     break;
@@ -108,13 +108,13 @@ public class FiltroSapato extends AppCompatActivity {
                     switch ((Tipo)bundle.getSerializable(CAMPO_INFO)){
                         case ESPORTIVO:{
                             database.read(listaAdapter,
-                                    database.filtro(Campo.TIPO, Tipo.CASUAL.toString()),
+                                    database.filtro(Campo.TIPO, Tipo.ESPORTIVO.toString()),
                                     progressBar);
                             break;
                         }
                         case CASUAL:{
                             database.read(listaAdapter,
-                                    database.filtro(Campo.TIPO, Tipo.ESPORTIVO.toString()),
+                                    database.filtro(Campo.TIPO, Tipo.CASUAL.toString()),
                                     progressBar);
                             break;
                         }
