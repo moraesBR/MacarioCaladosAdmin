@@ -164,18 +164,17 @@ public class Database {
         });
     }
 
-    public void read(@NonNull final SelecaoSapatoAdapter sapatoAdapter, @NonNull Query filtro){
+    public void read(@NonNull final SelecaoSapatoAdapter sapatoAdapter, @NonNull Query filtro, final ProgressBar progressBar){
 
         final List<SelecaoSapato> sapatos = sapatoAdapter.getSelecaoSapatoList();
+
 
         filtro.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                progressBar.setVisibility(View.VISIBLE);
                 sapatos.clear();
-
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
                     final Sapato sapato = ds.getValue(Sapato.class);
                     final ArrayList<Foto> foto = new ArrayList<>();
                     Objects.requireNonNull(sapato).setFotos(foto);
@@ -201,10 +200,12 @@ public class Database {
                     }
                 }
                 sapatoAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }

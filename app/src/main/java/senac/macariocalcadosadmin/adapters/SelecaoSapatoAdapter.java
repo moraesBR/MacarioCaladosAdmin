@@ -25,7 +25,6 @@ import senac.macariocalcadosadmin.models.Sapato;
 import senac.macariocalcadosadmin.models.SelecaoSapato;
 
 public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdapter.SelacaoSapatoViewHolder> implements Filterable {
-
     private List<SelecaoSapato> selecaoSapatoList;
     private List<SelecaoSapato> backup;
     private Context context;

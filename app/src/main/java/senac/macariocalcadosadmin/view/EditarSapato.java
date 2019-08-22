@@ -1,4 +1,4 @@
-package senac.macariocalcadosadmin;
+package senac.macariocalcadosadmin.view;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.adapters.SelecaoFotoAdapter;
 import senac.macariocalcadosadmin.models.Foto;
 import senac.macariocalcadosadmin.models.Genero;
@@ -34,7 +35,6 @@ import senac.macariocalcadosadmin.models.SelecaoFoto;
 import senac.macariocalcadosadmin.models.Tipo;
 
 import static senac.macariocalcadosadmin.MainActivity.database;
-import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
 
 public class EditarSapato extends AppCompatActivity {
 
@@ -358,5 +358,11 @@ public class EditarSapato extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

@@ -13,4 +13,5 @@ public enum Campo {
     public String toString() {
         return campo;
     }
+
 }
