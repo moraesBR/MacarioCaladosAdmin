@@ -108,13 +108,13 @@ public class VisualizarFragment extends Fragment {
                  * Se não estiver sido selecionado, então adicione no contador de imagens
                  * selecionadas; senão, retire do contador.
                  */
-                if (!listaSapatos.get(position).isSelecionado()) {
+                if (!sapatoAdapter.getSelecaoSapatoList().get(position).isSelecionado()) {
                     qtdFoto++;
                 } else
                     qtdFoto--;
 
                 /* Altera o estado de marcação (boolean) */
-                listaSapatos.get(position).setSelecionado();
+                sapatoAdapter.getSelecaoSapatoList().get(position).setSelecionado();
                 /* Informa ao adapter que houve ateração nos dados */
                 sapatoAdapter.notifyDataSetChanged();
 
@@ -156,10 +156,10 @@ public class VisualizarFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 /* Apaga as fotos se houver pelo menos uma foto selecionada */
                                 if (qtdFoto > 0) {
-                                    for (int i = 0; i < listaSapatos.size(); i++)
-                                        if (listaSapatos.get(i).isSelecionado()) {
-                                            database.delete(listaSapatos.get(i).getSapato());
-                                            listaSapatos.remove(i--);
+                                    for (int i = 0; i < sapatoAdapter.getSelecaoSapatoList().size(); i++)
+                                        if (sapatoAdapter.getSelecaoSapatoList().get(i).isSelecionado()) {
+                                            database.delete(sapatoAdapter.getSelecaoSapatoList().get(i).getSapato());
+                                            sapatoAdapter.getSelecaoSapatoList().remove(i--);
                                         }
                                 }
 
@@ -184,6 +184,7 @@ public class VisualizarFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 sapatoAdapter.getFilter().filter(s);
+                searchView.clearFocus();
                 return false;
             }
 

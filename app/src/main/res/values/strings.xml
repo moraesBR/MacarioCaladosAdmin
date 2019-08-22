@@ -39,5 +39,7 @@
     <string name="tamanhos">Tamanhos</string>
     <string name="estilo">Estilo</string>
     <string name="sexo">Sexo</string>
+    <string name="menu_promocao">promocao</string>
+    <string name="image_alpha">0.7</string>
 
 </resources>
