@@ -7,11 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
+import android.provider.SearchRecentSuggestions;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -29,15 +32,14 @@ import senac.macariocalcadosadmin.models.Genero;
 import senac.macariocalcadosadmin.models.Idade;
 import senac.macariocalcadosadmin.models.SelecaoSapato;
 import senac.macariocalcadosadmin.models.Tipo;
+import senac.macariocalcadosadmin.providers.SapatoSuggestionProvider;
 
 import static senac.macariocalcadosadmin.MainActivity.database;
 import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
 
 public class FiltroSapato extends AppCompatActivity {
 
-
-
-    private List<SelecaoSapato> lista;
+    private List<SelecaoSapato> lista = new ArrayList<>();
     private SelecaoSapatoAdapter listaAdapter;
     private RecyclerView rvSapatos;
     private FloatingActionButton apagarSapato;
@@ -52,7 +54,6 @@ public class FiltroSapato extends AppCompatActivity {
     private final String CAMPO_INFO = "info campo de filtragem";
     private final String POSICAO_ARRAY = "posição sapato arraylist";
     private final String RESULTADO_FILTRAGEM = "resultado filtragem";
-
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
@@ -102,12 +103,22 @@ public class FiltroSapato extends AppCompatActivity {
     private void dataBinding() {
         rvSapatos = findViewById(R.id.rv_sapatos);
         apagarSapato = findViewById(R.id.fab_apaga_sapato);
-        searchView = findViewById(R.id.visualizar_busca);
         progressBar = findViewById(R.id.progressbar);
+        searchView = findViewById(R.id.visualizar_busca);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            listaAdapter.getFilter().filter(query);
+        }
     }
 
     private void setAdapters() {
-        lista = new ArrayList<>();
         listaAdapter = new SelecaoSapatoAdapter(lista,getBaseContext());
         rvSapatos.setAdapter(listaAdapter);
         RecyclerView.LayoutManager lmSapatos = new GridLayoutManager(getBaseContext(), 2,
@@ -201,7 +212,8 @@ public class FiltroSapato extends AppCompatActivity {
                 int position = viewHolder.getAdapterPosition();
                 Intent editarSapato = new Intent(getBaseContext(), EditarSapato.class);
 
-                editarSapato.putExtra(POSICAO_ARRAY, listaAdapter.getSelecaoSapatoList().get(position).getSapato());
+                editarSapato.putExtra(POSICAO_ARRAY,
+                        listaAdapter.getSelecaoSapatoList().get(position).getSapato());
                 startActivity(editarSapato);
             }
         };
@@ -211,7 +223,8 @@ public class FiltroSapato extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext(),R.style.AlertDialogStyle);
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext(),
+                        R.style.AlertDialogStyle);
                 builder.setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("REMOVENDO...")
                         .setMessage("Você tem certeza que deseja excluir estes sapatos?")
@@ -219,9 +232,11 @@ public class FiltroSapato extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 /* Apaga as fotos se houver pelo menos uma foto selecionada */
-                                if (qtdFoto > 0) {
-                                    for (int i = 0; i < listaAdapter.getSelecaoSapatoList().size(); i++)
-                                        if (listaAdapter.getSelecaoSapatoList().get(i).isSelecionado()) {
+                                if (qtdFoto > 0)
+                                {
+                                    for(int i=0; i<listaAdapter.getSelecaoSapatoList().size(); i++)
+                                        if(listaAdapter.getSelecaoSapatoList().get(i).isSelecionado())
+                                        {
                                             database.delete(listaAdapter.getSelecaoSapatoList().get(i).getSapato());
                                             listaAdapter.getSelecaoSapatoList().remove(i--);
                                         }
@@ -249,6 +264,13 @@ public class FiltroSapato extends AppCompatActivity {
             public boolean onQueryTextSubmit(String s) {
                 listaAdapter.getFilter().filter(s);
                 searchView.clearFocus();
+
+                if(listaAdapter.getSelecaoSapatoList().size() > 0){
+                    SearchRecentSuggestions suggestions = new SearchRecentSuggestions(FiltroSapato.this,
+                            SapatoSuggestionProvider.AUTHORITY, SapatoSuggestionProvider.MODE);
+                    suggestions.saveRecentQuery(s, null);
+                }
+
                 return false;
             }
 
