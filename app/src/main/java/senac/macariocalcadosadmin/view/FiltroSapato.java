@@ -35,30 +35,41 @@ import static senac.macariocalcadosadmin.MainActivity.listaSapatos;
 
 public class FiltroSapato extends AppCompatActivity {
 
-    private int qtdFoto;
+
 
     private List<SelecaoSapato> lista;
     private SelecaoSapatoAdapter listaAdapter;
     private RecyclerView rvSapatos;
     private FloatingActionButton apagarSapato;
     private SearchView searchView;
+    private ProgressBar progressBar;
+
+    private int qtdFoto;
+    private Campo campo;
+    private String sValor;
 
     private final String CAMPO = "campo de filtragem";
     private final String CAMPO_INFO = "info campo de filtragem";
     private final String POSICAO_ARRAY = "posição sapato arraylist";
     private final String RESULTADO_FILTRAGEM = "resultado filtragem";
-    private ProgressBar progressBar;
+
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         outState.putParcelableArrayList(RESULTADO_FILTRAGEM, (ArrayList<? extends Parcelable>) lista);
+        outState.putSerializable(CAMPO,campo);
+        if(campo != Campo.PROMOCAO)
+            outState.putString(CAMPO_INFO,sValor);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         lista = savedInstanceState.getParcelableArrayList(RESULTADO_FILTRAGEM);
+        campo = (Campo) savedInstanceState.getSerializable(CAMPO);
+        if(campo != Campo.PROMOCAO)
+            savedInstanceState.getString(CAMPO_INFO);
     }
 
     @Override
@@ -70,76 +81,23 @@ public class FiltroSapato extends AppCompatActivity {
         restoreData(savedInstanceState);
         setAdapters();
         setListener();
+        filtro();
     }
 
     private void restoreData(Bundle savedInstanceState) {
-        lista = new ArrayList<>();
-        listaAdapter = new SelecaoSapatoAdapter(lista,getBaseContext());
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            switch ((Campo)bundle.getSerializable(CAMPO)){
-                case GENERO:{
-                    if(bundle.getSerializable(CAMPO_INFO) == Genero.MASCULINO ){
-                        database.read(listaAdapter,
-                                database.filtro(Campo.GENERO, Genero.MASCULINO.toString()),
-                                progressBar);
-                    }
-                    if(bundle.getSerializable(CAMPO_INFO) == Genero.FEMININO ){
-                        database.read(listaAdapter,
-                                database.filtro(Campo.GENERO, Genero.FEMININO.toString()),
-                                progressBar);
-                    }
-                    break;
-                }
-                case IDADE:{
-                    if(bundle.getSerializable(CAMPO_INFO) == Idade.INFANTIL ){
-                        database.read(listaAdapter,
-                                database.filtro(Campo.IDADE, Idade.INFANTIL.toString()),
-                                progressBar);
-                    }
-                    if(bundle.getSerializable(CAMPO_INFO) == Idade.ADULTO ){
-                        database.read(listaAdapter,
-                                database.filtro(Campo.IDADE, Idade.ADULTO.toString()),
-                                progressBar);
-                    }
-                    break;
-                }
-                case TIPO:{
-                    switch ((Tipo)bundle.getSerializable(CAMPO_INFO)){
-                        case ESPORTIVO:{
-                            database.read(listaAdapter,
-                                    database.filtro(Campo.TIPO, Tipo.ESPORTIVO.toString()),
-                                    progressBar);
-                            break;
-                        }
-                        case CASUAL:{
-                            database.read(listaAdapter,
-                                    database.filtro(Campo.TIPO, Tipo.CASUAL.toString()),
-                                    progressBar);
-                            break;
-                        }
-                        case SOCIAL:{
-                            database.read(listaAdapter,
-                                    database.filtro(Campo.TIPO, Tipo.SOCIAL.toString()),
-                                    progressBar);
-                            break;
-                        }
-                    }
-                    break;
-                }
-                case PROMOCAO:{
-                    database.read(listaAdapter,
-                            database.filtro(true),
-                            progressBar);
-                    break;
-                }
-            }
+            campo = (Campo)bundle.getSerializable(CAMPO);
+            if(campo != Campo.PROMOCAO)
+                sValor = bundle.getSerializable(CAMPO_INFO).toString();
         }
         if (savedInstanceState != null) {
             lista = savedInstanceState.getParcelableArrayList(RESULTADO_FILTRAGEM);
+            campo = (Campo) savedInstanceState.getSerializable(CAMPO);
+            if(campo != Campo.PROMOCAO)
+                sValor = savedInstanceState.getString(CAMPO_INFO);
         }
     }
-
 
     private void dataBinding() {
         rvSapatos = findViewById(R.id.rv_sapatos);
@@ -149,12 +107,46 @@ public class FiltroSapato extends AppCompatActivity {
     }
 
     private void setAdapters() {
+        lista = new ArrayList<>();
+        listaAdapter = new SelecaoSapatoAdapter(lista,getBaseContext());
         rvSapatos.setAdapter(listaAdapter);
         RecyclerView.LayoutManager lmSapatos = new GridLayoutManager(getBaseContext(), 2,
                 RecyclerView.VERTICAL,false);
         rvSapatos.setLayoutManager(lmSapatos);
         rvSapatos.setHasFixedSize(true);
         listaAdapter.notifyDataSetChanged();
+    }
+
+    private void filtro(){
+        switch (campo){
+            case GENERO:{
+                Genero genero = Genero.valueOf(sValor);
+                database.read(listaAdapter,
+                        database.filtro(campo, genero.toString()),
+                        progressBar);
+                break;
+            }
+            case IDADE:{
+                Idade idade = Idade.valueOf(sValor);
+                database.read(listaAdapter,
+                        database.filtro(campo,idade.toString()),
+                        progressBar);
+                break;
+            }
+            case TIPO:{
+                Tipo tipo = Tipo.valueOf(sValor.toUpperCase());
+                database.read(listaAdapter,
+                        database.filtro(campo,tipo.toString()),
+                        progressBar);
+                break;
+            }
+            case PROMOCAO:{
+                database.read(listaAdapter,
+                        database.filtro(true),
+                        progressBar);
+                break;
+            }
+        }
     }
 
     private void setListener() {

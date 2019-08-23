@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
         <TextView
             android:id="@+id/textView"
@@ -15,285 +11,304 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:text="@string/categorias"
             android:textColor="@color/colorAccent"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
-        <LinearLayout
-            android:id="@+id/linha1"
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/textView"
+        >
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_below="@+id/textView"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="5dp"
+            >
 
-            <RelativeLayout
-                android:id="@+id/categoria_casual"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/linha1"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-                <ImageView
-                    android:layout_width="match_parent"
+                <RelativeLayout
+                    android:id="@+id/categoria_casual"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:alpha="@string/image_alpha"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/imagem_masculino_casual" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/menu_casual"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/categoria_esporte"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alpha="@string/image_alpha"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/imagem_esporte_masculino1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_margin="5dp"
-                    android:text="@string/menu_esportivo"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white" />
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:orientation="horizontal">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="@string/image_alpha"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/imagem_masculino_casual" />
 
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/menu_casual"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white" />
 
-        <LinearLayout
-            android:id="@+id/linha2"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_below="@+id/linha1"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+                </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/categoria_social"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="match_parent"
+                <RelativeLayout
+                    android:id="@+id/categoria_esporte"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:alpha="@string/image_alpha"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/imagem_masculino_social1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_margin="5dp"
-                    android:text="@string/menu_social"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white" />
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:orientation="horizontal">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="@string/image_alpha"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/imagem_esporte_masculino1" />
 
-            <RelativeLayout
-                android:id="@+id/categoria_promocao"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:text="@string/menu_esportivo"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white" />
 
-                <ImageView
-                    android:layout_width="match_parent"
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linha2"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/linha1"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <RelativeLayout
+                    android:id="@+id/categoria_social"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:alpha="@string/image_alpha"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/imagem_esporte_masculino1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_margin="5dp"
-                    android:text="@string/menu_promocao"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white" />
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:orientation="horizontal">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="@string/image_alpha"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/imagem_masculino_social1" />
 
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:text="@string/menu_social"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white" />
 
-        <LinearLayout
-            android:id="@+id/linha3"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_below="@+id/linha2"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+                </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/categoria_masculino"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="match_parent"
+                <RelativeLayout
+                    android:id="@+id/categoria_promocao"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:alpha="@string/image_alpha"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/imagem_social_masculino" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_margin="5dp"
-                    android:text="@string/menu_masculino"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white" />
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:orientation="horizontal">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="@string/image_alpha"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/imagem_esporte_masculino1" />
 
-            <RelativeLayout
-                android:id="@+id/categoria_feminino"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:text="@string/menu_promocao"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white" />
 
-                <ImageView
-                    android:layout_width="match_parent"
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linha3"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/linha2"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <RelativeLayout
+                    android:id="@+id/categoria_masculino"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:alpha="@string/image_alpha"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/imagem_casual_feminino" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_margin="5dp"
-                    android:text="@string/menu_feminino"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white" />
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:orientation="horizontal">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="@string/image_alpha"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/imagem_social_masculino" />
 
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:text="@string/menu_masculino"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white" />
 
-        <LinearLayout
-            android:id="@+id/linha4"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_below="@+id/linha3"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+                </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/categoria_adulto"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="match_parent"
+                <RelativeLayout
+                    android:id="@+id/categoria_feminino"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:alpha="@string/image_alpha"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/imagem_adulto" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_margin="5dp"
-                    android:text="@string/menu_adulto"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white" />
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:orientation="horizontal">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="@string/image_alpha"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/imagem_casual_feminino" />
 
-            <RelativeLayout
-                android:id="@+id/categoria_infantil"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:text="@string/menu_feminino"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white" />
 
-                <ImageView
-                    android:layout_width="match_parent"
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linha4"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/linha3"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <RelativeLayout
+                    android:id="@+id/categoria_adulto"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:alpha="@string/image_alpha"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/imagem_infantil" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_margin="5dp"
-                    android:text="@string/menu_infantil"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white" />
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:orientation="horizontal">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="@string/image_alpha"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/imagem_adulto" />
 
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:text="@string/menu_adulto"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white" />
 
-    </RelativeLayout>
+                </RelativeLayout>
 
-</ScrollView>
+                <RelativeLayout
+                    android:id="@+id/categoria_infantil"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="@string/image_alpha"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/imagem_infantil" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:text="@string/menu_infantil"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
