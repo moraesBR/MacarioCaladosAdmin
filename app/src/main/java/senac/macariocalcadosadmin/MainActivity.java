@@ -26,7 +26,6 @@ import senac.macariocalcadosadmin.fragments.BuscarFragment;
 import senac.macariocalcadosadmin.fragments.InserirFragment;
 import senac.macariocalcadosadmin.fragments.VisualizarFragment;
 import senac.macariocalcadosadmin.models.SelecaoSapato;
-import senac.macariocalcadosadmin.view.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
 
@@ -126,14 +125,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+
+
             case R.id.menu_sair:
                 logout();
                 break;
             case R.id.menu_configuracoes:
                 break;
+
+            case R.id.action_settings:
+                // launch settings activity
+                startActivity(new Intent(MainActivity.this, settingsactivity.class));
+                break;
+
+
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
     private void logout() {
         Conexao.logOut();
