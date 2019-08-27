@@ -10,7 +10,11 @@
         android:roundIcon="@mipmap/ic_macario"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity_settings"></activity>
+
+        <activity
+            android:name=".view.SettingsSapato"
+            android:parentActivityName=".MainActivity" />
+
         <activity
             android:name=".view.FiltroSapato"
             android:launchMode="singleTop">
@@ -22,6 +26,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
         <activity
             android:name=".view.EditarSapato"
             android:label="@string/title_activity_editar_sapato"
@@ -31,6 +36,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="senac.macariocalcadosadmin.MainActivity" />
         </activity>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +52,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ResetSenha" />
 
         <provider

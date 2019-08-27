@@ -1,41 +1,5 @@
 <resources>
-            <string name="title_activity_settings">Settings</string>
-
-        <string name="pref_title_ringtone">Escolher o Toque </string>
-        <string name="pref_ringtone_silent">Silent</string>
-
-        <string name="default_gallery_storage">Macario Calcados</string>
-        <string name="title_auto_upload">Auto upload</string>
-        <string name="summary_upload_over_wifi">Carregar as fotos quando o Wi-Fi está disponível</string>
-        <string name="title_upload_quality">Qualidade de Upload</string>
-        <string name="summary_upload_video_quality">Especificação da qualidade da foto</string>
-        <string name="pref_title_notifications">Notifications</string>
-        <string name="summary_choose_ringtone">Choose notification sound</string>
-        <string name="pref_header_about">About</string>
-        <string name="summary_about"> Somos uma equipe de pessoas com idéias semelhantes, especializada no desenvolvimento do Android App Development, criando novas tendências em todo o espaço do aplicativo. Fico feliz em ajudar de qualquer maneira!</string>
-        <string name="app_version">1.0</string>
-        <string name="summary_support">Tem alguma dúvida? Estamos felizes em ajudar!</string>
-        <string name="title_send_feedback">Enviar comentários</string>
-        <string name="title_faq">FAQ</string>
-        <string name="summary_faq">Ver perguntas frequentes</string>
-        <string name="url_faq">https://www.macariocalcados.com.br/</string>
-        <string name="privacy_policy">Politica de Privacidade</string>
-        <string name="url_privacy">https://www.macariocalcados.com.br/</string>
-        <string name="title_terms">Termos &amp; Condições</string>
-        <string name="url_terms">https://www.macariocalcados.com.br/</string>
-        <string name="title_version">Version</string>
-        <string name="choose_email_client">Choose email client</string>
-        <string name="title_gallery_storage">Default Storage</string>
-        <string name="title_new_notification_sound">Deseja receber notificação de mensagem</string>
-        <string name="title_vibrate">Vibrar</string>
-        <string name="summary_vibrate">Ativar e desativar o Vibrar</string>
-        <string name="key_upload_over_wifi">key_upload_over_wifi</string>
-        <string name="key_gallery_name">key_gallery_name</string>
-        <string name="key_upload_quality">key_upload_quality</string>
-        <string name="notifications_new_message">notifications_new_message</string>
-        <string name="key_notifications_new_message_ringtone">key_notifications_new_message_ringtone</string>
-        <string name="key_vibrate">key_vibrate</string>
-        <string name="key_send_feedback">key_send_feedback</string>
+    <string name="title_activity_settings">Settings</string>
 
     <string name="app_name">Macário Calçados Admin</string>
     <string name="login">Login</string>
@@ -83,5 +47,41 @@
 
 
     <string name="settings">settings</string>
+
+    <string name="pref_title_ringtone">Escolher o Toque</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="default_gallery_storage">Macario Calcados</string>
+    <string name="title_auto_upload">Auto upload</string>
+    <string name="summary_upload_over_wifi">Carregar as fotos quando o Wi-Fi está disponível</string>
+    <string name="title_upload_quality">Qualidade de Upload</string>
+    <string name="summary_upload_video_quality">Especificação da qualidade da foto</string>
+    <string name="pref_title_notifications">Notifications</string>
+    <string name="summary_choose_ringtone">Choose notification sound</string>
+    <string name="pref_header_about">About</string>
+    <string name="summary_about"> Somos uma equipe de pessoas com idéias semelhantes, especializada no desenvolvimento do Android App Development, criando novas tendências em todo o espaço do aplicativo. Fico feliz em ajudar de qualquer maneira!</string>
+    <string name="app_version">1.0</string>
+    <string name="summary_support">Tem alguma dúvida? Estamos felizes em ajudar!</string>
+    <string name="title_send_feedback">Enviar comentários</string>
+    <string name="title_faq">FAQ</string>
+    <string name="summary_faq">Ver perguntas frequentes</string>
+    <string name="url_faq">https://www.macariocalcados.com.br/</string>
+    <string name="privacy_policy">Politica de Privacidade</string>
+    <string name="url_privacy">https://www.macariocalcados.com.br/</string>
+    <string name="title_terms">Termos &amp; Condições</string>
+    <string name="url_terms">https://www.macariocalcados.com.br/</string>
+    <string name="title_version">Version</string>
+    <string name="choose_email_client">Choose email client</string>
+    <string name="title_gallery_storage">Default Storage</string>
+    <string name="title_new_notification_sound">Deseja receber notificação de mensagem</string>
+    <string name="title_vibrate">Vibrar</string>
+    <string name="summary_vibrate">Ativar e desativar o Vibrar</string>
+    <string name="key_upload_over_wifi">key_upload_over_wifi</string>
+    <string name="key_gallery_name">key_gallery_name</string>
+    <string name="key_upload_quality">key_upload_quality</string>
+    <string name="notifications_new_message">notifications_new_message</string>
+    <string name="key_notifications_new_message_ringtone">key_notifications_new_message_ringtone</string>
+    <string name="key_vibrate">key_vibrate</string>
+    <string name="key_send_feedback">key_send_feedback</string>
 
 </resources>
