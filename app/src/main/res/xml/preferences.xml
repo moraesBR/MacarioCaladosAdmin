@@ -8,9 +8,14 @@
         android:title="Habilitar mensagem de notificação"/>
 
     <SwitchPreference
-        android:key="@string/credenciais"
+        android:key="@string/credencials"
         android:title="Salvar credenciais"
         android:summary="Salva o login e a senha do usuário no dispositivo"
             />
 
+    <Preference
+        android:key="@string/historic"
+        android:title="Histórico"
+        android:summary="Limpar o histórico de busca"
+        />
 </PreferenceScreen>

@@ -99,7 +99,7 @@ public class SelecaoSapatoAdapter extends RecyclerView.Adapter<SelecaoSapatoAdap
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-                String query = charSequence.toString();
+                String query = charSequence.toString().toLowerCase();
 
                 if(query.isEmpty())
                 {

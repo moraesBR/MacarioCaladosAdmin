@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
@@ -46,16 +47,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // OneSignal Initialization
-        OneSignal.startInit(this)
-            .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
-            .unsubscribeWhenNotificationsAreDisabled(true)
-            .init();
-
         database = new Database(this, "sapatos");
 
+        setNotification();
         bindView();
         setView();
+    }
+
+    private void setNotification(){
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                getResources().getString(R.string.pref_data),MODE_PRIVATE);
+        if( sharedPreferences.getBoolean(getString(R.string.pref_notification),false) ){
+            // OneSignal Initialization
+            OneSignal.startInit(this)
+                    .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                    .unsubscribeWhenNotificationsAreDisabled(true)
+                    .init();
+        }
     }
 
     @Override
