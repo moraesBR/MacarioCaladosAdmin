@@ -143,7 +143,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private void logout() {
         Conexao.logOut();
-        finish();
+        //finish();
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
     }
 
     /*

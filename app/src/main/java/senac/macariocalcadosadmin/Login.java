@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
@@ -25,6 +26,7 @@ public class Login extends AppCompatActivity {
     private RelativeLayout rellay1;
     private EditText etLogin, etPassword;
     private Button btnLogin, btnForgetPassword;
+    public static String login, password;
 
     public static FirebaseAuth auth;
 
@@ -94,10 +96,22 @@ public class Login extends AppCompatActivity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                rellay1.setVisibility(View.VISIBLE);
+                loadCrendentials();
             }
         };
         handler.postDelayed(runnable, 2000);
+    }
+
+    private void loadCrendentials(){
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                getResources().getString(R.string.pref_data),
+                MODE_PRIVATE);
+         login    = sharedPreferences.getString(getResources().getString(R.string.pref_login),"");
+         password = sharedPreferences.getString(getResources().getString(R.string.pref_password),"");
+         if(!login.isEmpty() && !password.isEmpty()) {
+             login(login, password);
+         }else
+             rellay1.setVisibility(View.VISIBLE);
     }
 
 /* ---------------------------------- Métodos de Controles -------------------------------------- */
@@ -117,8 +131,8 @@ public class Login extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String login    = etLogin.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
+                login    = etLogin.getText().toString().trim();
+                password = etPassword.getText().toString().trim();
                 login(login,password);
                 cleanFields();
             }

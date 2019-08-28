@@ -83,5 +83,10 @@
     <string name="key_notifications_new_message_ringtone">key_notifications_new_message_ringtone</string>
     <string name="key_vibrate">key_vibrate</string>
     <string name="key_send_feedback">key_send_feedback</string>
+    <string name="notification">notificações</string>
+    <string name="credenciais">credenciais</string>
+    <string name="pref_data">preferencias</string>
+    <string name="pref_login">login</string>
+    <string name="pref_password">password</string>
 
 </resources>
