@@ -10,6 +10,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
 
+import senac.macariocalcadosadmin.Login;
 import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.providers.SapatoSuggestionProvider;
 
@@ -17,11 +18,12 @@ import static android.content.Context.MODE_PRIVATE;
 import static senac.macariocalcadosadmin.Login.login;
 import static senac.macariocalcadosadmin.Login.password;
 
-public class SapatoSettingsFragment extends PreferenceFragmentCompat{
+public class ConfiguracoesFragment extends PreferenceFragmentCompat{
 
     private Preference notificacao;
     private Preference autenticacao;
     private Preference historico;
+    private Preference usuario;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -33,9 +35,12 @@ public class SapatoSettingsFragment extends PreferenceFragmentCompat{
     }
 
     private void bindView(){
+        usuario = findPreference(getString(R.string.login));
         notificacao = findPreference(getString(R.string.notification));
         autenticacao = findPreference(getString(R.string.credencials));
         historico = findPreference(getString(R.string.historic));
+
+        usuario.setSummary(login);
     }
 
     private void listener(){

@@ -3,6 +3,7 @@ package senac.macariocalcadosadmin.firebase;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ProgressBar;

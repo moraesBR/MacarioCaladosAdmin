@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
@@ -30,6 +31,8 @@ public class Login extends AppCompatActivity {
 
     public static FirebaseAuth auth;
 
+    private static boolean flag;
+
 /* ---------------------------------- Ciclo de Vida do App -------------------------------------- */
 
     /*
@@ -44,6 +47,8 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         bindView();
         splashscreen();
         eventClick();
@@ -64,9 +69,36 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                getResources().getString(R.string.pref_data),
+                MODE_PRIVATE);
+        login    = sharedPreferences.getString(getResources().getString(R.string.pref_login),"");
+        password = sharedPreferences.getString(getResources().getString(R.string.pref_password),"");
+        if(!login.isEmpty() && !password.isEmpty()){
+            if(flag)
+                rellay1.setVisibility(View.VISIBLE);
+            etLogin.setText(login);
+            etPassword.setText(password);
+        }
     }
 
-/* ---------------------------------- Métodos Data Binding -------------------------------------- */
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                getResources().getString(R.string.pref_data),
+                MODE_PRIVATE);
+        login    = sharedPreferences.getString(getResources().getString(R.string.pref_login),"");
+        password = sharedPreferences.getString(getResources().getString(R.string.pref_password),"");
+        if(!login.isEmpty() && !password.isEmpty()){
+            if(flag)
+                rellay1.setVisibility(View.VISIBLE);
+            etLogin.setText(login);
+            etPassword.setText(password);
+        }
+    }
+
+    /* ---------------------------------- Métodos Data Binding -------------------------------------- */
 
     /*
     *   Métodos:
@@ -109,6 +141,7 @@ public class Login extends AppCompatActivity {
          login    = sharedPreferences.getString(getResources().getString(R.string.pref_login),"");
          password = sharedPreferences.getString(getResources().getString(R.string.pref_password),"");
          if(!login.isEmpty() && !password.isEmpty()) {
+             flag = true;
              login(login, password);
          }else
              rellay1.setVisibility(View.VISIBLE);

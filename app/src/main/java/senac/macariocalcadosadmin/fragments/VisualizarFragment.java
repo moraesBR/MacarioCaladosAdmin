@@ -3,6 +3,7 @@ package senac.macariocalcadosadmin.fragments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import senac.macariocalcadosadmin.models.Sapato;
 import senac.macariocalcadosadmin.view.EditarSapato;
 import senac.macariocalcadosadmin.R;
 import senac.macariocalcadosadmin.adapters.SelecaoSapatoAdapter;
@@ -128,8 +130,8 @@ public class VisualizarFragment extends Fragment {
 
                 /* Captura a posição correspondente no adapter */
                 int position = viewHolder.getAdapterPosition();
-                Intent editarSapato = new Intent(getActivity(), EditarSapato.class);
 
+                Intent editarSapato = new Intent(getActivity(), EditarSapato.class);
                 editarSapato.putExtra(POSICAO_ARRAY, sapatoAdapter.getSelecaoSapatoList().get(position).getSapato());
                 startActivity(editarSapato);
             }

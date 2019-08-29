@@ -163,6 +163,10 @@ public class Sapato implements Parcelable {
         }
     }
 
+    public void setAntigoValor(double antigoValor) {
+        this.antigoValor = antigoValor;
+    }
+
     public boolean setValor(double valor) {
         try {
             if (valor < 0.0) throw new IllegalArgumentException();
@@ -202,13 +206,14 @@ public class Sapato implements Parcelable {
         this.fotos.add(foto);
     }
 
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public  void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.codigo);
         dest.writeString(this.nome);
         dest.writeString(this.modelo);
@@ -217,6 +222,7 @@ public class Sapato implements Parcelable {
         dest.writeInt(this.tipo == null ? -1 : this.tipo.ordinal());
         dest.writeInt(this.tamanho == null ? -1 : this.tamanho.ordinal());
         dest.writeDouble(this.valor);
+        dest.writeDouble(this.antigoValor);
         dest.writeTypedList(this.fotos);
         dest.writeInt(this.quantidade);
         dest.writeByte(this.promocao ? (byte) 1 : (byte) 0);
@@ -236,6 +242,7 @@ public class Sapato implements Parcelable {
         int tmpTamanho = in.readInt();
         this.tamanho = tmpTamanho == -1 ? null : Tamanho.values()[tmpTamanho];
         this.valor = in.readDouble();
+        this.antigoValor = in.readDouble();
         this.fotos = in.createTypedArrayList(Foto.CREATOR);
         this.quantidade = in.readInt();
         this.promocao = in.readByte() != 0;
