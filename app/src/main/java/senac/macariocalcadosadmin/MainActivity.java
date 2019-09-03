@@ -8,7 +8,6 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
@@ -26,6 +25,7 @@ import senac.macariocalcadosadmin.firebase.Conexao;
 import senac.macariocalcadosadmin.firebase.Database;
 import senac.macariocalcadosadmin.fragments.BuscarFragment;
 import senac.macariocalcadosadmin.fragments.InserirFragment;
+import senac.macariocalcadosadmin.fragments.SapatoSettingsFragment;
 import senac.macariocalcadosadmin.fragments.VisualizarFragment;
 import senac.macariocalcadosadmin.models.SelecaoSapato;
 import senac.macariocalcadosadmin.view.SettingsSapato;
@@ -46,26 +46,32 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        // OneSignal Inititestealization
+        getNotification();
 
         database = new Database(this, "sapatos");
 
-        setNotification();
         bindView();
         setView();
     }
 
-    private void setNotification(){
+    private void getNotification(){
+
         SharedPreferences sharedPreferences = getSharedPreferences(
-                getResources().getString(R.string.pref_data),MODE_PRIVATE);
-        if( sharedPreferences.getBoolean(getString(R.string.pref_notification),false) ){
-            // OneSignal Initialization
+                getResources().getString(R.string.pref_data),
+                MODE_PRIVATE);
+        boolean flag   = sharedPreferences.getBoolean(getResources().getString(R.string.pref_notification),false);
+        if (flag){
+
             OneSignal.startInit(this)
                     .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                     .unsubscribeWhenNotificationsAreDisabled(true)
                     .init();
+
         }
     }
+
 
     @Override
     protected void onStart() {
@@ -152,10 +158,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private void logout() {
         Conexao.logOut();
-        finish();
-        /*moveTaskToBack(true);
+        //finish();
+        moveTaskToBack(true);
         android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);*/
+        System.exit(1);
     }
 
     /*
